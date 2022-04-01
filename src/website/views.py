@@ -1,6 +1,14 @@
 from django.shortcuts import render
 
 # Create your views here.
+def index(request):
+    return render(request, 'website/index.html')
+    
+def welcome(request):
+    return render(request, 'website/welcome.html')
+
+def cv(request):
+    return render(request, 'website/ClientView.html')
 
 def home(request):
     return render(request, 'website/home.html')
