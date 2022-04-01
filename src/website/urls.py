@@ -19,15 +19,12 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='website-home'),
-<<<<<<< HEAD
     path('create', views.create, name='website-create'),
     path('createsuccess', views.createsuccess, name='website-createsuccess'),
     path('editaccount', views.editaccount, name='website-editaccount'),
     path('forgotpassword', views.forgotpassword, name='website-forgotpassword'),
     path('login', views.login, name='website-login'),
     path('recoversent', views.recoversent, name='website-recoversent'),
-=======
     path('cart/', views.cart, name='website-cart'),
     path('viewBook/', views.viewBook, name='website-viewBook'),
->>>>>>> 9fc06c4e23b03279648d1996734cfe31e07cbb5b
 ]
