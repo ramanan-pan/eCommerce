@@ -1,0 +1,126 @@
+{% extends "website/base.html" %}
+{% block content %}
+<html>
+    <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Book Store</a>
+          <div class="collapse navbar-collapse" id="navbarsExample02">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Browse</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Checkout</a>
+              </li>
+            </ul>
+            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2" >Log In</a>
+            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2">Sign Up</a>
+          </div>
+        </div>
+    </nav>
+  <body data-new-gr-c-s-check-loaded="14.1052.0" data-gr-ext-installed="">
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1 class = "py-3"><strong>Shopping Cart</strong></h1>
+      </div>
+
+    </div><!-- /.container -->
+    <div class="pb-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
+    
+              <!-- Shopping cart table -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="border-0 bg-light">
+                        <div class="p-2 px-3 text-uppercase">Books</div>
+                      </th>
+                      <th scope="col" class="border-0 bg-light">
+                        <div class="py-2 text-uppercase">Price</div>
+                      </th>
+                      <th scope="col" class="border-0 bg-light">
+                        <div class="py-2 text-uppercase">Quantity</div>
+                      </th>
+                      <th scope="col" class="border-0 bg-light">
+                        <div class="py-2 text-uppercase">Remove</div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="border-0">
+                        <div class="p-2">
+                          <img alt="" width="70" class="img-fluid rounded shadow-sm">
+                          <div class="ml-3 d-inline-block align-middle">
+                            <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle">Generic Book One</a></h5><span class="text-muted font-weight-normal font-italic d-block">By John Doe</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="border-0 align-middle"><strong>$12.99</strong></td>
+                      <td class="border-0 align-middle"><input type="number" class="form-control" id="input1" placeholder="1" min="1" max ="99"></td>
+                      <td class="border-0 align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="p-2">
+                          <img  alt="" width="70" class="img-fluid rounded shadow-sm">
+                          <div class="ml-3 d-inline-block align-middle">
+                            <h5 class="mb-0"><a href="#" class="text-dark d-inline-block">Generic Book Two</a></h5><span class="text-muted font-weight-normal font-italic">By Ashok Kumar</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="align-middle"><strong>$9.40</strong></td>
+                      <td class="align-middle"><strong><input type="number" class="form-control" id="input1" placeholder="3" min="1" max ="99"></strong></td>
+                      <td class="align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="p-2">
+                          <img alt="" width="70" class="img-fluid rounded shadow-sm">
+                          <div class="ml-3 d-inline-block align-middle">
+                            <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block">Generic Book Three</a></h5><span class="text-muted font-weight-normal font-italic">By Nomen Nescio</span>
+                          </div>
+                        </div>
+                        <td class="align-middle"><strong>$34.12</strong></td>
+                        <td class="align-middle"><strong><input type="number" class="form-control" id="input1" placeholder="1" min="1" max ="99"></strong></td>
+                        <td class="align-middle"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- End -->
+            </div>
+          </div>
+        </div>
+    </div>  
+    <div class="row py-5 p-4 bg-white rounded shadow-sm">
+
+        <div class="col-md-12">
+          <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+          <div class="p-4">
+            <p class="font-italic mb-4">Select 'Checkout' to continue.</p>
+            <ul class="list-unstyled mb-4">
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal </strong><strong>$65.91</strong></li>
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping and handling</strong><strong>$10.00</strong></li>
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Tax</strong><strong>$0.09</strong></li>
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
+                <h5 class="font-weight-bold">$76.00</h5>
+              </li>
+            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
+          </div>
+        </div>
+      </div>  
+</body>
+</html>
+{% endblock content %}
+

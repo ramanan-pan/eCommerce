@@ -1,0 +1,116 @@
+{% extends "website/base.html" %}
+{% block content %}
+<html>
+    <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Book Store</a>
+          <div class="collapse navbar-collapse" id="navbarsExample02">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Browse</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Checkout</a>
+              </li>
+            </ul>
+            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2" >Log In</a>
+            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2">Sign Up</a>
+          </div>
+        </div>
+    </nav>
+  <body data-new-gr-c-s-check-loaded="14.1052.0" data-gr-ext-installed="">
+
+    <div class="container" id="product-section">
+        <div class="row">
+         <div class="col-md-6">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#F8F9FA"></rect><text x="45%" y="50%" fill="#212529" dy=".3em">Book Image</text></svg>
+         </div>  
+         <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                 <h1 class = "py-3"><strong>Generic Book One</strong></h1>
+               </div>
+              </div><!-- end row-->
+            <div class="row">
+                <div class="col-md-12">
+                 <span class="label label-primary">By John Doe</span>
+                </div>
+            </div><!-- end row -->
+            <div class="row">
+                <div class="col-md-12">
+                 <p class="description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                 </p>
+                </div>
+            </div><!-- end row -->
+            <div class="row">
+                <div class="col-md-12 bottom-rule">
+                    <h2 class="product-price">$12.00</h2>
+                </div>
+            </div><!-- end row -->
+               
+            <div class="row add-to-cart">
+                <div class="col-md-2 product-qty">
+                    <strong><label for="qty" class="bg-light rounded-pill px-3 py-3  text-uppercase font-weight-bold"> QTY: </label>  </strong>
+                </div>
+                <div class="col-md-2 product-qty">
+                    <strong><input id = "qty" type="number" class="form-control" id="input1" placeholder="1" min="1" max ="99"></strong>
+                </div>
+                <div class="col-md-4"> 
+                 <button href ="#" class="btn btn-dark py-2 btn-block btn-full-width text-uppercase">
+                  <strong>Add to Cart</strong>
+                 </button>
+                </div>
+                <div class="col-md-4"> 
+                    <button href ="#" class="btn btn-dark py-2 btn-block btn-full-width text-uppercase">
+                     <strong>Reserve</strong>
+                    </button>
+                   </div>
+               </div><!-- end row -->
+               
+               
+               <div class="row">
+                <div class="col-md-12 bottom-rule top-10"></div>
+               </div><!-- end row -->
+               
+               <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role = "tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id= "desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab" aria-controls="desc" aria-selected="true">Description</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id= "notes-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab" aria-controls="notes" aria-selected="false">Notes</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id= "reviews-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
+                    </li> 
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade show active" id="desc" role="tabpanel" aria-labelledby="desc-tab">
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                           </p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+                        <p> yo3</p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <p> yo4</p>
+                    </div>
+                </div>
+         </div>
+            
+        </div><!-- end row -->
+        
+       </div><!-- end container -->
+</body>
+</html>
+{% endblock content %}
+

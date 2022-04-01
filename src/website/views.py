@@ -5,6 +5,7 @@ from django.shortcuts import render
 def home(request):
     return render(request, 'website/home.html')
 
+<<<<<<< HEAD
 def create(request):
     return render(request, 'website/create.html')
 
@@ -23,3 +24,10 @@ def login(request):
 def recoversent(request):
     return render(request, 'website/recoversent.html')
 
+=======
+def cart(request):
+    return render(request, 'website/cart.html')
+
+def viewBook(request):
+    return render(request, 'website/viewBook.html')
+>>>>>>> 9fc06c4e23b03279648d1996734cfe31e07cbb5b
