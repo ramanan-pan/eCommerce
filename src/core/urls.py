@@ -19,10 +19,13 @@ from django.urls import path, include
 from website import views
 
 urlpatterns = [
+    path('', include('website.urls')),
     path('admin/', admin.site.urls),
+
     path('website/', include('website.urls')),
     path('orderconfirmation/', views.conf, name='order-confirmation'),
     path('adminsettings/', views.adset, name='admin-settings'),
     path('ordersummary/', views.ordersum, name='order-summary'),
     path('adminmain/', views.adminmain, name='admin-main')
+
 ]
