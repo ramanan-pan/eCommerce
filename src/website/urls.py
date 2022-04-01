@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='website-home'),
+    path('orderconfirmation/', views.conf, name='Order-confirmation')
 ]
