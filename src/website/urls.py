@@ -29,5 +29,7 @@ urlpatterns = [
     path('login', views.login, name='website-login'),
     path('recoversent', views.recoversent, name='website-recoversent'),
     path('cart/', views.cart, name='website-cart'),
+    path('viewBook/', views.viewBook, name='website-viewBook'),
+    
     path('viewBook/', views.viewBook, name='website-viewBook')
-    ] 
+]
