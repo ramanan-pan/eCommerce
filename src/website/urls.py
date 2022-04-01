@@ -19,4 +19,6 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='website-home'),
+    path('cart/', views.cart, name='website-cart'),
+    path('viewBook/', views.viewBook, name='website-viewBook'),
 ]
