@@ -33,6 +33,10 @@ urlpatterns = [
     path('recoversent', views.recoversent, name='website-recoversent'),
     path('cart/', views.cart, name='website-cart'),
     path('viewBook/', views.viewBook, name='website-viewBook'),
-    
-    path('viewBook/', views.viewBook, name='website-viewBook')
+    path('viewBook/', views.viewBook, name='website-viewBook'),
+    path('validate', views.validateCreds, name='website-validate'),
+    path('addUser', views.addUser, name='website-addUser'),
+    path('changeAccount', views.changeAccount, name='website-changeAccount')
+
+
 ]

@@ -1,7 +1,5 @@
 from django.db.models import *
 from django.core.exceptions import ValidationError
-from regex import E
-
 # Create your models here.
 
 class Account(Model):
