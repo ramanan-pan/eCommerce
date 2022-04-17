@@ -46,11 +46,14 @@
   <form method="post" action="addUser">
     {% csrf_token %}
   <h3><b>Create Account</b></h3>
+  {% for message in messages %}
+  <h3 style="color: red;">{{message}}</h3>
+  {% endfor %}
   <section class="py-5 my-5">
     <div class="container">
       <div class="bg-white rounded-lg d-block d-sm-flex">
         
-        
+      
         <div class="row">
           
           <div class="col-md-6">
@@ -82,13 +85,13 @@
           <div class="col-md-12">
             <div class="form-group">
               <label>Address Line 1</label>
-              <input type="text" class="form-control" placeholder="Address Line 1" name="zipcode1">
+              <input type="text" class="form-control" placeholder="Address Line 1" name="address1">
             </div>
           </div>
           <div class="col-md-12">
             <div class="form-group">
               <label>Address Line 2</label>
-              <input type="text" class="form-control" placeholder="Address Line 2" name="zipcode2">
+              <input type="text" class="form-control" placeholder="Address Line 2" name="address2">
             </div>
           </div>
           <div class="col-md-6">
@@ -102,7 +105,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label>Username</label>
-              <input type="text" class="form-control" placeholder="Username" name="userNmae">
+              <input type="text" class="form-control" placeholder="Username" name="userName">
             </div>
           </div>
           <div class="col-md-6"></div>
