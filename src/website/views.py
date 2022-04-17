@@ -76,7 +76,7 @@ def addUser(request):
             return redirect(create)
         else:
             return redirect(login)
-            """  
+        """  
     else:
         return redirect(create)
 
@@ -123,4 +123,3 @@ def cart(request):
 
 def viewBook(request):
     return render(request, 'website/viewBook.html')
-
