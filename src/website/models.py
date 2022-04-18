@@ -1,5 +1,6 @@
 from django.db.models import *
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 # Create your models here.
 
 class Account(Model):
@@ -62,15 +63,39 @@ class NewsLetter(Model):
     scheduledTime = DateField()
     attachment = CharField(max_length=255)
 
+
+class BookManager(Manager):
+    def get_queryset(self):
+        return super(BookManager, self).get_queryset().filter(is_active=True)
+
+
+
 class Book(Model):
-    price = IntegerField()
+    created_by = ForeignKey(Vendor, on_delete=CASCADE, related_name='book_creator')
+    price = DecimalField(max_digits=4, decimal_places=2)
     author = CharField(max_length=255)
     ISBN = IntegerField(unique=True)
     title = CharField(max_length=255)
     genre = CharField(max_length=255)
     numSold = IntegerField(default=0)
     picture = CharField(max_length=255, blank=True)
-    description = CharField(max_length=255, blank=True)
+    slug = SlugField(max_length=255)
+    description = TextField(blank=True)
+    in_stock = BooleanField(default=True)
+    created = DateTimeField(auto_now_add=True)
+    updated = DateTimeField(auto_now=True)
+    objects = Manager()
+    products = BookManager()
+
+    class Meta:
+        verbose_name_plural = 'Books'
+        ordering = ('-created',)
+
+    def get_absolute_url(self):
+        return reverse('store:product_detail', args=[self.slug])
+
+    def __str__(self):
+        return self.title
 
 class Sale(Model):
     orderID = IntegerField()

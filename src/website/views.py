@@ -1,8 +1,11 @@
 from django.shortcuts import render
 
+from .models import Book
+
 # Create your views here.
 def index(request):
-    return render(request, 'website/index.html')
+    books = Book.objects.all()
+    return render(request, 'website/index.html', {'books': books})
     
 def welcome(request):
     return render(request, 'website/welcome.html')
@@ -75,4 +78,3 @@ def cart(request):
 
 def viewBook(request):
     return render(request, 'website/viewBook.html')
-
