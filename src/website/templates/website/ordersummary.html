@@ -1,80 +1,110 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" rel="stylesheet" media="screen">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" rel="stylesheet"
+    media="screen">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-
+{% load static %}
 <div class=" container-fluid my-5 ">
     <div class="row justify-content-center ">
         <div class="col-xl-10">
             <div class="card shadow-lg ">
                 <div class="row p-2 mt-3 justify-content-between mx-sm-2">
                     <div class="col">
-                       
+
                     </div>
                     <div class="col">
                         <div class="row justify-content-start ">
-                           
+
                         </div>
                     </div>
-                  
+
                 </div>
                 <div class="row mx-auto justify-content-center text-center">
                     <div class="col-12 mt-3 ">
                         <nav aria-label="breadcrumb" class="second ">
                             <ol class="breadcrumb indigo lighten-6 first ">
-                                <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase " href="#"><span class="mr-md-3 mr-1">BACK TO SHOP</span></a><i class="fa fa-angle-double-right " aria-hidden="true"></i></li>
-                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase" href="#"><span class="mr-md-3 mr-1">SHOPPING BAG</span></a><i class="fa fa-angle-double-right text-uppercase " aria-hidden="true"></i></li>
-                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase active-2" href="#"><span class="mr-md-3 mr-1">CHECKOUT</span></a></li>
+                                <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase "
+                                        href="#"><span class="mr-md-3 mr-1">BACK TO SHOP</span></a><i
+                                        class="fa fa-angle-double-right " aria-hidden="true"></i></li>
+                                <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase"
+                                        href="#"><span class="mr-md-3 mr-1">SHOPPING BAG</span></a><i
+                                        class="fa fa-angle-double-right text-uppercase " aria-hidden="true"></i></li>
+                                <li class="breadcrumb-item font-weight-bold"><a
+                                        class="black-text text-uppercase active-2" href="#"><span
+                                            class="mr-md-3 mr-1">CHECKOUT</span></a></li>
                             </ol>
                         </nav>
                     </div>
                 </div>
+
                 <div class="row justify-content-around">
-                    <div class="col-md-5">
-                        <div class="card border-0">
-                            <div class="card-header pb-0">
-                                <h2 class="card-title space ">Checkout</h2>
-                            </div>
-                            <div class="card-body">
-                                
-                                <div class="row mt-4">
-                                    <div class="col">
-                                        <p class="text-muted mb-2">PAYMENT DETAILS</p>
-                                        <hr class="mt-0">
-                                    </div>
+                    <form action="{% url 'Order-confirmation' %}" name="confirmorder" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-14">
+                            <div class="card border-0">
+                                <div class="card-header pb-0">
+                                    <h2 class="card-title space ">Checkout</h2>
                                 </div>
-                                <div class="form-group"> <label for="NAME" class="small text-muted mb-1">NAME ON CARD</label> <input type="text" class="form-control form-control-sm" name="NAME" id="NAME" aria-describedby="helpId" placeholder=""> </div>
-                                <div class="form-group"> <label for="NAME" class="small text-muted mb-1">CARD NUMBER</label> <input type="text" class="form-control form-control-sm" name="NAME" id="NAME" aria-describedby="helpId" placeholder=""> </div>
-                                <div class="row no-gutters">
-                                    <div class="col-sm-6 pr-sm-2">
-                                        <div class="form-group"> <label for="NAME" class="small text-muted mb-1">VALID THROUGH</label> <input type="text" class="form-control form-control-sm" name="NAME" id="NAME" aria-describedby="helpId" placeholder=""> </div>
+                                <div class="card-body">
+
+                                    <div class="row mt-4">
+                                        <div class="col">
+                                            <p class="text-muted mb-2">PAYMENT DETAILS</p>
+                                            <hr class="mt-0">
+                                        </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group"> <label for="NAME" class="small text-muted mb-1">CVC CODE</label> <input type="text" class="form-control form-control-sm" name="NAME" id="NAME" aria-describedby="helpId" placeholder=""> </div>
+                                    <div class="form-group"> <label for="NAME" class="small text-muted mb-1">NAME ON
+                                            CARD</label> <input type="text" class="form-control form-control-sm"
+                                            name="NAME" id="NAME" aria-describedby="helpId" placeholder=""> </div>
+                                    <div class="form-group"> <label for="CARD" class="small text-muted mb-1">CARD
+                                            NUMBER</label> <input type="text" class="form-control form-control-sm"
+                                            name="CARD" id="CARD" aria-describedby="helpId" placeholder=""> </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-sm-6 pr-sm-2">
+                                            <div class="form-group"> <label for="VALID"
+                                                    class="small text-muted mb-1">VALID THROUGH</label> <input
+                                                    type="text" class="form-control form-control-sm" name="VALID"
+                                                    id="VALID" aria-describedby="helpId" placeholder=""> </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group"> <label for="CVC" class="small text-muted mb-1">CVC
+                                                    CODE</label> <input type="text" class="form-control form-control-sm"
+                                                    name="CVC" id="CVC" aria-describedby="helpId" placeholder="">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-md-5">
-                                    <div class="col"> <button type="button" name="" id="" class="btn btn-lg btn-block ">PURCHASE</button> </div>
+                                    <input type="hidden" id="DISCOUNT" name="DISCOUNT" value="{{ discount }}">
+
+                                    <div class="row mb-md-5">
+                                        <div class="col"> <button type="submit" name="" id=""
+                                                class="btn btn-lg btn-block " method="POST">PURCHASE</button> </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <div class="col-md-5">
                         <div class="card border-0 ">
                             <div class="card-header card-2">
-                                <p class="card-text text-muted mt-md-4 mb-2 space">YOUR ORDER <span class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span> </p>
+                                <p class="card-text text-muted mt-md-4 mb-2 space">YOUR ORDER <span
+                                        class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span> </p>
                                 <hr class="my-2">
                             </div>
                             <div class="card-body pt-0">
+
+                                <!-- Book List -->
+                                {% for b in books %}
                                 <div class="row justify-content-between">
                                     <div class="col-auto col-md-7">
-                                        <div class="media flex-column flex-sm-row"> <img class=" img-fluid" src="https://i.imgur.com/ZyFn33n_d.webp?maxwidth=760&fidelity=grand" width="40" height="40">
+                                        <div class="media flex-column flex-sm-row"> <img class=" img-fluid"
+                                                src='{{ b.picture }}' width="40" height="40">
                                             <div class="media-body my-auto">
                                                 <div class="row ">
                                                     <div class="col-auto">
-                                                        <p class="mb-0"><b>Harry Potter</b></p><small class="text-muted">Hardcover ISBN: 0439023483</small>
+                                                        <p class="mb-0"><b>{{ b.title }}</b></p><small
+                                                            class="text-muted">ISBN: {{ b.ISBN }}</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,49 +114,14 @@
                                         <p class="boxed-1">1</p>
                                     </div>
                                     <div class=" pl-0 flex-sm-col col-auto my-auto ">
-                                        <p><b>$17.23</b></p>
+                                        <p><b>${{ b.price }}</b></p>
                                     </div>
                                 </div>
                                 <hr class="my-2">
-                                <div class="row justify-content-between">
-                                    <div class="col-auto col-md-7">
-                                        <div class="media flex-column flex-sm-row"> <img class=" img-fluid " src="https://i.imgur.com/xgHx9Wo_d.webp?maxwidth=760&fidelity=grand" width="40" height="40">
-                                            <div class="media-body my-auto">
-                                                <div class="row ">
-                                                    <div class="col">
-                                                        <p class="mb-0"><b>Hunger Games: </b></p><small class="text-muted">Hardcover ISBN: 0439023483</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="pl-0 flex-sm-col col-auto my-auto">
-                                        <p class="boxed">3</p>
-                                    </div>
-                                    <div class="pl-0 flex-sm-col col-auto my-auto">
-                                        <p><b>$57.43</b></p>
-                                    </div>
-                                </div>
-                                <hr class="my-2">
-                                <div class="row justify-content-between">
-                                    <div class="col-auto col-md-7">
-                                        <div class="media flex-column flex-sm-row"> <img class=" img-fluid " src="https://i.imgur.com/JUG26ld_d.webp?maxwidth=760&fidelity=grand" width="40" height="40">
-                                            <div class="media-body my-auto">
-                                                <div class="row ">
-                                                    <div class="col">
-                                                        <p class="mb-0"><b>Grim</b></p><small class="text-muted">Hardcover ISBN: 0439023483</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="pl-0 flex-sm-col col-auto my-auto">
-                                        <p class="boxed-1">2</p>
-                                    </div>
-                                    <div class="pl-0 flex-sm-col col-auto my-auto">
-                                        <p><b>$26.55</b></p>
-                                    </div>
-                                </div>
+
+                                {% endfor %}
+                                <!-- End BookList-->
+
                                 <hr class="my-2">
                                 <div class="row ">
                                     <div class="col">
@@ -135,7 +130,7 @@
                                                 <p class="mb-1"><b>Subtotal</b></p>
                                             </div>
                                             <div class="flex-sm-col col-auto">
-                                                <p class="mb-1"><b>$101.21</b></p>
+                                                <p class="mb-1"><b>${{ price }}</b></p>
                                             </div>
                                         </div>
                                         <div class="row justify-content-between">
@@ -146,19 +141,56 @@
                                                 <p class="mb-1"><b>$20</b></p>
                                             </div>
                                         </div>
+                                        {% if discount %}
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <p class="mb-1"><b>Discount</b></p>
+                                            </div>
+                                            <div class="flex-sm-col col-auto">
+                                                <p class="mb-1"><b>${{ discount }}</b></p>
+                                            </div>
+                                        </div>
+
                                         <div class="row justify-content-between">
                                             <div class="col-4">
                                                 <p><b>Total</b></p>
                                             </div>
                                             <div class="flex-sm-col col-auto">
-                                                <p class="mb-1"><b>$121.21</b></p>
+                                                <p class="mb-1"><b>${{ price|add:20|add:discount }}</b></p>
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="row justify-content-between">
+                                            <div class="col-4">
+                                                <p><b>Total</b></p>
+                                            </div>
+                                            <div class="flex-sm-col col-auto">
+                                                <p class="mb-1"><b>${{ price|add:20 }}</b></p>
+                                            </div>
+                                        </div>
+
+                                        {% endif %}
+
                                         <hr class="my-0">
                                     </div>
                                 </div>
                                 <div class="row mb-5 mt-4 ">
-                                    <div class="col-md-7 col-lg-6 mx-auto"><button type="button" class="btn btn-block btn-outline-primary btn-lg">ADD GIFT CODE</button></div>
+                                    <form action="{% url 'website-orderSummary' %}" name="applycode" method="POST">
+                                        {% csrf_token %}
+                                        <div class="row mb-12">
+                                            <div class="col-sm-6">
+                                                <div class="form-group"> <label for="CODE"
+                                                        class="small text-muted mb-1"></label>
+                                                    <input type="text" class="form-control form-control-sm" name="CODE"
+                                                        id="CODE" aria-describedby="helpId" placeholder="Gift Code">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7 col-lg-6 mx-auto"><button type="submit"
+                                                    class="btn btn-block btn-outline-primary btn-lg">ADD GIFT
+                                                    CODE</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

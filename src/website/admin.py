@@ -51,5 +51,5 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(Sale)    
 class SaleAdmin(admin.ModelAdmin):
-    list_display = ['id', 'orderID', 'purchaser', 'totalPrice']
+    list_display = ['orderID', 'purchaser', 'totalPrice']
     list_editable = list_display[1:]

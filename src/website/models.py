@@ -75,8 +75,9 @@ class Book(Model):
     description = CharField(max_length=255, blank=True)
 
 class Sale(Model):
-    orderID = IntegerField()
-    purchaser = ForeignKey(User, on_delete=CASCADE)
+    orderID = AutoField(primary_key=True)
+    purchaser = CharField(max_length=255) #For now, saving CC number
+    #purchaser = ForeignKey(User, on_delete=CASCADE)
     totalPrice = IntegerField()
 
 
