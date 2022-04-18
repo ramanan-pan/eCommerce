@@ -62,6 +62,7 @@ def create(request):
 def addUser(request):
     regexEmail = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     regexDOB = '^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\\d\\d$'
+    user = User()
 
     if request.method == 'POST' and request.POST != None:
         if not request.POST['email']: #checks for an empty user input 
@@ -76,9 +77,9 @@ def addUser(request):
         if not request.POST['address1']:
             messages.info(request, 'Address 1 Empty')
             return redirect(create)
-        #if not request.POST['address2']:
-        #   messages.info(request, 'Adress 2 Empty')
-        #  return redirect(create)
+        if not request.POST['address2']:
+           messages.info(request, 'Adress 2 Empty')
+           return redirect(create)
         if not request.POST['zipcode']:
             messages.info(request, 'Zipcode Empty')
             return redirect(create)
@@ -92,19 +93,27 @@ def addUser(request):
             messages.info(request, 'You must confirm Your password')
             return redirect(create)
 
-        if request.POST['confirm'] == request.POST['password'] :
+        if request.POST['confirm'] != request.POST['password'] :
             messages.info(request, 'The passwords do not match')
             return redirect(create)
-        """
-        if User.filter(email = request.POST['email']).exists():
+        
+        if User.objects.filter(email = request.POST['email']).exists():
             messages.info(request, 'Email Already Used')
             return redirect(create)
-        elif Account.objects.filter(username = request.POST['username'] ).exists():
+        elif User.objects.filter(username = request.POST['userName'] ).exists():
             messages.info(request, 'Username Already Used')
             return redirect(create)
         else:
+            user.fname = request.POST['firstName']
+            user.lname = request.POST['lastName']
+            user.username = request.POST['userName']
+            user.address = request.POST['address1']
+            user.email = request.POST['email']
+            user.birthDate = request.POST['DOB']
+            user.password = request.POST['password']
+            user.save()
             return redirect(login)
-        """  
+            
     else:
         return redirect(create)
 
@@ -133,14 +142,38 @@ def forgotpassword(request):
 def login(request):
     return render(request, 'website/login.html')
 
+
 def validateCreds(request):
+    found = False
+
     if request.POST != None:
-        if request.POST['username'] == 'User' and request.POST['password'] == 'Pass': #test case
-            return render(request, 'website/welcome.html') #take to the welcome screen if user + pass combo is found
+        if not request.POST['username']:
+            messages.info(request, 'Username empty')
+            return redirect(login)
+        if not request.POST['password']:
+            messages.info(request, 'Password empty')
+            return redirect(login)
+        
+            
+        users = User.objects.all()
+        for user in users:
+            if request.POST['username'] == user.username and request.POST['password'] == user.password:
+                found = True
+            else:
+                print('NO')
+        
+        if (found):
+            if (request.POST.get('box') == 'checked'):
+                response = render(request, 'website/welcome.html')
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days 
+                return response
+            else:
+                return redirect(welcome)
         else:
-            return render(request, 'website/login.html') #reroute to login if user and password does not match
-    else:
-        return render(request, 'website/welcome.html') #no form data return to login
+            messages.info(request, 'Invalid Login')
+            return redirect(login)
+
+    return redirect(login)
 
 
 def recoversent(request):
