@@ -1,15 +1,12 @@
-<<<<<<< HEAD
-from django.shortcuts import render
-from django.template import RequestContext
-from .models import *
 
-=======
 from pyexpat.errors import messages
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
+from django.template import RequestContext
 import re
-from .models import User
->>>>>>> refs/remotes/origin/main
+from .models import *
+
+
 # Create your views here.
 def index(request):
     return render(request, 'website/index.html')
