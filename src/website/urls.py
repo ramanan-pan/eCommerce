@@ -22,6 +22,7 @@ urlpatterns = [
     path('', views.home, name='website-home'),
     path('ordersummary/', views.ordersum, name='Order-summary'),
     path('orderconfirmation/', views.conf, name='Order-confirmation'),
+    path('ordersummary/', views.ordersum, name="website-orderSummary"),
     path('create', views.create, name='website-create'),
     path('createsuccess', views.createsuccess, name='website-createsuccess'),
     path('editaccount', views.editaccount, name='website-editaccount'),
