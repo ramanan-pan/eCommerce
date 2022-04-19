@@ -3,91 +3,124 @@
 {% block title %}Search{% endblock%}
 {% block content %}
 
-  <div class="bd-example">
-    <svg class="bd-placeholder-img bd-placeholder-img-lg img-fluid" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Responsive image</text></svg>
+<div class="bd-example">
+  <svg class="bd-placeholder-img bd-placeholder-img-lg img-fluid" width="100%" height="250"
+    xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
+    preserveAspectRatio="xMidYMid slice" focusable="false">
+    <title>Placeholder</title>
+    <rect width="100%" height="100%" fill="#868e96" /><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Responsive image</text>
+  </svg>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <form action="{% url 'website:website-index' %}" method="GET" value="{{request.GET.q}}">
+      <input type="text" name="q" value="{{request.GET.q}}" placeholder="" />
+      <input type="submit" name="submit" value="Search" class="btn-outline-success" />
+      
+    <input type="radio" class="btn-check" name="options" value="1" autocomplete="off">
+    <label class="btn btn-secondary" for="option1">Title</label>
+    
+    <input type="radio" class="btn-check" name="options" value="2" autocomplete="off">
+    <label class="btn btn-secondary" for="option2">Author</label>
+    
+    <input type="radio" class="btn-check" name="options" value="3" autocomplete="off" >
+    <label class="btn btn-secondary" for="option3">ISBN</label>
+    
+    <input type="radio" class="btn-check" name="options" value="4" autocomplete="off">
+    <label class="btn btn-secondary" for="option4">Subject</label>
+    
+
+    </form>
   </div>
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <form class ="">
-          <input class="form-control" type="text" placeholder="" aria-label="Search">
-        </form>
-        <li class="nav-item p-6 dropdown">
-          <a class=" text-light text-decoration-none dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Filter</a>
-          <ul class="dropdown-menu checkbox-menu allow-focus">
-            <li >
-              <label>
-                <input type="checkbox"> Title
-              </label>
-            </li>
-            <li >
-              <label>
-                <input type="checkbox"> Author
-              </label>
-            </li>
-            <li >
-              <label>
-                <input type="checkbox"> ISBN
-              </label>
-            </li>
-          </ul>
-        </li>
-        <button type="button" class="btn-outline-success"> Search </button> 
-      </div>
-  </nav>
+</nav>
 
 
-  <section class="py-5 text-center container">
-    <div class="col">
-      <div class="card shadow-sm">
-        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
 
-        <div class="card-body">
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-              <button type="button" class="btn btn-sm btn-outline-secondary">Add</button>
+
+<div class="album py-5 bg-light">
+  <div class="container">
+
+    {% if searchbutton == 'Search' and request.GET.q != '' %}
+    {% if results %}
+
+    <div class="pb-3 h5">Results for <b> {{ request.GET.q }} </b></div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+
+
+      {% for result in results %}
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="img-fluid" alt="Responsive image" src="{{ result.picture }}">
+          <div class="card-body">
+            <p class="card-text">
+              <a class="text-dark text-decoration-none" href="{{ result.get_absolute_url }}">{{ result.title }}</a>
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted"> {{ result.author }}</small>
             </div>
-            <small class="text-muted">Price</small>
           </div>
         </div>
       </div>
+
+      {% endfor %}
     </div>
-    <div class="album py-5 bg-light">
-      <div class="container">
-  
-        <div class="pb-3 h5">All Books</div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
-  
-          {% for book in books %}
-  
-          <div class="col">
-            <div class="card shadow-sm">
-              <img class="img-fluid" alt="Responsive image" src="{{ book.image.url }}">
-              <div class="card-body">
-                <p class="card-text">
-                  <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
-                </p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">9min read</small>
-                </div>
-              </div>
+    {% else %}
+    <div class="pb-3 h5">No books match <b> {{ request.GET.q }}.</b> <br> Try searching again, or browse our
+      catalog:</br></div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+
+      {% for book in books %}
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="img-fluid" alt="Responsive image" src="{{ book.picture }}">
+          <div class="card-body">
+            <p class="card-text">
+              <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted"> {{ book.author }}</small>
             </div>
           </div>
-  
-          {% endfor %}
-  
         </div>
       </div>
-    </div>
-  </section>
-    <footer class="footer mt-auto py-3 bg-dark">
-      <div class="container">
-        <span class="text-muted"></span>
-      </div>
-    </footer>
 
-    <script src="../../../static/js/bootstrap.min.js"></script>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="pb-3 h5">Browse Catalog or Search</div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+
+      {% for book in books %}
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="img-fluid" alt="Responsive image" src="{{ book.picture }}">
+          <div class="card-body">
+            <p class="card-text">
+              <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted"> {{ book.author }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+
 </html>
 
 {% endblock %}

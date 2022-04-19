@@ -1,21 +1,57 @@
 
 from pyexpat.errors import messages
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
+from django.http import JsonResponse
+
 import re
+
+from website.cart import Cart
 from .models import *
-
-
 from .models import Book
+
 
 # Create your views here.
 def index(request):
     books = Book.objects.all()
-    return render(request, 'website/index.html', {'books': books})
+    if request.method == 'GET':
+        query = request.GET.get('q')
+        searchbutton = request.GET.get('submit')
+        options = request.GET.get('options')
+        
+        if query is not None:
+            #if :
+                #lookups = Q(title__icontains = query)
+            #elif :  
+                #lookups = Q(author__icontains = query)
+            #elif :
+                #lookups = Q(ISBN__icontains = query)
+            #elif :
+                #lookups = Q(description__icontains = query)
+            #else:
+            lookups = Q(title__icontains = query) | Q(description__icontains = query)
+            results = Book.objects.filter(lookups).distinct()
+            context={'results': results,
+                     'searchbutton': searchbutton,
+                     'options' : options,
+                     'books': books}
+
+            return render(request, 'website/index.html', context)  
+        else: 
+            return render(request, 'website/index.html', {'books': books})
+    else:
+        return render(request, 'website/index.html', {'books': books})
+        
+
+def book_detail(request, slug):
+    book = get_object_or_404(Book, slug=slug, in_stock=True)
+    return render(request, 'website/books/detail.html', {'book': book})
     
 def welcome(request):
-    return render(request, 'website/welcome.html')
+    books = Book.objects.all()
+    return render(request, 'website/welcome.html', {'books' : books})
+
 
 def cv(request):
     return render(request, 'website/ClientView.html')
@@ -183,7 +219,15 @@ def recoversent(request):
     return render(request, 'website/recoversent.html')
 
 def cart(request):
+
     return render(request, 'website/cart.html')
 
-def viewBook(request):
-    return render(request, 'website/viewBook.html')
+def cart_add(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        book_ID = int(request.POST.get('bookID'))
+        book = get_object_or_404(Book, bookID = book_ID)
+        cart.add(book=book)
+        response = JsonResponse({'test':'data'})
+        return response
+
