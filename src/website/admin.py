@@ -48,8 +48,14 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'author', 'ISBN', 'genre', 'price', 
                     'numSold', 'picture', 'description']
     list_editable = list_display[1:]
+    list_filter = ('vendor__username',)
 
 @admin.register(Sale)    
 class SaleAdmin(admin.ModelAdmin):
     list_display = ['orderID', 'purchaser', 'totalPrice']
+    list_editable = list_display[1:]
+
+@admin.register(BookSale)    
+class SoldBookAdmin(admin.ModelAdmin):
+    list_display = ['id', 'bookID', 'salePrice']
     list_editable = list_display[1:]

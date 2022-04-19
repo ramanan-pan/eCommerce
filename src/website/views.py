@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.template import RequestContext
 import re
 from .models import *
+import datetime
 
 
 # Create your views here.
@@ -26,9 +27,18 @@ def conf(request):
     discount = 0
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
+    for book in books:
+        bookSale = BookSale()
+        bookSale.bookID = book
+        bookSale.salePrice = book.price
+        bookSale.saleDate = datetime.date.today()
+        bookSale.save()
     if request.method == "POST":
         sale = Sale()
-        sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
+        if request.COOKIES.get('username'):
+            sale.purchaser = request.COOKIES.get('username')
+        else:
+            sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
         sale.totalPrice = price + discount + 20
         sale.save()
         return render(request, 'website/orderconf.html', {'price' : price, 'books' : books, 'sale' : sale, 'discount' : discount})
@@ -140,6 +150,8 @@ def forgotpassword(request):
     return render(request, 'website/forgotpassword.html')
 
 def login(request):
+    if request.COOKIES.get('username'):
+        return redirect(welcome)
     return render(request, 'website/login.html')
 
 
