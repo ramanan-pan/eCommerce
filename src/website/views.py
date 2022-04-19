@@ -8,9 +8,12 @@ from .models import *
 import datetime
 
 
+from .models import Book
+
 # Create your views here.
 def index(request):
-    return render(request, 'website/index.html')
+    books = Book.objects.all()
+    return render(request, 'website/index.html', {'books': books})
     
 def welcome(request):
     return render(request, 'website/welcome.html')

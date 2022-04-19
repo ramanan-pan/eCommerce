@@ -20,7 +20,7 @@ from . import views
 urlpatterns = [
 
     path('', views.home, name='website-home'),
-
+    path('ordersummary/', views.ordersum, name='Order-summary'),
     path('orderconfirmation/', views.conf, name='Order-confirmation'),
     path('ordersummary/', views.ordersum, name="website-orderSummary"),
     path('create', views.create, name='website-create'),
@@ -37,7 +37,8 @@ urlpatterns = [
     path('viewBook/', views.viewBook, name='website-viewBook'),
     path('validate', views.validateCreds, name='website-validate'),
     path('addUser', views.addUser, name='website-addUser'),
-    path('changeAccount', views.changeAccount, name='website-changeAccount')
-
+    path('changeAccount', views.changeAccount, name='website-changeAccount'),
+    path('home/', views.home, name='website-home'),
+    path('adset/', views.adset, name='website-adset'),
 
 ]
