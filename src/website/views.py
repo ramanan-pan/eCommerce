@@ -1,9 +1,11 @@
 
 from pyexpat.errors import messages
+from turtle import update
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 import re
+from website.EmailBot import EmailBot
 from .models import *
 import datetime
 
@@ -75,6 +77,7 @@ def addUser(request):
     regexDOB = '^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\\d\\d$'
     user = User()
 
+
     if request.method == 'POST' and request.POST != None:
         if not request.POST['email']: #checks for an empty user input 
             messages.info(request, ' Email Empty') # tells the user what is wrong
@@ -128,7 +131,6 @@ def addUser(request):
     else:
         return redirect(create)
 
-    return redirect(create)
     
 
 
@@ -139,26 +141,86 @@ def editaccount(request):
     return render(request, 'website/editaccount.html')
 
 def changeAccount(request):
+    users = User.objects.all()
 
     if request.POST != None:
-        print('OH') # datebase stuff happens here changes user account values
-    else:
-        print('NO') # Nothing happens 
+        for user in users:
+            if user.username == request.session['user']:
+                user = User.objects.get(id=user.id)
+                if request.POST['firstName']:
+                    user.fname = request.POST['firstName']
+                    user.save()
+                if request.POST['lastName']:
+                    user.lname = request.POST['lastName']
+                    user.save()
+                if request.POST['email']:
+                    user.email = request.POST['email']
+                    user.save()
+                if request.POST['address1']:
+                    user.address = request.POST['address1']
+                    user.save()
+                if request.POST['zipcode']:
+                    user.zipcode = request.POST['zipcode']
+                    user.save()
 
-    return render(request, 'website/editaccount.html')
+    return redirect(editaccount)
 
+
+def changePassword(request):
+    users = User.objects.all()
+    if request.POST != None:
+        for user in users:
+            if user.username == request.session['user']:
+                if user.password != request.POST['oldPassword']:
+                    messages.info(request, 'Invalid previous password')
+                    return redirect(editaccount)
+                if request.POST['newPassword'] != request.POST['confirm']:
+                    messages.info(request, 'Passwords do not match')
+                    return redirect(editaccount)
+                else:
+                    user.password = request.POST['newPassword']
+                    user.save()
+    
+    return redirect(editaccount)
+
+
+def deleteAccount(request):
+    users = User.objects.all()
+    if request.POST != None:
+        for user in users:
+            if user.username == request.session['user']:
+                response = render(request, 'website/login.html')
+                response.delete_cookie('username')
+                response.delete_cookie('password')
+                user.delete()
+
+    return redirect(welcome)
+    
 def forgotpassword(request):
     return render(request, 'website/forgotpassword.html')
 
 def login(request):
+<<<<<<< HEAD
     if request.COOKIES.get('username'):
         return redirect(welcome)
     return render(request, 'website/login.html')
+=======
+    users = User.objects.all()
+    for user in users:
+        if request.COOKIES.get('username') == user.username and request.COOKIES.get('password') == user.password:
+            request.session['cart'] = [] 
+            request.session['user'] = request.COOKIES.get('username')
+            return redirect(welcome)
+        else:
+            return render(request,'website/login.html' )
+    return render(request,'website/login.html' )
+    
+>>>>>>> refs/remotes/origin/main
 
 
 def validateCreds(request):
     found = False
-
+    bot = EmailBot()
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
@@ -178,9 +240,13 @@ def validateCreds(request):
         if (found):
             if (request.POST.get('box') == 'checked'):
                 response = render(request, 'website/welcome.html')
-                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days 
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
+                request.session['cart'] = [] 
+                request.session['user'] = request.POST['username']
                 return response
             else:
+                request.session['user'] = request.POST['username']
                 return redirect(welcome)
         else:
             messages.info(request, 'Invalid Login')
