@@ -8,12 +8,9 @@ from .models import *
 import datetime
 
 
-from .models import Book
-
 # Create your views here.
 def index(request):
-    books = Book.objects.all()
-    return render(request, 'website/index.html', {'books': books})
+    return render(request, 'website/index.html')
     
 def welcome(request):
     return render(request, 'website/welcome.html')
@@ -51,7 +48,7 @@ def adset(request):
     return render(request, 'website/addex.html') 
 
 def ordersum(request):
-    books = Book.objects.all()
+    books = getBooksByVendor('vendor1')
     price = books.aggregate(price = Sum('price'))['price']
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
@@ -59,6 +56,7 @@ def ordersum(request):
             promo = Promotion.objects.filter(code=request.POST.get('CODE'))[0]
             if promo.pctdiscount:
                 discount = -price*promo.pctdiscount
+                discount = int(discount/100)
             else:
                 discount = -promo.amountdiscount
         finally:
@@ -199,3 +197,10 @@ def cart(request):
 
 def viewBook(request):
     return render(request, 'website/viewBook.html')
+
+
+#Gets a queryset of all books under this vendor's username.  Assumes
+#that the given vendor username is correct.
+def getBooksByVendor(vendorName):
+    books = Book.objects.filter(created_by_id = Vendor.objects.filter(username = vendorName)[0].id)
+    return books
