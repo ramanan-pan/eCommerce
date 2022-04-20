@@ -45,7 +45,7 @@
                     <strong><input id = "qty" type="number" class="form-control" id="input1" placeholder="1" min="1" max ="99"></strong>
                 </div>
                 <div class="col-md-4"> 
-                 <button class="btn btn-dark py-2 btn-block btn-full-width text-uppercase" id="add-button" value ="{{book.id}}">
+                 <button type="button" class="btn btn-dark py-2 btn-block btn-full-width text-uppercase" id="add-button" value ="{{book.id}}">
                   <strong>Add to Cart</strong>
                  </button>
                 </div>
@@ -88,16 +88,17 @@
         e.preventDefault();
         $.ajax({
             type:'POST',
-            url: "{% url 'website:website-cart' %}",
+            url: "{% url 'website:website-cart_add' %}",
             data: {
                 id: $('#add-button').val(),
                 csrfmiddlewaretoken: "{{csrf_token}}",
                 action: 'post'
             },
             success: function (json) {
-
+                //document.getElementById("cart-qty").innerHTML = json.qty
+                
             },
-            error: function (xhr, ermsg, err) {}
+            error: function (xhr, errmsg, err) {}
         });
     })
 
@@ -105,5 +106,5 @@
 </html>
 
 
-{% endblock content %}
+{% endblock %}
 

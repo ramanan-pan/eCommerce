@@ -26,10 +26,10 @@
                         <nav aria-label="breadcrumb" class="second ">
                             <ol class="breadcrumb indigo lighten-6 first ">
                                 <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase "
-                                        href="#"><span class="mr-md-3 mr-1">BACK TO SHOP</span></a><i
+                                        href="{% url 'website:website-index' %}"><span class="mr-md-3 mr-1">BACK TO STORE</span></a><i
                                         class="fa fa-angle-double-right " aria-hidden="true"></i></li>
                                 <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase"
-                                        href="#"><span class="mr-md-3 mr-1">SHOPPING BAG</span></a><i
+                                        href="{% url 'website:website-cart' %}"><span class="mr-md-3 mr-1"> CART </span></a><i
                                         class="fa fa-angle-double-right text-uppercase " aria-hidden="true"></i></li>
                                 <li class="breadcrumb-item font-weight-bold"><a
                                         class="black-text text-uppercase active-2" href="#"><span
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="row justify-content-around">
-                    <form action="{% url 'Order-confirmation' %}" name="confirmorder" method="POST">
+                    <form action="{% url 'website:Order-confirmation' %}" name="confirmorder" method="POST">
                         {% csrf_token %}
                         <div class="col-md-14">
                             <div class="card border-0">
@@ -79,7 +79,7 @@
 
                                     <div class="row mb-md-5">
                                         <div class="col"> <button type="submit" name="" id=""
-                                                class="btn btn-lg btn-block " method="POST">PURCHASE</button> </div>
+                                                class="btn btn-dark rounded-pill py-2 btn-block text-uppercase" method="POST"><strong>PLACE ORDER</strong></button> </div>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                         <div class="card border-0 ">
                             <div class="card-header card-2">
                                 <p class="card-text text-muted mt-md-4 mb-2 space">YOUR ORDER <span
-                                        class=" small text-muted ml-2 cursor-pointer">EDIT SHOPPING BAG</span> </p>
+                                        class=" small text-muted ml-2 cursor-pointer"></span> </p>
                                 <hr class="my-2">
                             </div>
                             <div class="card-body pt-0">
@@ -175,19 +175,18 @@
                                     </div>
                                 </div>
                                 <div class="row mb-5 mt-4 ">
-                                    <form action="{% url 'website-orderSummary' %}" name="applycode" method="POST">
+                                    <form action="{% url 'website:website-orderSummary' %}" name="applycode" method="POST">
                                         {% csrf_token %}
                                         <div class="row mb-12">
                                             <div class="col-sm-6">
                                                 <div class="form-group"> <label for="CODE"
                                                         class="small text-muted mb-1"></label>
                                                     <input type="text" class="form-control form-control-sm" name="CODE"
-                                                        id="CODE" aria-describedby="helpId" placeholder="Gift Code">
+                                                        id="CODE" aria-describedby="helpId" placeholder="Promo Code">
                                                 </div>
                                             </div>
                                             <div class="col-md-7 col-lg-6 mx-auto"><button type="submit"
-                                                    class="btn btn-block btn-outline-primary btn-lg">ADD GIFT
-                                                    CODE</button>
+                                                    class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>PROMO CODE</strong></button>
                                             </div>
                                         </div>
                                     </form>
