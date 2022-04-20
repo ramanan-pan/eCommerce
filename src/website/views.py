@@ -324,10 +324,18 @@ def cart_add(request):
 #TODO integrate with login when it's fixed
 def inventory(request):
     books = []
+    
     user = 'vendor1'
     if Vendor.objects.filter(username = user):
         books = getBooksByVendor(user)
     if Admin.objects.filter(username = user):
         books = Book.objects.all()
-    return render(request, 'website/inventory.html',{'books' : books})
+    price = sumPrice(books)
+    return render(request, 'website/inventory.html',{'books' : books, 'price' : price})
     
+
+def sumPrice(books):
+    price = 0
+    for b in books:
+        price += b.price
+    return price
