@@ -302,6 +302,8 @@ def cart(request):
 def viewBook(request):
     return render(request, 'website/viewBook.html')
 
+def mangusers(request):
+    return render(request, 'website/manageusers.html')
 
 #Gets a queryset of all books under this vendor's username.  Assumes
 #that the given vendor username is correct.
@@ -320,3 +322,14 @@ def cart_add(request):
         response = JsonResponse({'test':'data'})
         return response
 
+
+#TODO integrate with login when it's fixed
+def inventory(request):
+    books = []
+    user = 'vendor1'
+    if Vendor.objects.filter(username = user):
+        books = getBooksByVendor(user)
+    if Admin.objects.filter(username = user):
+        books = Book.objects.all()
+    return render(request, 'website/inventory.html',{'books' : books})
+    

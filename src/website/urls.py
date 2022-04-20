@@ -35,6 +35,9 @@ urlpatterns = [
     path('clientview', views.cv, name='website-clientview'),
     path('recoversent', views.recoversent, name='website-recoversent'),
     path('cart/', views.cart, name='website-cart'),
+    path('viewBook/', views.viewBook, name='website-viewBook'),
+    path('manageusers/', views.mangusers, name = 'website-site1-manageusers'),
+    path('viewBook/', views.viewBook, name='website-viewBook'),
     path('cart/add/', views.cart_add, name='website-cart_add'),
     path('book/<slug:slug>', views.book_detail, name='website-book_detail'),
     path('validate', views.validateCreds, name='website-validate'),
@@ -43,6 +46,7 @@ urlpatterns = [
     path('home/', views.home, name='website-home'),
     path('adset/', views.adset, name='website-adset'),
     path('changePassword', views.changePassword, name='website-changePassword'),
-    path('deleteAccount', views.deleteAccount, name='website-deleteAccount')
+    path('deleteAccount', views.deleteAccount, name='website-deleteAccount'),
+    path('inventory', views.inventory, name='website-inventory')
 
 ]
