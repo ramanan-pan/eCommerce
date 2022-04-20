@@ -310,11 +310,13 @@ def getBooksByVendor(vendorName):
     return books
     
 def cart_add(request):
+    print('cart_add is called')
     cart = Cart(request)
     if request.POST.get('action') == 'post':
         book_ID = int(request.POST.get('id'))
         book = get_object_or_404(Book, id = book_ID)
-        cart.add(self=cart,book=book)
+        print('views')
+        cart.add(book=book)
         response = JsonResponse({'test':'data'})
         return response
 
