@@ -73,8 +73,8 @@ class BookManager(Manager):
         return super(BookManager, self).get_queryset().filter(is_active=True)
 
 
-
 class Book(Model):
+    id = AutoField(primary_key=True)
     created_by = ForeignKey(Vendor, on_delete=CASCADE, related_name='book_creator')
     price = DecimalField(max_digits=4, decimal_places=2)
     author = CharField(max_length=255)
@@ -89,14 +89,14 @@ class Book(Model):
     created = DateTimeField(auto_now_add=True)
     updated = DateTimeField(auto_now=True)
     objects = Manager()
-    products = BookManager()
+    books = BookManager()
 
     class Meta:
         verbose_name_plural = 'Books'
         ordering = ('-created',)
 
     def get_absolute_url(self):
-        return reverse('store:product_detail', args=[self.slug])
+        return reverse('website:website-book_detail', args=[self.slug])
 
     def __str__(self):
         return self.title

@@ -1,4 +1,8 @@
-{% extends "website/base.html" %}
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+{{ book.name }}
+{% endblock %}
 {% block content %}
 <html>
 
@@ -12,24 +16,24 @@
          <div class="col-md-6">
             <div class="row">
                 <div class="col-md-12">
-                 <h1 class = "py-3"><strong>Generic Book One</strong></h1>
+                 <h1 class = "py-3"><strong>{{ book.title }}</strong></h1>
                </div>
               </div><!-- end row-->
             <div class="row">
                 <div class="col-md-12">
-                 <span class="label label-primary">By John Doe</span>
+                 <span class="label label-primary">{{ book.author }}</span>
                 </div>
             </div><!-- end row -->
             <div class="row">
                 <div class="col-md-12">
                  <p class="description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    {{ book.description|slice:":355" }}...
                  </p>
                 </div>
             </div><!-- end row -->
             <div class="row">
                 <div class="col-md-12 bottom-rule">
-                    <h2 class="product-price">$12.00</h2>
+                    <h2 class="product-price">${{ book.price }}</h2>
                 </div>
             </div><!-- end row -->
                
@@ -41,7 +45,7 @@
                     <strong><input id = "qty" type="number" class="form-control" id="input1" placeholder="1" min="1" max ="99"></strong>
                 </div>
                 <div class="col-md-4"> 
-                 <button href ="#" class="btn btn-dark py-2 btn-block btn-full-width text-uppercase">
+                 <button class="btn btn-dark py-2 btn-block btn-full-width text-uppercase" id="add-button" value ="{{book.id}}">
                   <strong>Add to Cart</strong>
                  </button>
                 </div>
@@ -62,29 +66,15 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id= "desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab" aria-controls="desc" aria-selected="true">Description</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id= "notes-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab" aria-controls="notes" aria-selected="false">Notes</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id= "reviews-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
-                    </li> 
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade show active" id="desc" role="tabpanel" aria-labelledby="desc-tab">
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            {{ book.description }}
                            </p>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
-                        <p> yo3</p>
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                        <p> yo4</p>
-                    </div>
+                  
                 </div>
          </div>
             
@@ -92,6 +82,28 @@
         
        </div><!-- end container -->
 </body>
+
+<script>
+    $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url: "{% url 'website:website-cart' %}",
+            data: {
+                id: $('#add-button').val(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+
+            },
+            error: function (xhr, ermsg, err) {}
+        });
+    })
+
+</script> 
 </html>
+
+
 {% endblock content %}
 

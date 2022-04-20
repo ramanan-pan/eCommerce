@@ -20,9 +20,13 @@ from website import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('website/', include('website.urls', namespace = 'website')),
 
+<<<<<<< HEAD
     path('website/', include('website.urls')),
     path('adminsettings/', views.adset, name='admin-settings'),
     path('adminmain/', views.adminmain, name='admin-main')
+=======
+>>>>>>> refs/remotes/origin/main
     
 ]

@@ -46,8 +46,11 @@ class NewsletterAdmin(admin.ModelAdmin):
 @admin.register(Book)    
 class BookAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'author', 'ISBN', 'genre', 'price', 
-                    'numSold', 'picture', 'description']
+                    'numSold', 'picture', 'description','slug','in_stock','created','updated']
     list_editable = list_display[1:]
+    list_filter = ['in_stock']
+    list_editable = ['price','in_stock']
+    prepopulated_fields = {'slug': ('title',)}
 
 @admin.register(Sale)    
 class SaleAdmin(admin.ModelAdmin):

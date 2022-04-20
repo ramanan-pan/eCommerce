@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
+app_name = "website"
+
 urlpatterns = [
 
     path('', views.home, name='website-home'),
@@ -33,8 +35,8 @@ urlpatterns = [
     path('clientview', views.cv, name='website-clientview'),
     path('recoversent', views.recoversent, name='website-recoversent'),
     path('cart/', views.cart, name='website-cart'),
-    path('viewBook/', views.viewBook, name='website-viewBook'),
-    path('viewBook/', views.viewBook, name='website-viewBook'),
+    path('cart/add/', views.cart_add, name='website-cart_add'),
+    path('book/<slug:slug>', views.book_detail, name='website-book_detail'),
     path('validate', views.validateCreds, name='website-validate'),
     path('addUser', views.addUser, name='website-addUser'),
     path('changeAccount', views.changeAccount, name='website-changeAccount'),
