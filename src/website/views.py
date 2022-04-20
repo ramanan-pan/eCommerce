@@ -49,3 +49,5 @@ def cart(request):
 def viewBook(request):
     return render(request, 'website/viewBook.html')
 
+def mangusers(request):
+    return render(request, 'website/manageusers.html')

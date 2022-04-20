@@ -33,6 +33,6 @@ urlpatterns = [
     path('recoversent', views.recoversent, name='website-recoversent'),
     path('cart/', views.cart, name='website-cart'),
     path('viewBook/', views.viewBook, name='website-viewBook'),
-    
+    path('manageusers/', views.mangusers, name = 'website-site1-manageusers'),
     path('viewBook/', views.viewBook, name='website-viewBook')
 ]
