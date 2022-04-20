@@ -1,26 +1,10 @@
 {% extends "website/base.html" %}
+{% load static %}
+{% block title %}Cart{% endblock%}
+
 {% block content %}
 <html>
-    <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Book Store</a>
-          <div class="collapse navbar-collapse" id="navbarsExample02">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Browse</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Checkout</a>
-              </li>
-            </ul>
-            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2" >Log In</a>
-            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2">Sign Up</a>
-          </div>
-        </div>
-    </nav>
+
   <body data-new-gr-c-s-check-loaded="14.1052.0" data-gr-ext-installed="">
 
     <div class="container">
@@ -116,7 +100,7 @@
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
                 <h5 class="font-weight-bold">$76.00</h5>
               </li>
-            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
+            </ul><a href="{% url 'website:website-orderSummary' %}" class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
           </div>
         </div>
       </div>  

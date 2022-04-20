@@ -6,17 +6,19 @@
   
   <br><br><br>
       <h2><b>Log in to Bookstore</b></h2>
-      
+      {% for message in messages %}
+      <h3 style="color: red;">{{message}}</h3>
+      {% endfor %}
         <nav>
-        <form action="/loginsuccess/" method="post">
-        
+        <form action="validate" method="post">
+        {% csrf_token %}
             <label class="sr-only" for="username"></label>
             <input class="border rounded" type="text" name="username" placeholder="Username"><br>
             <label class="sr-only" for="password"></label>
             <input class="border rounded" type="password" name="password" placeholder="Password"><br>
             <label for="remember">Remember Me</label>
-            <input class="border rounded" type="checkbox"><br>
-            <input type="submit" class="border rounded" style="width:200px"  value="Sign in" action="/loginsuccess/" method="post">
+            <input class="border rounded" type="checkbox" value="checked" name="box"><br>
+            <input type="submit" class="border rounded" style="width:200px"  value="Sign in">
         </form>
         <a href="/forgotpassword">Forgot your password?</a>
         </nav>
