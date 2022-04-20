@@ -302,6 +302,8 @@ def cart(request):
 def viewBook(request):
     return render(request, 'website/viewBook.html')
 
+def mangusers(request):
+    return render(request, 'website/manageusers.html')
 
 #Gets a queryset of all books under this vendor's username.  Assumes
 #that the given vendor username is correct.
