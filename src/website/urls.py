@@ -47,6 +47,6 @@ urlpatterns = [
     path('adset/', views.adset, name='website-adset'),
     path('changePassword', views.changePassword, name='website-changePassword'),
     path('deleteAccount', views.deleteAccount, name='website-deleteAccount'),
-    path('inventory', views.inventory, name='website-inventory')
-
+    path('inventory', views.inventory, name='website-inventory'),
+    path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery')
 ]
