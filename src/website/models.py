@@ -1,5 +1,6 @@
 from django.db.models import *
 from django.core.exceptions import ValidationError
+import datetime
 from django.urls import reverse
 # Create your models here.
 
@@ -11,6 +12,9 @@ class Account(Model):
     username = CharField(max_length=40, unique=True)
     password = CharField(max_length=255)
     email = CharField(max_length=255)
+
+    def __str__(self):
+        return self.username
 
     class Meta:
         abstract = True
@@ -102,6 +106,11 @@ class Sale(Model):
     purchaser = CharField(max_length=255) #For now, saving CC number
     #purchaser = ForeignKey(User, on_delete=CASCADE)
     totalPrice = IntegerField()
+
+class BookSale(Model):
+    bookID = ForeignKey(Book, related_name="bookID", on_delete=CASCADE)
+    salePrice = IntegerField()
+    saleDate = DateField(default=datetime.date.today())
 
 
 

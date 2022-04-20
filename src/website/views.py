@@ -60,14 +60,27 @@ def home(request):
     return render(request, 'website/home.html')
 
 def conf(request):
-    books = Book.objects.all()
-    price = books.aggregate(price = Sum('price'))['price']
+    basket = [1,2] # Given the books stored as an array of IDs...
+    books = list(Book.objects.filter(id__in=(basket))) 
+        #generate a list of the book objects and iterate through them.
+    price = 0
+    for b in books:
+        price += b.price
     discount = 0
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
+    for book in books:
+        bookSale = BookSale()
+        bookSale.bookID = book
+        bookSale.salePrice = book.price
+        bookSale.saleDate = datetime.date.today()
+        bookSale.save()
     if request.method == "POST":
         sale = Sale()
-        sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
+        if request.COOKIES.get('username'):
+            sale.purchaser = request.COOKIES.get('username')
+        else:
+            sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
         sale.totalPrice = price + discount + 20
         sale.save()
         return render(request, 'website/orderconf.html', {'price' : price, 'books' : books, 'sale' : sale, 'discount' : discount})
@@ -77,14 +90,18 @@ def adset(request):
     return render(request, 'website/addex.html') 
 
 def ordersum(request):
-    books = Book.objects.all()
-    price = books.aggregate(price = Sum('price'))['price']
+    basket = [1,2]
+    books = list(Book.objects.filter(id__in=(basket)))
+    price = 0
+    for b in books:
+        price += b.price
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
             promo = Promotion.objects.filter(code=request.POST.get('CODE'))[0]
             if promo.pctdiscount:
                 discount = -price*promo.pctdiscount
+                discount = int(discount/100)
             else:
                 discount = -promo.amountdiscount
         finally:
@@ -282,6 +299,16 @@ def cart(request):
 
     return render(request, 'website/cart.html')
 
+def viewBook(request):
+    return render(request, 'website/viewBook.html')
+
+
+#Gets a queryset of all books under this vendor's username.  Assumes
+#that the given vendor username is correct.
+def getBooksByVendor(vendorName):
+    books = Book.objects.filter(created_by_id = Vendor.objects.filter(username = vendorName)[0].id)
+    return books
+    
 def cart_add(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
