@@ -246,7 +246,7 @@ def login(request):
     users = User.objects.all()
     for user in users:
         if request.COOKIES.get('username') == user.username and request.COOKIES.get('password') == user.password:
-            request.session['cart'] = [] 
+            request.session['cart'] = {}
             request.session['user'] = request.COOKIES.get('username')
             return redirect(welcome)
         else:
@@ -279,7 +279,7 @@ def validateCreds(request):
                 response = render(request, 'website/welcome.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
                 response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
-                request.session['cart'] = [] 
+                request.session['cart'] = {} 
                 request.session['user'] = request.POST['username']
                 return response
             else:
@@ -312,9 +312,9 @@ def getBooksByVendor(vendorName):
 def cart_add(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
-        book_ID = int(request.POST.get('bookID'))
-        book = get_object_or_404(Book, bookID = book_ID)
-        cart.add(book=book)
+        book_ID = int(request.POST.get('id'))
+        book = get_object_or_404(Book, id = book_ID)
+        cart.add(self=cart,book=book)
         response = JsonResponse({'test':'data'})
         return response
 
