@@ -13,6 +13,9 @@ class Account(Model):
     password = CharField(max_length=255)
     email = CharField(max_length=255)
 
+    def __str__(self):
+        return self.username
+
     class Meta:
         abstract = True
 

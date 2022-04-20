@@ -22,11 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('website/', include('website.urls')),
-    path('orderconfirmation/', views.conf, name='order-confirmation'),
     path('adminsettings/', views.adset, name='admin-settings'),
-    path('ordersummary/', views.ordersum, name='order-summary'),
-    path('adminmain/', views.adminmain, name='admin-main'),
-
-    path('website/', include('website.urls'))
+    path('adminmain/', views.adminmain, name='admin-main')
     
 ]

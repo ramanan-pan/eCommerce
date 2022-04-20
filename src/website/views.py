@@ -24,8 +24,12 @@ def home(request):
     return render(request, 'website/home.html')
 
 def conf(request):
-    books = Book.objects.all()
-    price = books.aggregate(price = Sum('price'))['price']
+    basket = [1,2] # Given the books stored as an array of IDs...
+    books = list(Book.objects.filter(id__in=(basket))) 
+        #generate a list of the book objects and iterate through them.
+    price = 0
+    for b in books:
+        price += b.price
     discount = 0
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
@@ -50,8 +54,11 @@ def adset(request):
     return render(request, 'website/addex.html') 
 
 def ordersum(request):
-    books = getBooksByVendor('vendor1')
-    price = books.aggregate(price = Sum('price'))['price']
+    basket = [1,2]
+    books = list(Book.objects.filter(id__in=(basket)))
+    price = 0
+    for b in books:
+        price += b.price
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -200,11 +207,6 @@ def forgotpassword(request):
     return render(request, 'website/forgotpassword.html')
 
 def login(request):
-<<<<<<< HEAD
-    if request.COOKIES.get('username'):
-        return redirect(welcome)
-    return render(request, 'website/login.html')
-=======
     users = User.objects.all()
     for user in users:
         if request.COOKIES.get('username') == user.username and request.COOKIES.get('password') == user.password:
@@ -215,7 +217,6 @@ def login(request):
             return render(request,'website/login.html' )
     return render(request,'website/login.html' )
     
->>>>>>> refs/remotes/origin/main
 
 
 def validateCreds(request):
