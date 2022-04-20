@@ -21,17 +21,17 @@ def index(request):
         options = request.GET.get('options')
         
         if query is not None:
-            #if :
-                #lookups = Q(title__icontains = query)
-            #elif :  
-                #lookups = Q(author__icontains = query)
-            #elif :
-                #lookups = Q(ISBN__icontains = query)
-            #elif :
-                #lookups = Q(description__icontains = query)
-            #else:
-            lookups = Q(title__icontains = query) | Q(description__icontains = query)
-            results = Book.objects.filter(lookups).distinct()
+            if request.GET.get('title'):
+                lookups = Q(title__icontains = query)
+            elif request.GET.get('author'):  
+                lookups = Q(author__icontains = query)
+            elif request.GET.get('isbn'):
+                lookups = Q(ISBN__icontains = query)
+            elif request.GET.get('subject'):
+                lookups = Q(description__icontains = query)
+            else: 
+                lookups = Q(title__icontains = query) | Q(description__icontains = query)
+            results = books.filter(lookups).distinct()
             context={'results': results,
                      'searchbutton': searchbutton,
                      'options' : options,
