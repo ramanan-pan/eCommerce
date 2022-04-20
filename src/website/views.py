@@ -112,8 +112,7 @@ def ordersum(request):
 def adminmain(request):
     return render(request, 'website/adminmain.html')
 
-def create(request):
-    return render(request, 'website/create.html')
+
 
 def addUser(request):
     regexEmail = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
@@ -175,7 +174,8 @@ def addUser(request):
         return redirect(create)
 
     
-
+def create(request):
+    return render(request, 'website/create.html')
 
 def createsuccess(request):
     return render(request, 'website/createsuccess.html')
@@ -304,6 +304,9 @@ def viewBook(request):
 
 def mangusers(request):
     return render(request, 'website/manageusers.html')
+
+def manadmin(request):
+    return render(request, 'website/copyinventory.html')
 
 #Gets a queryset of all books under this vendor's username.  Assumes
 #that the given vendor username is correct.

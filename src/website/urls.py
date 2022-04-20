@@ -47,6 +47,8 @@ urlpatterns = [
     path('adset/', views.adset, name='website-adset'),
     path('changePassword', views.changePassword, name='website-changePassword'),
     path('deleteAccount', views.deleteAccount, name='website-deleteAccount'),
-    path('inventory', views.inventory, name='website-inventory')
+    path('inventory', views.inventory, name='website-inventory'),
+    path('manageadmin', views.mangusers, name='website-adminmanage'),
+    path('adminview', views.adminmain, name='website-adminview')
 
 ]
