@@ -7,20 +7,13 @@ from django.template import RequestContext
 from django.http import JsonResponse
 from website.EmailBot import EmailBot
 from .models import *
-<<<<<<< HEAD
-import datetime
-=======
 import re
 from website.cart import Cart
 from .models import Book
->>>>>>> refs/remotes/origin/main
 
 
 # Create your views here.
 def index(request):
-<<<<<<< HEAD
-    return render(request, 'website/index.html')
-=======
     books = Book.objects.all()
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -54,7 +47,6 @@ def index(request):
 def book_detail(request, slug):
     book = get_object_or_404(Book, slug=slug, in_stock=True)
     return render(request, 'website/books/detail.html', {'book': book})
->>>>>>> refs/remotes/origin/main
     
 def welcome(request):
     books = Book.objects.all()
@@ -307,7 +299,6 @@ def cart(request):
 
     return render(request, 'website/cart.html')
 
-<<<<<<< HEAD
 def viewBook(request):
     return render(request, 'website/viewBook.html')
 
@@ -317,7 +308,7 @@ def viewBook(request):
 def getBooksByVendor(vendorName):
     books = Book.objects.filter(created_by_id = Vendor.objects.filter(username = vendorName)[0].id)
     return books
-=======
+    
 def cart_add(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
@@ -327,4 +318,3 @@ def cart_add(request):
         response = JsonResponse({'test':'data'})
         return response
 
->>>>>>> refs/remotes/origin/main
