@@ -2,25 +2,75 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Account Settings UI Design</title>
+	<title>Order Management Portal</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+  <style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customers tr:hover {background-color: #ddd;}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    #customersd {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #customersd td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #customersd tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customersd tr:hover {background-color: #ddd;}
+    
+    #customersd th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
 </head>
 <body>
 	<section class="py-5 my-5">
 		<div class="container">
-			<h1 class="mb-5">Manage Orders</h1>
+			<h1 class="mb-5">Order Management Portal</h1>
 			<div class="bg-white shadow rounded-lg d-block d-sm-flex">
 				<div class="profile-tab-nav border-right">
 					<div class="p-4">
-						
+						<div class="img-circle text-center mb-3">
+							<!--img src="img/user2.jpg" alt="Image" class="shadow"-->
+						</div>
+					
 					</div>
 					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 						<a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
 							<i class="fa fa-home text-center mr-1"></i> 
-							Add Order
+							Create Order
 						</a>
 						<a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">
 							<i class="fa fa-key text-center mr-1"></i> 
@@ -77,124 +127,173 @@
 							
 						</div>
 						<div>
-							<button class="btn btn-primary">Update</button>
+							<button class="btn btn-primary">Create</button>
 							<button class="btn btn-light">Cancel</button>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-						<h3 class="mb-4">Password Settings</h3>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-								  	<label>Old password</label>
-								  	<input type="password" class="form-control">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-								  	<label>New password</label>
-								  	<input type="password" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-								  	<label>Confirm new password</label>
-								  	<input type="password" class="form-control">
-								</div>
-							</div>
-						</div>
+						<h3 class="mb-4">Edit Order</h3>
+
+           
+           
+        
+
+            <input type="text" id="myInput" onkeyup="myeFunction()" placeholder="Search for names..">
+
+						<table id="customers">
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <th>Company</th>
+                <th>Contact</th>
+                <th>Country</th>
+                
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Alfreds Futterkiste</td>
+                <td>Maria Anders</td>
+                <td>Germany</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Berglunds snabbköp</td>
+                <td>Christina Berglund</td>
+                <td>Sweden</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Centro comercial Moctezuma</td>
+                <td>Francisco Chang</td>
+                <td>Mexico</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Ernst Handel</td>
+                <td>Roland Mendel</td>
+                <td>Austria</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Island Trading</td>
+                <td>Helen Bennett</td>
+                <td>UK</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Königlich Essen</td>
+                <td>Philip Cramer</td>
+                <td>Germany</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Laughing Bacchus Winecellars</td>
+                <td>Yoshi Tannamuri</td>
+                <td>Canada</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Magazzini Alimentari Riuniti</td>
+                <td>Giovanni Rovelli</td>
+                <td>Italy</td>
+                <td><button class="btn btn-outline-dark">Edit</button></td>
+              </tr>
+            
+            </table>
+            
 						<div>
-							<button class="btn btn-primary">Update</button>
+							<button class="btn btn-primary">Save Changes Perphaps?</button>
 							<button class="btn btn-light">Cancel</button>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-						<h3 class="mb-4">Security Settings</h3>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-								  	<label>Login</label>
-								  	<input type="text" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-								  	<label>Two-factor auth</label>
-								  	<input type="text" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="recovery">
-										<label class="form-check-label" for="recovery">
-										Recovery
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>
+						<h3 class="mb-4">Delete User</h3>
+						
+           
+           
+        
+
+            <input type="text" id="mydInput" onkeyup="mydFunction()" placeholder="Search for names..">
+
+						<table id="customersd">
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <th>Company</th>
+                <th>Contact</th>
+                <th>Country</th>
+                
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Alfreds Futterkiste</td>
+                <td>Maria Anders</td>
+                <td>Germany</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Berglunds snabbköp</td>
+                <td>Christina Berglund</td>
+                <td>Sweden</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Centro comercial Moctezuma</td>
+                <td>Francisco Chang</td>
+                <td>Mexico</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Ernst Handel</td>
+                <td>Roland Mendel</td>
+                <td>Austria</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Island Trading</td>
+                <td>Helen Bennett</td>
+                <td>UK</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Königlich Essen</td>
+                <td>Philip Cramer</td>
+                <td>Germany</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Laughing Bacchus Winecellars</td>
+                <td>Yoshi Tannamuri</td>
+                <td>Canada</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" />    &nbsp;   </td>
+                <td>Magazzini Alimentari Riuniti</td>
+                <td>Giovanni Rovelli</td>
+                <td>Italy</td>
+                <td><button class="btnDelete">Delete</button></td>
+              </tr>
+            
+            </table>
+            
 						<div>
-							<button class="btn btn-primary">Update</button>
+							<button class="btn btn-primary">Delete Selected</button>
 							<button class="btn btn-light">Cancel</button>
 						</div>
-					</div>
-					<div class="tab-pane fade" id="application" role="tabpanel" aria-labelledby="application-tab">
-						<h3 class="mb-4">Application Settings</h3>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="app-check">
-										<label class="form-check-label" for="app-check">
-										App check
-										</label>
-									</div>
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="defaultCheck2" >
-										<label class="form-check-label" for="defaultCheck2">
-										Lorem ipsum dolor sit.
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div>
-							<button class="btn btn-primary">Update</button>
-							<button class="btn btn-light">Cancel</button>
-						</div>
-					</div>
-					<div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
-						<h3 class="mb-4">Notification Settings</h3>
-						<div class="form-group">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="notification1">
-								<label class="form-check-label" for="notification1">
-									Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum accusantium accusamus, neque cupiditate quis
-								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="notification2" >
-								<label class="form-check-label" for="notification2">
-									hic nesciunt repellat perferendis voluptatum totam porro eligendi.
-								</label>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="notification3" >
-								<label class="form-check-label" for="notification3">
-									commodi fugiat molestiae tempora corporis. Sed dignissimos suscipit
-								</label>
-							</div>
-						</div>
-						<div>
-							<button class="btn btn-primary">Update</button>
-							<button class="btn btn-light">Cancel</button>
+					
+					
 						</div>
 					</div>
 				</div>
@@ -206,7 +305,65 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
 </body>
+<script>
+  function myeFunction() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("customers");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  
+  </script>
 
+<script>
+  function mydFunction() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("mydInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("customersd");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  
+  </script>
+  <script>
+    $(document).ready(function(){
+    
+     $("#tbUser").on('click','.btnDelete',function(){
+           $(this).closest('tr').remove();
+         });
+    
+    });
+  </script>
     <script src="../../../static/js/bootstrap.min.js"></script>
 </html>

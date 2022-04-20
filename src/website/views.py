@@ -305,6 +305,15 @@ def viewBook(request):
 def mangusers(request):
     return render(request, 'website/manageusers.html')
 
+def mangord(request):
+    return render(request, 'website/manageorders.html')
+
+def mangvend(request):
+    return render(request, 'website/managevendors.html')
+
+def mangprom(request):
+    return render(request, 'website/managepromotions.html')
+
 def manadmin(request):
     return render(request, 'website/copyinventory.html')
 

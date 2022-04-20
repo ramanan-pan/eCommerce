@@ -48,7 +48,10 @@ urlpatterns = [
     path('changePassword', views.changePassword, name='website-changePassword'),
     path('deleteAccount', views.deleteAccount, name='website-deleteAccount'),
     path('inventory', views.inventory, name='website-inventory'),
-    path('manageadmin', views.mangusers, name='website-adminmanage'),
+    path('manageusers', views.mangusers, name='website-adminmanage-users'),
+    path('managevendors', views.mangvend, name='website-adminmanage-vendors'),
+    path('managepromotions', views.mangprom, name='website-adminmanage-promotions'),
+    path('manageorders', views.mangord, name='website-adminmanage-orders'),
     path('adminview', views.adminmain, name='website-adminview')
 
 ]
