@@ -43,6 +43,7 @@ urlpatterns = [
     path('home/', views.home, name='website-home'),
     path('adset/', views.adset, name='website-adset'),
     path('changePassword', views.changePassword, name='website-changePassword'),
-    path('deleteAccount', views.deleteAccount, name='website-deleteAccount')
+    path('deleteAccount', views.deleteAccount, name='website-deleteAccount'),
+    path('inventory', views.inventory, name='website-inventory')
 
 ]
