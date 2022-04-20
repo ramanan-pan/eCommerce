@@ -8,10 +8,11 @@ class Cart():
         self.cart = cart
 
     def add(self, book):
+        print('cart.add function works!!')
         book_ID = book.id
 
         if book_ID not in self.cart:
-            self.cart[book_ID] = {'price': str(book.price)}
+            self.cart[0] = {'price': str(book.price)}
 
         self.session.modified = True 
 
