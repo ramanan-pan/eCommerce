@@ -98,7 +98,10 @@ def conf(request):
             sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
         sale.totalPrice = price + discount + 20
         sale.save()
-        return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount})
+        address = request.POST.get('ADDR')
+        
+        request.session['cart'] = {}
+        return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
     return render(request, 'website/orderconf.html', {'price' : price})
 
 def adset(request):
