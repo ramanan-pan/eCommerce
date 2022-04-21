@@ -7,10 +7,10 @@ class EmailBot:
         self.subject = NONE
         self.message = NONE
 
-    def confirmAccount(self, email:str ):
+    def confirmAccount(self,  fname:str, lname:str, email:str ):
         self.subject = 'Book Store Confirmation'
         self.message = [
-        'Hi, Name' ,
+        'Hi, ' + fname + " " + lname ,
 
         'Welcome to Book Store!',
 
@@ -21,12 +21,12 @@ class EmailBot:
         self.yag.send(to=email, subject=self.subject, contents=self.message)
 
 
-    def recoveryPass(self, email:str, password:str):
+    def recoveryPass(self, email:str, fname:str, lname:str, password:str):
         self.subject = 'Book Store Recovery Password'
         self.message = [
-        'Hi, Name' ,
+        'Hi, ' + fname + " " + lname ,
 
-        'Here is your password: ',
+        'Here is your password: '  + password,
 
         'DO NOT RESPOND TO THIS EMAIL, ANY EMAILS SENT REGARDING THIS WILL BE IGNORED' ]
 

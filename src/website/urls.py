@@ -42,6 +42,7 @@ urlpatterns = [
     path('cart/delete/', views.cart_delete, name='website-cart_delete'),
     path('cart/update/', views.cart_update, name='website-cart_update'),
     path('book/<slug:slug>', views.book_detail, name='website-book_detail'),
+    path('editbook/<slug:slug>', views.book_edit, name='website-book_edit'),
     path('validate', views.validateCreds, name='website-validate'),
     path('addUser', views.addUser, name='website-addUser'),
     path('changeAccount', views.changeAccount, name='website-changeAccount'),
@@ -49,6 +50,12 @@ urlpatterns = [
     path('adset/', views.adset, name='website-adset'),
     path('changePassword', views.changePassword, name='website-changePassword'),
     path('deleteAccount', views.deleteAccount, name='website-deleteAccount'),
-    path('inventory', views.inventory, name='website-inventory')
+    path('inventory', views.inventory, name='website-inventory'),
+    path('manageusers', views.mangusers, name='website-adminmanage-users'),
+    path('managevendors', views.mangvend, name='website-adminmanage-vendors'),
+    path('managepromotions', views.mangprom, name='website-adminmanage-promotions'),
+    path('manageorders', views.mangord, name='website-adminmanage-orders'),
+    path('adminview', views.adminmain, name='website-adminview'),
+    path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery')
 
 ]
