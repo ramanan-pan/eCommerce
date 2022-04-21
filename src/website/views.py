@@ -125,54 +125,51 @@ def ordersum(request):
 def adminmain(request):
     return render(request, 'website/adminmain.html')
 
-def create(request):
-    return render(request, 'website/create.html')
+
 
 def addUser(request):
-    regexEmail = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    regexDOB = '^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\\d\\d$'
     user = User()
-
+    bot = EmailBot()
 
     if request.method == 'POST' and request.POST != None:
         if not request.POST['email']: #checks for an empty user input 
             messages.info(request, ' Email Empty') # tells the user what is wrong
-            return redirect(create) #returns user back to the creation screen
+            return render(request, 'website/create.html') #returns user back to the creation screen
         if not request.POST['firstName']:
             messages.info(request, ' First Name Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['lastName']:
             messages.info(request, 'Last Name Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['address1']:
             messages.info(request, 'Address 1 Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['address2']:
            messages.info(request, 'Adress 2 Empty')
-           return redirect(create)
+           return render(request, 'website/create.html')
         if not request.POST['zipcode']:
             messages.info(request, 'Zipcode Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['userName']:
             messages.info(request, 'Username Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['password']:
             messages.info(request, 'Password Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['confirm']:
             messages.info(request, 'You must confirm Your password')
-            return redirect(create)
+            return render(request, 'website/create.html')
 
         if request.POST['confirm'] != request.POST['password'] :
             messages.info(request, 'The passwords do not match')
-            return redirect(create)
+            return render(request, 'website/create.html')
         
         if User.objects.filter(email = request.POST['email']).exists():
             messages.info(request, 'Email Already Used')
-            return redirect(create)
+            return render(request, 'website/create.html')
         elif User.objects.filter(username = request.POST['userName'] ).exists():
             messages.info(request, 'Username Already Used')
-            return redirect(create)
+            return render(request, 'website/create.html')
         else:
             user.fname = request.POST['firstName']
             user.lname = request.POST['lastName']
@@ -181,14 +178,17 @@ def addUser(request):
             user.email = request.POST['email']
             user.birthDate = request.POST['DOB']
             user.password = request.POST['password']
+            bot.confirmAccount(request.POST['firstName'],request.POST['lastName'],request.POST['email'] )
             user.save()
-            return redirect(login)
+
+            return render(request, 'website/login.html')
             
     else:
-        return redirect(create)
+        return render(request, 'website/create.html')
 
     
-
+def create(request):
+    return render(request, 'website/create.html')
 
 def createsuccess(request):
     return render(request, 'website/createsuccess.html')
@@ -219,7 +219,7 @@ def changeAccount(request):
                     user.zipcode = request.POST['zipcode']
                     user.save()
 
-    return redirect(editaccount)
+    return render(request, 'website/editaccount.html')
 
 
 def changePassword(request):
@@ -229,15 +229,15 @@ def changePassword(request):
             if user.username == request.session['user']:
                 if user.password != request.POST['oldPassword']:
                     messages.info(request, 'Invalid previous password')
-                    return redirect(editaccount)
+                    return render(request, 'website/editaccount.html')
                 if request.POST['newPassword'] != request.POST['confirm']:
                     messages.info(request, 'Passwords do not match')
-                    return redirect(editaccount)
+                    return render(request, 'website/editaccount.html')
                 else:
                     user.password = request.POST['newPassword']
                     user.save()
     
-    return redirect(editaccount)
+    return render(request, 'website/editaccount.html')
 
 
 def deleteAccount(request):
@@ -250,7 +250,7 @@ def deleteAccount(request):
                 response.delete_cookie('password')
                 user.delete()
 
-    return redirect(welcome)
+    return render(request, 'website/login.html')
     
 def forgotpassword(request):
     return render(request, 'website/forgotpassword.html')
@@ -261,7 +261,7 @@ def login(request):
         if request.COOKIES.get('username') == user.username and request.COOKIES.get('password') == user.password:
             request.session['cart'] = {}
             request.session['user'] = request.COOKIES.get('username')
-            return redirect(welcome)
+            return render(request, 'website/welcome.html')
         else:
             return render(request,'website/login.html' )
     return render(request,'website/login.html' )
@@ -274,10 +274,10 @@ def validateCreds(request):
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
-            return redirect(login)
+            return render(request, 'website/login.html')
         if not request.POST['password']:
             messages.info(request, 'Password empty')
-            return redirect(login)
+            return render(request, 'website/login.html')
         
             
         users = User.objects.all()
@@ -297,12 +297,32 @@ def validateCreds(request):
                 return response
             else:
                 request.session['user'] = request.POST['username']
-                return redirect(welcome)
+                return render(request, 'website/welcome.html')
         else:
             messages.info(request, 'Invalid Login')
-            return redirect(login)
+            return render(request, 'website/login.html')
 
-    return redirect(login)
+    return render(request, 'website/login.html')
+
+
+def passwordRecovery(request):
+     users = User.objects.all()
+     bot = EmailBot()
+     found = False
+     if request.POST != None:
+        for user in users:
+            if request.POST['email'] == user.email:
+                found = True
+                bot.recoveryPass(user.email, user.fname, user.lname, user.password)
+                messages.info(request, 'Email has been sent')
+                return render(request, 'website/forgotpassword.html')
+        
+        if (found == False):
+            messages.info(request, 'Email does not exist')
+            return render(request, 'website/forgotpassword.html')
+
+
+     return render(request, 'website/forgotpassword.html')
 
 
 def recoversent(request):
@@ -317,6 +337,18 @@ def viewBook(request):
 
 def mangusers(request):
     return render(request, 'website/manageusers.html')
+
+def mangord(request):
+    return render(request, 'website/manageorders.html')
+
+def mangvend(request):
+    return render(request, 'website/managevendors.html')
+
+def mangprom(request):
+    return render(request, 'website/managepromotions.html')
+
+def manadmin(request):
+    return render(request, 'website/copyinventory.html')
 
 #Gets a queryset of all books under this vendor's username.  Assumes
 #that the given vendor username is correct.
