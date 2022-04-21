@@ -57,7 +57,7 @@ urlpatterns = [
     path('manageorders', views.mangord, name='website-adminmanage-orders'),
     path('adminview', views.adminmain, name='website-adminview'),
     path('vendorsettings', views.vendorset, name='website-vendorsettings'),
-    path('vendorview', views.vendview, name='website-vendorview')
+    path('vendorview', views.vendview, name='website-vendorview'),
     path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery')
 
 ]
