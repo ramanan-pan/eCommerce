@@ -10,7 +10,7 @@
       <h3 style="color: red;">{{message}}</h3>
       {% endfor %}
         <nav>
-        <form action="validate" method="post">
+        <form action="validateCreds" method="post">
         {% csrf_token %}
             <label class="sr-only" for="username"></label>
             <input class="border rounded" type="text" name="username" placeholder="Username"><br>

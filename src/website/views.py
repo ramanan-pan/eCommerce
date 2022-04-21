@@ -114,6 +114,11 @@ def ordersum(request):
     price = cart.get_total_price()
     #for b in books:
     #    price += b.price
+    context = {'cart' : cart}
+    if request.session['user']:
+        user = User.objects.filter(username=request.session['user'])
+        address = user[0].address
+        context['address'] = address
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -124,9 +129,12 @@ def ordersum(request):
             else:
                 discount = -promo.amountdiscount
         finally:
-            return render(request, 'website/ordersummary.html', {'cart' : cart, 'price' : price, 'discount' : discount})
+            context['discount'] = discount
+            context['price'] = price
+            return render(request, 'website/ordersummary.html', context)
     #TODO get the list of books from the user session.
-    return render(request, 'website/ordersummary.html', {'cart' : cart, 'price' : price})
+    context['price'] = price
+    return render(request, 'website/ordersummary.html', context)
 
 def adminmain(request):
     return render(request, 'website/adminmain.html')
@@ -170,10 +178,10 @@ def addUser(request):
             messages.info(request, 'The passwords do not match')
             return render(request, 'website/create.html')
         
-        if User.objects.filter(email = request.POST['email']).exists():
+        if User.objects.filter(email = request.POST['email']).exists() or Client.objects.filter(email = request.POST['email']).exists() or Vendor.objects.filter(email = request.POST['email']).exists() or Admin.objects.filter(email = request.POST['email']).exists():
             messages.info(request, 'Email Already Used')
             return render(request, 'website/create.html')
-        elif User.objects.filter(username = request.POST['userName'] ).exists():
+        elif User.objects.filter(username = request.POST['userName'] ).exists() or Client.objects.filter(username = request.POST['userName'] ).exists() or Vendor.objects.filter(username = request.POST['userName'] ).exists() or Admin.objects.filter(username = request.POST['userName'] ).exists():
             messages.info(request, 'Username Already Used')
             return render(request, 'website/create.html')
         else:
@@ -263,20 +271,58 @@ def forgotpassword(request):
 
 def login(request):
     users = User.objects.all()
+    vendors = Vendor.objects.all()
+    admins = Admin.objects.all()
+    clients = Client.objects.all()
+
     for user in users:
         if request.COOKIES.get('username') == user.username and request.COOKIES.get('password') == user.password:
             request.session['cart'] = {}
             request.session['user'] = request.COOKIES.get('username')
             return render(request, 'website/welcome.html')
-        else:
-            return render(request,'website/login.html' )
+        
+
+   
+
+    for client in clients:
+        if request.COOKIES.get('username') == client.username and request.COOKIES.get('password') == client.password:
+            request.session['cart'] = {}
+            request.session['user'] = request.COOKIES.get('username')
+            return render(request, 'website/ClientView.html')
+        
+            
+
+    for vendor in vendors:
+        if request.COOKIES.get('username') == vendor.username and request.COOKIES.get('password') == vendor.password:
+            request.session['cart'] = {}
+            request.session['user'] = request.COOKIES.get('username')
+            return render(request, 'website/welcome.html')
+        
+            
+
+    for admin in admins:
+        if request.COOKIES.get('username') == admin.username and request.COOKIES.get('password') == admin.password:
+            request.session['cart'] = {}
+            request.session['user'] = request.COOKIES.get('username')
+            return render(request, 'website/adminmain.html')
+        
+        
     return render(request,'website/login.html' )
     
 
 
 def validateCreds(request):
-    found = False
-    bot = EmailBot()
+    
+    foundU = False
+    foundV = False
+    foundA = False
+    foundC = False
+    
+    users = User.objects.all()
+    vendors = Vendor.objects.all()
+    admins = Admin.objects.all()
+    clients = Client.objects.all()
+
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
@@ -285,15 +331,33 @@ def validateCreds(request):
             messages.info(request, 'Password empty')
             return render(request, 'website/login.html')
         
-            
-        users = User.objects.all()
+
         for user in users:
             if request.POST['username'] == user.username and request.POST['password'] == user.password:
-                found = True
+                foundU = True
+            else:
+                print('NO')
+
+        for vendor in vendors:
+            if request.POST['username'] == vendor.username and request.POST['password'] == vendor.password:
+                foundV = True
+            else:
+                print('NO')
+
+        for client in clients:
+            if request.POST['username'] == client.username and request.POST['password'] == client.password:
+                foundC = True
+            else:
+                print('NO')
+
+
+        for admin in admins:
+            if request.POST['username'] == admin.username and request.POST['password'] == admin.password:
+                foundA = True
             else:
                 print('NO')
         
-        if (found):
+        if (foundU):
             if (request.POST.get('box') == 'checked'):
                 response = render(request, 'website/welcome.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
@@ -304,6 +368,40 @@ def validateCreds(request):
             else:
                 request.session['user'] = request.POST['username']
                 return render(request, 'website/welcome.html')
+        
+        elif (foundV):
+            if (request.POST.get('box') == 'checked'):
+                response = render(request, 'website/welcome.html')
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
+                request.session['cart'] = {} 
+                request.session['user'] = request.POST['username']
+                return response
+            else:
+                request.session['user'] = request.POST['username']
+                return render(request, 'website/welcome.html')
+        elif (foundA):
+            if (request.POST.get('box') == 'checked'):
+                response = render(request, 'website/adminmain.html')
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
+                request.session['cart'] = {} 
+                request.session['user'] = request.POST['username']
+                return response
+            else:
+                request.session['user'] = request.POST['username']
+                return render(request, 'website/adminmain.html')
+        elif (foundC):
+            if (request.POST.get('box') == 'checked'):
+                response = render(request, 'website/ClientView.html')
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
+                request.session['cart'] = {} 
+                request.session['user'] = request.POST['username']
+                return response
+            else:
+                request.session['user'] = request.POST['username']
+                return render(request, 'website/ClientView.html')
         else:
             messages.info(request, 'Invalid Login')
             return render(request, 'website/login.html')
