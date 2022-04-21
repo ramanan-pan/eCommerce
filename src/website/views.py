@@ -54,11 +54,12 @@ def book_edit(request, slug):
         book.title = request.POST.get('title')
         book.author = request.POST.get('author')
         book.description = request.POST.get('description')
-        book.price = int(request.POST.get('price'))
+        book.price = request.POST.get('price')
         book.genre = request.POST.get('genre')
-        book.in_stock = request.POST.get('stock')
+        book.stock = request.POST.get('stock')
+        book.save()
         message = "The book has been updated."
-        return render(request, book.slug, 'website/books/edit.html', {'book' : book, 'message' : message})
+        return render(request, 'website/books/edit.html', {'book' : book, 'message' : message})
     return render(request, 'website/books/edit.html', {'book': book})
     
 def welcome(request):
@@ -115,10 +116,13 @@ def ordersum(request):
     #for b in books:
     #    price += b.price
     context = {'cart' : cart}
-    if request.session['user']:
-        user = User.objects.filter(username=request.session['user'])
-        address = user[0].address
-        context['address'] = address
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            address = user[0].address
+            context['address'] = address
+    except:
+        context['address'] = ''
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -377,7 +381,7 @@ def validateCreds(request):
         
         elif (foundV):
             if (request.POST.get('box') == 'checked'):
-                response = render(request, 'website/welcome.html')
+                response = render(request, 'website/vendorview.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
                 response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
                 request.session['cart'] = {} 
@@ -385,7 +389,7 @@ def validateCreds(request):
                 return response
             else:
                 request.session['user'] = request.POST['username']
-                return render(request, 'website/welcome.html')
+                return render(request, 'website/vendorview.html')
         elif (foundA):
             if (request.POST.get('box') == 'checked'):
                 response = render(request, 'website/adminmain.html')
@@ -506,13 +510,16 @@ def cart_update(request):
 def inventory(request):
     books = []
     
-    user = request.COOKIES.get('username')
+    user = request.session['user']
+    acct = None
     if Vendor.objects.filter(username = user):
         books = getBooksByVendor(user)
+        acct = Vendor.objects.filter(username = user)[0]
     elif Admin.objects.filter(username = user):
         books = Book.objects.all()
+        acct = Admin.objects.filter(username = user)
     price = sumPrice(books)
-    return render(request, 'website/inventory.html',{'books' : books, 'price' : price})
+    return render(request, 'website/inventory.html',{'books' : books, 'price' : price, 'acct' : acct})
     
 
 def sumPrice(books):
