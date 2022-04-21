@@ -70,7 +70,7 @@ class NewsLetter(Model):
 
 class BookManager(Manager):
     def get_queryset(self):
-        return super(BookManager, self).get_queryset().filter(is_active=True)
+        return super(BookManager, self).get_queryset().filter(in_stock=True)
 
 
 class Book(Model):

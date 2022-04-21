@@ -60,8 +60,9 @@ def home(request):
     return render(request, 'website/home.html')
 
 def conf(request):
+    cart = Cart(request)
     basket = [1,2] # Given the books stored as an array of IDs...
-    books = list(Book.objects.filter(id__in=(basket))) 
+    books = list(Book.objects.filter(id__in=(cart))) 
         #generate a list of the book objects and iterate through them.
     price = 0
     for b in books:
@@ -90,6 +91,7 @@ def adset(request):
     return render(request, 'website/addex.html') 
 
 def ordersum(request):
+    cart = Cart(request)
     basket = [1,2]
     books = list(Book.objects.filter(id__in=(basket)))
     price = 0
@@ -296,8 +298,8 @@ def recoversent(request):
     return render(request, 'website/recoversent.html')
 
 def cart(request):
-
-    return render(request, 'website/cart.html')
+    cart = Cart(request)
+    return render(request, 'website/cart.html', {'cart' : cart})
 
 def viewBook(request):
     return render(request, 'website/viewBook.html')
@@ -312,16 +314,40 @@ def getBooksByVendor(vendorName):
     return books
     
 def cart_add(request):
-    print('cart_add is called')
+    #print('cart_add is called')
     cart = Cart(request)
     if request.POST.get('action') == 'post':
-        book_ID = int(request.POST.get('id'))
-        book = get_object_or_404(Book, id = book_ID)
-        print('views')
-        cart.add(book=book)
-        response = JsonResponse({'test':'data'})
+        book_id = int(request.POST.get('id'))
+        book_qty = int(request.POST.get('qty'))
+        book = get_object_or_404(Book, id = book_id)
+        cart.add(book=book, qty=book_qty)
+        cartqty = cart.__len__()
+        response = JsonResponse({'qty': cartqty})
         return response
 
+
+def cart_delete(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        book_id = int(request.POST.get('id'))
+        cart.delete(book=book_id)
+
+        cartqty = cart.__len__()
+        carttotal = cart.get_total_price()
+        response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})
+        return response
+
+def cart_update(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        book_id = int(request.POST.get('id'))
+        book_qty = int(request.POST.get('qty'))
+        cart.update(book=book_id, qty=book_qty)
+
+        cartqty = cart.__len__()
+        carttotal = cart.get_total_price()
+        response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})
+        return response
 
 #TODO integrate with login when it's fixed
 def inventory(request):
