@@ -56,7 +56,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group"> <label for="ADDR1" class="small text-muted mb-1">SHIPPING ADDRESS
-                                    </label> <input type="text" class="form-control form-control-sm"
+                                    </label> <input type="text"  required class="form-control form-control-sm"
                                             name="ADDR" id="ADDR" aria-describedby="helpId" value="{% if address %}{{address}}{%endif%}"> </div>
                                     <div class="row no-gutters">
                                         
@@ -70,21 +70,21 @@
                                         </div>
                                     </div>
                                     <div class="form-group"> <label for="NAME" class="small text-muted mb-1">NAME ON
-                                            CARD</label> <input type="text" class="form-control form-control-sm"
+                                            CARD</label> <input type="text" required class="form-control form-control-sm"
                                             name="NAME" id="NAME" aria-describedby="helpId" placeholder=""> </div>
                                     <div class="form-group"> <label for="CARD" class="small text-muted mb-1">CARD
-                                            NUMBER</label> <input type="text" class="form-control form-control-sm"
+                                            NUMBER</label> <input type="text" required class="form-control form-control-sm"
                                             name="CARD" id="CARD" aria-describedby="helpId" placeholder=""> </div>
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group"> <label for="VALID"
                                                     class="small text-muted mb-1">VALID THROUGH</label> <input
-                                                    type="text" class="form-control form-control-sm" name="VALID"
+                                                    type="text" required class="form-control form-control-sm" name="VALID"
                                                     id="VALID" aria-describedby="helpId" placeholder=""> </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group"> <label for="CVC" class="small text-muted mb-1">CVC
-                                                    CODE</label> <input type="text" class="form-control form-control-sm"
+                                                    CODE</label> <input type="text" required class="form-control form-control-sm"
                                                     name="CVC" id="CVC" aria-describedby="helpId" placeholder="">
                                             </div>
                                         </div>
