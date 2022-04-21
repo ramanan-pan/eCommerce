@@ -86,6 +86,7 @@ class Book(Model):
     slug = SlugField(max_length=255)
     description = TextField(blank=True)
     in_stock = BooleanField(default=True)
+    stock = IntegerField()
     created = DateTimeField(auto_now_add=True)
     updated = DateTimeField(auto_now=True)
     objects = Manager()

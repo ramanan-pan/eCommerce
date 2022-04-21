@@ -84,10 +84,10 @@ def conf(request):
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
     for item in cart:
-        for i in range(item.qty): # not working, need to figure out how to get these values
+        for i in range(item['qty']): # not working, need to figure out how to get these values
             bookSale = BookSale()
-            bookSale.bookID = (item.book).id
-            bookSale.salePrice = (item.book).price
+            bookSale.bookID = (item['book'])
+            bookSale.salePrice = (item['price'])
             bookSale.saleDate = datetime.date.today()
             bookSale.save()
     if request.method == "POST":
