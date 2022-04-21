@@ -9,20 +9,28 @@
 
 <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Book Store</a>
-      <h6 class="navbar-brand mt-2">
-          Admin Settings</h6>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      
+      
+      <button onclick="document.location='welcome'" class="btn btn-outline-light" type="button">Book Store</button>
 
       <div class="collapse navbar-collapse" id="navbarsExample02">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inventory</a>
+            <button onclick="document.location='index'" class="btn btn-outline-light" type="button">Inventory</button>
           </li>
         </ul>
+        <div class="collapse navbar-collapse" id="navbarsExample02">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <button onclick="document.location='adset'" class="btn btn-outline-light" type="button">Admin Settings</button>
+         
+            </li>
+          </ul>
       </div>
+
+      
+      </div>
+      
     </div>
 </nav>
 
@@ -31,8 +39,10 @@
 <div class="row align-items-md-stretch">
     <div class="col-md-6">
       <div class="h-100 p-5 text-white bg-success rounded-3 mt-2">
-        <h2>Manage Users</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h1>Manage Users</h1>
+        <h4>User Managment Portal:</h4> <ul><li>Create: the ability to create users</li>
+        <li>Edit: The ability to edit users</li><li>Delete: The ability to delete users</li></ul>
+       
         <button onclick="document.location='manageusers'" class="btn btn-outline-light" type="button">Manage</button>
       </div>
     </div>

@@ -1,3 +1,10 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block title %}Order Confirmation{% endblock%}
+
+{% block content %}
+
+
 <!DOCTYPE html>
 <html>
 
@@ -76,31 +83,7 @@
     <link href="./modify.css" rel="stylesheet" media="screen">
 </head>
 <script src="./js/bootstrap.bundle.min.js"></script>
-<nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Book Store</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02"
-            aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarsExample02">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Browse</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Checkout</a>
-                </li>
-            </ul>
-            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2">Log In</a>
-            <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2">Sign Up</a>
-        </div>
-    </div>
-</nav>
 
 <script src="./js/bootstrap.bundle.min.js"></script>
 
@@ -127,61 +110,68 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td align="left"
-                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
-                                        <p
-                                            style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777;">
-                                            Our trusty agents are packing your order as you read this! Below you will
-                                            find a summary of your order :) </p>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td align="left" style="padding-top: 20px;">
                                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                             <tr>
-                                                <td width="75%" align="left" bgcolor="#eeeeee"
+                                                <td width="70%" align="left" bgcolor="#eeeeee"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                    Order Confirmation # </td>
-                                                <td width="25%" align="left" bgcolor="#eeeeee"
+                                                    Order Confirmation # {{ sale.orderID }}</td>
+                                                
+                                                <td width="20%" align="left" bgcolor="#eeeeee"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                    {{ sale.orderID }} </td>
+                                                    Price </td>
+                                                <td width="10%" align="left" bgcolor="#eeeeee"
+                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                QTY </td>
                                             </tr>
-                                            {% for b in books %}
+                                            {% for item in cart %}
+                                            {% with b=item.book %}
                                             <tr>
-                                                <td width="75%" align="left"
+                                                <td width="70%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                     {{ b.title }} </td>
-                                                <td width="25%" align="left"
+
+                                                <td width="20%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                     ${{ b.price }} </td>
+                                                <td width="10%" align="left"
+                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
+                                                    {{ item.qty }} </td>
                                             </tr>
+                                            {% endwith %}
                                             {% endfor %}
 
                                             {% if discount %}
                                             <tr>
-                                                <td width="75%" align="left"
+                                                <td width="70%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                     Promotion </td>
-                                                <td width="25%" align="left"
+                                                <td width="20%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                     ${{ discount }} </td>
+                                                <td width="20%" align="left"
+                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                    - </td>
                                             </tr>
                                             {% endif %}
                                             <tr>
-                                                <td width="75%" align="left"
+                                                <td width="70%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                                     Shipping + Handling </td>
-                                                <td width="25%" align="left"
+                                                <td width="20%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                                     $20.00 </td>
+                                                <td width="10%" align="left"
+                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
+                                                    -</td>
                                             </tr>
                                             <tr>
-                                                <td width="75%" align="left"
+                                                <!--td width="75%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                                     Sales Tax </td>
                                                 <td width="25%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                                    $0.00 </td>
+                                                    $0.00 </td-->
                                             </tr>
                                         </table>
                                     </td>
@@ -190,12 +180,16 @@
                                     <td align="left" style="padding-top: 20px;">
                                         <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                             <tr>
-                                                <td width="75%" align="left"
+                                                <td width="70%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
                                                     TOTAL </td>
-                                                <td width="25%" align="left"
+
+                                                <td width="20%" align="left"
                                                     style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
                                                     ${{ price | add:20 | add:discount }} </td>
+                                                <td width="10%" align="left" bgcolor="#eeeeee"
+                                                    style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
+                                                    ~ </td>
                                             </tr>
                                         </table>
                                     </td>
@@ -258,9 +252,9 @@
                                         <table border="0" cellspacing="0" cellpadding="0">
                                             <tr>
                                                 <td align="center" style="border-radius: 5px;" bgcolor="#66b3b7"> <a
-                                                        href="#" target="_blank"
-                                                        style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #000000; text-decoration: none; border-radius: 5px; background-color: #ffffff; padding: 15px 30px; border: 1px solid #ffffff; display: block;">Shop
-                                                        Again</a> </td>
+                                                        href="{% url 'website:website-index' %}" target="_blank"
+                                                        style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #000000; text-decoration: none; border-radius: 5px; background-color: #ffffff; padding: 15px 30px; border: 1px solid #ffffff; display: block;">
+                                                        Shop Again</a> </td>
                                             </tr>
                                         </table>
                                     </td>
@@ -268,28 +262,7 @@
                             </table>
                         </td>
                     </tr>
-                    <tr>
-                        <td align="center" style="padding: 35px; background-color: #ffffff;" bgcolor="#ffffff">
-                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-                                style="max-width:600px;">
-                                <tr>
-                                    <td align="center"> <img src="logo-footer.png" width="37" height="37"
-                                            style="display: block; border: 0px;" /> </td>
-                                </tr>
-                                <tr>
-                                    <td align="center"
-                                        style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; padding: 5px 0 10px 0;">
-                                        <p
-                                            style="font-size: 14px; font-weight: 800; line-height: 18px; color: #333333;">
-                                            123Books.com<br> 123-456-7890 </p>
-                                    </td>
-                                </tr>
-                                <tr>
-
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    
                 </table>
             </td>
         </tr>
@@ -297,3 +270,4 @@
 </body>
 
 </html>
+{% endblock %}

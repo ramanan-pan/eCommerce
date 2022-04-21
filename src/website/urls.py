@@ -43,7 +43,7 @@ urlpatterns = [
     path('cart/update/', views.cart_update, name='website-cart_update'),
     path('book/<slug:slug>', views.book_detail, name='website-book_detail'),
     path('editbook/<slug:slug>', views.book_edit, name='website-book_edit'),
-    path('validate', views.validateCreds, name='website-validate'),
+    path('validateCreds', views.validateCreds, name='website-validate'),
     path('addUser', views.addUser, name='website-addUser'),
     path('changeAccount', views.changeAccount, name='website-changeAccount'),
     path('home/', views.home, name='website-home'),
@@ -56,6 +56,8 @@ urlpatterns = [
     path('managepromotions', views.mangprom, name='website-adminmanage-promotions'),
     path('manageorders', views.mangord, name='website-adminmanage-orders'),
     path('adminview', views.adminmain, name='website-adminview'),
+    path('vendorsettings', views.vendorset, name='website-vendorsettings'),
+    path('vendorview', views.vendview, name='website-vendorview'),
     path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery')
 
 ]
