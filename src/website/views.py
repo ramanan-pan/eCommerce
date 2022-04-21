@@ -111,6 +111,11 @@ def ordersum(request):
     price = cart.get_total_price()
     #for b in books:
     #    price += b.price
+    context = {'cart' : cart}
+    if request.session['user']:
+        user = User.objects.filter(username=request.session['user'])
+        address = user[0].address
+        context['address'] = address
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -121,9 +126,12 @@ def ordersum(request):
             else:
                 discount = -promo.amountdiscount
         finally:
-            return render(request, 'website/ordersummary.html', {'cart' : cart, 'price' : price, 'discount' : discount})
+            context['discount'] = discount
+            context['price'] = price
+            return render(request, 'website/ordersummary.html', context)
     #TODO get the list of books from the user session.
-    return render(request, 'website/ordersummary.html', {'cart' : cart, 'price' : price})
+    context['price'] = price
+    return render(request, 'website/ordersummary.html', context)
 
 def adminmain(request):
     return render(request, 'website/adminmain.html')
