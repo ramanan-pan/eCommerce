@@ -40,6 +40,7 @@ urlpatterns = [
     path('viewBook/', views.viewBook, name='website-viewBook'),
     path('cart/add/', views.cart_add, name='website-cart_add'),
     path('book/<slug:slug>', views.book_detail, name='website-book_detail'),
+    path('editbook/<slug:slug>', views.book_edit, name='website-book_edit'),
     path('validate', views.validateCreds, name='website-validate'),
     path('addUser', views.addUser, name='website-addUser'),
     path('changeAccount', views.changeAccount, name='website-changeAccount'),

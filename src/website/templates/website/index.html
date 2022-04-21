@@ -8,28 +8,30 @@
     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Responsive image"
     preserveAspectRatio="xMidYMid slice" focusable="false">
     <title>Placeholder</title>
-    <rect width="100%" height="100%" fill="#868e96" /><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Responsive image</text>
+    <rect width="100%" height="100%" fill="#868e96" /><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Responsive
+      image</text>
   </svg>
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <form action="{% url 'website:website-index' %}" method="GET" value="{{request.GET.q}}">
+      {% csrf_token %}
       <input type="text" name="q" value="{{request.GET.q}}" placeholder="" />
       <input type="submit" name="submit" value="Search" class="btn-outline-success" />
-      
-    <input type="radio" class="btn-check" name="options" value="1" autocomplete="off">
-    <label class="btn btn-secondary" for="option1">Title</label>
-    
-    <input type="radio" class="btn-check" name="options" value="2" autocomplete="off">
-    <label class="btn btn-secondary" for="option2">Author</label>
-    
-    <input type="radio" class="btn-check" name="options" value="3" autocomplete="off" >
-    <label class="btn btn-secondary" for="option3">ISBN</label>
-    
-    <input type="radio" class="btn-check" name="options" value="4" autocomplete="off">
-    <label class="btn btn-secondary" for="option4">Subject</label>
-    
+
+      <input type="radio" class="btn-check" name="options" id="title" value="title" autocomplete="off">
+      <label class="btn btn-secondary" for="title">Title</label>
+
+      <input type="radio" class="btn-check" name="options" id="author" value="author" autocomplete="off">
+      <label class="btn btn-secondary" for="author">Author</label>
+
+      <input type="radio" class="btn-check" name="options" id="isbn" value="isbn" autocomplete="off">
+      <label class="btn btn-secondary" for="isbn">ISBN</label>
+
+      <input type="radio" class="btn-check" name="options" id="subject" value="subject" autocomplete="off">
+      <label class="btn btn-secondary" for="subject">Subject</label>
+
 
     </form>
   </div>
@@ -67,7 +69,8 @@
       {% endfor %}
     </div>
     {% else %}
-    <div class="pb-3 h5">No books match <b> {{ request.GET.q }}.</b> <br> Try searching again, or browse our
+    <div class="pb-3 h5">No books match <b> {{ request.GET.q }}</b> from <b> {{ request.GET.options }}.</b> <br> Try
+      searching again, or browse our
       Catalog:</br></div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
 
@@ -118,7 +121,8 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="../../../static/js/bootstrap.min.js"></script>
 
 </html>

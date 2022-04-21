@@ -76,7 +76,7 @@ class BookManager(Manager):
 class Book(Model):
     id = AutoField(primary_key=True)
     created_by = ForeignKey(Vendor, on_delete=CASCADE, related_name='book_creator')
-    price = DecimalField(max_digits=4, decimal_places=2)
+    price = DecimalField(max_digits=6, decimal_places=2)
     author = CharField(max_length=255)
     ISBN = IntegerField(unique=True)
     title = CharField(max_length=255)

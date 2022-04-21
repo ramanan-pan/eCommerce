@@ -21,14 +21,14 @@ def index(request):
         options = request.GET.get('options')
         
         if query is not None:
-            if request.GET.get('title'):
+            if options == 'title':
                 lookups = Q(title__icontains = query)
-            elif request.GET.get('author'):  
+            elif options == 'author':
                 lookups = Q(author__icontains = query)
-            elif request.GET.get('isbn'):
+            elif options == 'isbn':
                 lookups = Q(ISBN__icontains = query)
-            elif request.GET.get('subject'):
-                lookups = Q(description__icontains = query)
+            elif options == 'subject':
+                lookups = Q(genre__icontains = query)
             else: 
                 lookups = Q(title__icontains = query) | Q(description__icontains = query)
             results = books.filter(lookups).distinct()
@@ -47,6 +47,19 @@ def index(request):
 def book_detail(request, slug):
     book = get_object_or_404(Book, slug=slug, in_stock=True)
     return render(request, 'website/books/detail.html', {'book': book})
+
+def book_edit(request, slug):
+    book = get_object_or_404(Book, slug=slug, in_stock=True)
+    if request.method=='POST':
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.description = request.POST.get('description')
+        book.price = int(request.POST.get('price'))
+        book.genre = request.POST.get('genre')
+        book.in_stock = request.POST.get('stock')
+        message = "The book has been updated."
+        return render(request, book.slug, 'website/books/edit.html', {'book' : book, 'message' : message})
+    return render(request, 'website/books/edit.html', {'book': book})
     
 def welcome(request):
     books = Book.objects.all()
@@ -327,10 +340,10 @@ def cart_add(request):
 def inventory(request):
     books = []
     
-    user = 'vendor1'
+    user = request.COOKIES.get('username')
     if Vendor.objects.filter(username = user):
         books = getBooksByVendor(user)
-    if Admin.objects.filter(username = user):
+    elif Admin.objects.filter(username = user):
         books = Book.objects.all()
     price = sumPrice(books)
     return render(request, 'website/inventory.html',{'books' : books, 'price' : price})
