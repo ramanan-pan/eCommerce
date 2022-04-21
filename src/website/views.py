@@ -112,6 +112,12 @@ def ordersum(request):
 def adminmain(request):
     return render(request, 'website/adminmain.html')
 
+def vendorset(request):
+    return render(request,'website/inventory.html')
+
+def vendview(request):
+    return render(request, 'website/vendorview.html')
+
 
 
 def addUser(request):

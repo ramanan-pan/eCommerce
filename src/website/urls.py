@@ -52,6 +52,8 @@ urlpatterns = [
     path('managevendors', views.mangvend, name='website-adminmanage-vendors'),
     path('managepromotions', views.mangprom, name='website-adminmanage-promotions'),
     path('manageorders', views.mangord, name='website-adminmanage-orders'),
-    path('adminview', views.adminmain, name='website-adminview')
+    path('adminview', views.adminmain, name='website-adminview'),
+    path('vendorsettings', views.vendorset, name='website-vendorsettings'),
+    path('vendorview', views.vendview, name='website-vendorview')
 
 ]
