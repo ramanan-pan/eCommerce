@@ -70,13 +70,13 @@ class NewsLetter(Model):
 
 class BookManager(Manager):
     def get_queryset(self):
-        return super(BookManager, self).get_queryset().filter(is_active=True)
+        return super(BookManager, self).get_queryset().filter(in_stock=True)
 
 
 class Book(Model):
     id = AutoField(primary_key=True)
     created_by = ForeignKey(Vendor, on_delete=CASCADE, related_name='book_creator')
-    price = DecimalField(max_digits=4, decimal_places=2)
+    price = DecimalField(max_digits=6, decimal_places=2)
     author = CharField(max_length=255)
     ISBN = IntegerField(unique=True)
     title = CharField(max_length=255)
@@ -86,6 +86,7 @@ class Book(Model):
     slug = SlugField(max_length=255)
     description = TextField(blank=True)
     in_stock = BooleanField(default=True)
+    stock = IntegerField()
     created = DateTimeField(auto_now_add=True)
     updated = DateTimeField(auto_now=True)
     objects = Manager()

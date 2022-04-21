@@ -21,17 +21,17 @@ def index(request):
         options = request.GET.get('options')
         
         if query is not None:
-            #if :
-                #lookups = Q(title__icontains = query)
-            #elif :  
-                #lookups = Q(author__icontains = query)
-            #elif :
-                #lookups = Q(ISBN__icontains = query)
-            #elif :
-                #lookups = Q(description__icontains = query)
-            #else:
-            lookups = Q(title__icontains = query) | Q(description__icontains = query)
-            results = Book.objects.filter(lookups).distinct()
+            if options == 'title':
+                lookups = Q(title__icontains = query)
+            elif options == 'author':
+                lookups = Q(author__icontains = query)
+            elif options == 'isbn':
+                lookups = Q(ISBN__icontains = query)
+            elif options == 'subject':
+                lookups = Q(genre__icontains = query)
+            else: 
+                lookups = Q(title__icontains = query) | Q(description__icontains = query)
+            results = books.filter(lookups).distinct()
             context={'results': results,
                      'searchbutton': searchbutton,
                      'options' : options,
@@ -47,6 +47,19 @@ def index(request):
 def book_detail(request, slug):
     book = get_object_or_404(Book, slug=slug, in_stock=True)
     return render(request, 'website/books/detail.html', {'book': book})
+
+def book_edit(request, slug):
+    book = get_object_or_404(Book, slug=slug, in_stock=True)
+    if request.method=='POST':
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.description = request.POST.get('description')
+        book.price = int(request.POST.get('price'))
+        book.genre = request.POST.get('genre')
+        book.in_stock = request.POST.get('stock')
+        message = "The book has been updated."
+        return render(request, book.slug, 'website/books/edit.html', {'book' : book, 'message' : message})
+    return render(request, 'website/books/edit.html', {'book': book})
     
 def welcome(request):
     books = Book.objects.all()
@@ -60,21 +73,23 @@ def home(request):
     return render(request, 'website/home.html')
 
 def conf(request):
-    basket = [1,2] # Given the books stored as an array of IDs...
-    books = list(Book.objects.filter(id__in=(basket))) 
+    cart = Cart(request)
+    #basket = [1,2] # Given the books stored as an array of IDs...
+    #books = list(Book.objects.filter(id__in=(cart))) 
         #generate a list of the book objects and iterate through them.
-    price = 0
-    for b in books:
-        price += b.price
+    price = cart.get_total_price()
+    #for b in books:
+    #    price += b.price
     discount = 0
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
-    for book in books:
-        bookSale = BookSale()
-        bookSale.bookID = book
-        bookSale.salePrice = book.price
-        bookSale.saleDate = datetime.date.today()
-        bookSale.save()
+    for item in cart:
+        for i in range(item['qty']): # not working, need to figure out how to get these values
+            bookSale = BookSale()
+            bookSale.bookID = (item['book'])
+            bookSale.salePrice = (item['price'])
+            bookSale.saleDate = datetime.date.today()
+            bookSale.save()
     if request.method == "POST":
         sale = Sale()
         if request.COOKIES.get('username'):
@@ -83,18 +98,27 @@ def conf(request):
             sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
         sale.totalPrice = price + discount + 20
         sale.save()
-        return render(request, 'website/orderconf.html', {'price' : price, 'books' : books, 'sale' : sale, 'discount' : discount})
+
+        
+
+        return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount})
     return render(request, 'website/orderconf.html', {'price' : price})
 
 def adset(request):
     return render(request, 'website/addex.html') 
 
 def ordersum(request):
-    basket = [1,2]
-    books = list(Book.objects.filter(id__in=(basket)))
-    price = 0
-    for b in books:
-        price += b.price
+    cart = Cart(request)
+    #basket = [1,2]
+    #books = list(Book.objects.filter(id__in=(basket)))
+    price = cart.get_total_price()
+    #for b in books:
+    #    price += b.price
+    context = {'cart' : cart}
+    if request.session['user']:
+        user = User.objects.filter(username=request.session['user'])
+        address = user[0].address
+        context['address'] = address
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -105,9 +129,12 @@ def ordersum(request):
             else:
                 discount = -promo.amountdiscount
         finally:
-            return render(request, 'website/ordersummary.html', {'books' : books, 'price' : price, 'discount' : discount})
+            context['discount'] = discount
+            context['price'] = price
+            return render(request, 'website/ordersummary.html', context)
     #TODO get the list of books from the user session.
-    return render(request, 'website/ordersummary.html', {'books' : books, 'price' : price})
+    context['price'] = price
+    return render(request, 'website/ordersummary.html', context)
 
 def adminmain(request):
     return render(request, 'website/adminmain.html')
@@ -121,50 +148,48 @@ def vendview(request):
 
 
 def addUser(request):
-    regexEmail = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    regexDOB = '^(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19|20)\\d\\d$'
     user = User()
-
+    bot = EmailBot()
 
     if request.method == 'POST' and request.POST != None:
         if not request.POST['email']: #checks for an empty user input 
             messages.info(request, ' Email Empty') # tells the user what is wrong
-            return redirect(create) #returns user back to the creation screen
+            return render(request, 'website/create.html') #returns user back to the creation screen
         if not request.POST['firstName']:
             messages.info(request, ' First Name Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['lastName']:
             messages.info(request, 'Last Name Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['address1']:
             messages.info(request, 'Address 1 Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['address2']:
            messages.info(request, 'Adress 2 Empty')
-           return redirect(create)
+           return render(request, 'website/create.html')
         if not request.POST['zipcode']:
             messages.info(request, 'Zipcode Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['userName']:
             messages.info(request, 'Username Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['password']:
             messages.info(request, 'Password Empty')
-            return redirect(create)
+            return render(request, 'website/create.html')
         if not request.POST['confirm']:
             messages.info(request, 'You must confirm Your password')
-            return redirect(create)
+            return render(request, 'website/create.html')
 
         if request.POST['confirm'] != request.POST['password'] :
             messages.info(request, 'The passwords do not match')
-            return redirect(create)
+            return render(request, 'website/create.html')
         
-        if User.objects.filter(email = request.POST['email']).exists():
+        if User.objects.filter(email = request.POST['email']).exists() or Client.objects.filter(email = request.POST['email']).exists() or Vendor.objects.filter(email = request.POST['email']).exists() or Admin.objects.filter(email = request.POST['email']).exists():
             messages.info(request, 'Email Already Used')
-            return redirect(create)
-        elif User.objects.filter(username = request.POST['userName'] ).exists():
+            return render(request, 'website/create.html')
+        elif User.objects.filter(username = request.POST['userName'] ).exists() or Client.objects.filter(username = request.POST['userName'] ).exists() or Vendor.objects.filter(username = request.POST['userName'] ).exists() or Admin.objects.filter(username = request.POST['userName'] ).exists():
             messages.info(request, 'Username Already Used')
-            return redirect(create)
+            return render(request, 'website/create.html')
         else:
             user.fname = request.POST['firstName']
             user.lname = request.POST['lastName']
@@ -173,11 +198,13 @@ def addUser(request):
             user.email = request.POST['email']
             user.birthDate = request.POST['DOB']
             user.password = request.POST['password']
+            bot.confirmAccount(request.POST['firstName'],request.POST['lastName'],request.POST['email'] )
             user.save()
-            return redirect(login)
+
+            return render(request, 'website/login.html')
             
     else:
-        return redirect(create)
+        return render(request, 'website/create.html')
 
     
 def create(request):
@@ -212,7 +239,7 @@ def changeAccount(request):
                     user.zipcode = request.POST['zipcode']
                     user.save()
 
-    return redirect(editaccount)
+    return render(request, 'website/editaccount.html')
 
 
 def changePassword(request):
@@ -222,15 +249,15 @@ def changePassword(request):
             if user.username == request.session['user']:
                 if user.password != request.POST['oldPassword']:
                     messages.info(request, 'Invalid previous password')
-                    return redirect(editaccount)
+                    return render(request, 'website/editaccount.html')
                 if request.POST['newPassword'] != request.POST['confirm']:
                     messages.info(request, 'Passwords do not match')
-                    return redirect(editaccount)
+                    return render(request, 'website/editaccount.html')
                 else:
                     user.password = request.POST['newPassword']
                     user.save()
     
-    return redirect(editaccount)
+    return render(request, 'website/editaccount.html')
 
 
 def deleteAccount(request):
@@ -243,44 +270,100 @@ def deleteAccount(request):
                 response.delete_cookie('password')
                 user.delete()
 
-    return redirect(welcome)
+    return render(request, 'website/login.html')
     
 def forgotpassword(request):
     return render(request, 'website/forgotpassword.html')
 
 def login(request):
     users = User.objects.all()
+    vendors = Vendor.objects.all()
+    admins = Admin.objects.all()
+    clients = Client.objects.all()
+
     for user in users:
         if request.COOKIES.get('username') == user.username and request.COOKIES.get('password') == user.password:
             request.session['cart'] = {}
             request.session['user'] = request.COOKIES.get('username')
-            return redirect(welcome)
-        else:
-            return render(request,'website/login.html' )
+            return render(request, 'website/welcome.html')
+        
+
+   
+
+    for client in clients:
+        if request.COOKIES.get('username') == client.username and request.COOKIES.get('password') == client.password:
+            request.session['cart'] = {}
+            request.session['user'] = request.COOKIES.get('username')
+            return render(request, 'website/ClientView.html')
+        
+            
+
+    for vendor in vendors:
+        if request.COOKIES.get('username') == vendor.username and request.COOKIES.get('password') == vendor.password:
+            request.session['cart'] = {}
+            request.session['user'] = request.COOKIES.get('username')
+            return render(request, 'website/welcome.html')
+        
+            
+
+    for admin in admins:
+        if request.COOKIES.get('username') == admin.username and request.COOKIES.get('password') == admin.password:
+            request.session['cart'] = {}
+            request.session['user'] = request.COOKIES.get('username')
+            return render(request, 'website/adminmain.html')
+        
+        
     return render(request,'website/login.html' )
     
 
 
 def validateCreds(request):
-    found = False
-    bot = EmailBot()
+    
+    foundU = False
+    foundV = False
+    foundA = False
+    foundC = False
+    
+    users = User.objects.all()
+    vendors = Vendor.objects.all()
+    admins = Admin.objects.all()
+    clients = Client.objects.all()
+
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
-            return redirect(login)
+            return render(request, 'website/login.html')
         if not request.POST['password']:
             messages.info(request, 'Password empty')
-            return redirect(login)
+            return render(request, 'website/login.html')
         
-            
-        users = User.objects.all()
+
         for user in users:
             if request.POST['username'] == user.username and request.POST['password'] == user.password:
-                found = True
+                foundU = True
+            else:
+                print('NO')
+
+        for vendor in vendors:
+            if request.POST['username'] == vendor.username and request.POST['password'] == vendor.password:
+                foundV = True
+            else:
+                print('NO')
+
+        for client in clients:
+            if request.POST['username'] == client.username and request.POST['password'] == client.password:
+                foundC = True
+            else:
+                print('NO')
+
+
+        for admin in admins:
+            if request.POST['username'] == admin.username and request.POST['password'] == admin.password:
+                foundA = True
             else:
                 print('NO')
         
-        if (found):
+        if (foundU):
             if (request.POST.get('box') == 'checked'):
                 response = render(request, 'website/welcome.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
@@ -290,20 +373,74 @@ def validateCreds(request):
                 return response
             else:
                 request.session['user'] = request.POST['username']
-                return redirect(welcome)
+                return render(request, 'website/welcome.html')
+        
+        elif (foundV):
+            if (request.POST.get('box') == 'checked'):
+                response = render(request, 'website/welcome.html')
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
+                request.session['cart'] = {} 
+                request.session['user'] = request.POST['username']
+                return response
+            else:
+                request.session['user'] = request.POST['username']
+                return render(request, 'website/welcome.html')
+        elif (foundA):
+            if (request.POST.get('box') == 'checked'):
+                response = render(request, 'website/adminmain.html')
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
+                request.session['cart'] = {} 
+                request.session['user'] = request.POST['username']
+                return response
+            else:
+                request.session['user'] = request.POST['username']
+                return render(request, 'website/adminmain.html')
+        elif (foundC):
+            if (request.POST.get('box') == 'checked'):
+                response = render(request, 'website/ClientView.html')
+                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
+                request.session['cart'] = {} 
+                request.session['user'] = request.POST['username']
+                return response
+            else:
+                request.session['user'] = request.POST['username']
+                return render(request, 'website/ClientView.html')
         else:
             messages.info(request, 'Invalid Login')
-            return redirect(login)
+            return render(request, 'website/login.html')
 
-    return redirect(login)
+    return render(request, 'website/login.html')
+
+
+def passwordRecovery(request):
+     users = User.objects.all()
+     bot = EmailBot()
+     found = False
+     if request.POST != None:
+        for user in users:
+            if request.POST['email'] == user.email:
+                found = True
+                bot.recoveryPass(user.email, user.fname, user.lname, user.password)
+                messages.info(request, 'Email has been sent')
+                return render(request, 'website/forgotpassword.html')
+        
+        if (found == False):
+            messages.info(request, 'Email does not exist')
+            return render(request, 'website/forgotpassword.html')
+
+
+     return render(request, 'website/forgotpassword.html')
 
 
 def recoversent(request):
     return render(request, 'website/recoversent.html')
 
 def cart(request):
-
-    return render(request, 'website/cart.html')
+    cart = Cart(request)
+    return render(request, 'website/cart.html', {'cart' : cart})
 
 def viewBook(request):
     return render(request, 'website/viewBook.html')
@@ -330,24 +467,56 @@ def getBooksByVendor(vendorName):
     return books
     
 def cart_add(request):
-    print('cart_add is called')
+    #print('cart_add is called')
     cart = Cart(request)
     if request.POST.get('action') == 'post':
-        book_ID = int(request.POST.get('id'))
-        book = get_object_or_404(Book, id = book_ID)
-        print('views')
-        cart.add(book=book)
-        response = JsonResponse({'test':'data'})
+        book_id = int(request.POST.get('id'))
+        book_qty = int(request.POST.get('qty'))
+        book = get_object_or_404(Book, id = book_id)
+        cart.add(book=book, qty=book_qty)
+        cartqty = cart.__len__()
+        response = JsonResponse({'qty': cartqty})
         return response
 
+
+def cart_delete(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        book_id = int(request.POST.get('id'))
+        cart.delete(book=book_id)
+
+        cartqty = cart.__len__()
+        carttotal = cart.get_total_price()
+        response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})
+        return response
+
+def cart_update(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        book_id = int(request.POST.get('id'))
+        book_qty = int(request.POST.get('qty'))
+        cart.update(book=book_id, qty=book_qty)
+
+        cartqty = cart.__len__()
+        carttotal = cart.get_total_price()
+        response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})
+        return response
 
 #TODO integrate with login when it's fixed
 def inventory(request):
     books = []
-    user = 'vendor1'
+    
+    user = request.COOKIES.get('username')
     if Vendor.objects.filter(username = user):
         books = getBooksByVendor(user)
-    if Admin.objects.filter(username = user):
+    elif Admin.objects.filter(username = user):
         books = Book.objects.all()
-    return render(request, 'website/inventory.html',{'books' : books})
+    price = sumPrice(books)
+    return render(request, 'website/inventory.html',{'books' : books, 'price' : price})
     
+
+def sumPrice(books):
+    price = 0
+    for b in books:
+        price += b.price
+    return price

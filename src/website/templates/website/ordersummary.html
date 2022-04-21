@@ -51,6 +51,20 @@
 
                                     <div class="row mt-4">
                                         <div class="col">
+                                            <p class="text-muted mb-2">ADDRESS</p>
+                                            <hr class="mt-0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group"> <label for="ADDR1" class="small text-muted mb-1">SHIPPING ADDRESS
+                                    </label> <input type="text" class="form-control form-control-sm"
+                                            name="ADDR" id="ADDR" aria-describedby="helpId" value="{% if address %}{{address}}{%endif%}"> </div>
+                                    <div class="row no-gutters">
+                                        
+                                        
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col">
                                             <p class="text-muted mb-2">PAYMENT DETAILS</p>
                                             <hr class="mt-0">
                                         </div>
@@ -95,7 +109,9 @@
                             <div class="card-body pt-0">
 
                                 <!-- Book List -->
-                                {% for b in books %}
+                                {% for item in cart %}
+                                {% with b=item.book %}
+                                
                                 <div class="row justify-content-between">
                                     <div class="col-auto col-md-7">
                                         <div class="media flex-column flex-sm-row"> <img class=" img-fluid"
@@ -111,14 +127,14 @@
                                         </div>
                                     </div>
                                     <div class=" pl-0 flex-sm-col col-auto my-auto">
-                                        <p class="boxed-1">1</p>
+                                        <p class="boxed-1">{{item.qty}}</p>
                                     </div>
                                     <div class=" pl-0 flex-sm-col col-auto my-auto ">
                                         <p><b>${{ b.price }}</b></p>
                                     </div>
                                 </div>
                                 <hr class="my-2">
-
+                                {% endwith %}
                                 {% endfor %}
                                 <!-- End BookList-->
 

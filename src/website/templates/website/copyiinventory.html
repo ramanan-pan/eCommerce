@@ -1,0 +1,508 @@
+<head>
+    <title>Select book to change | Django site admin</title>
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+    
+      <link rel="stylesheet" type="text/css" href="/static/admin/css/nav_sidebar.css">
+      <script src="/static/admin/js/nav_sidebar.js" defer=""></script>
+    
+    
+      
+      <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+      
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+      
+      
+        <script src="/admin/jsi18n/"></script>
+      
+      
+      
+    
+    
+    
+    
+    <script src="/static/admin/js/vendor/jquery/jquery.js"></script>
+    <script src="/static/admin/js/jquery.init.js"></script>
+    <script src="/static/admin/js/core.js"></script>
+    <script src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+    <script src="/static/admin/js/actions.js"></script>
+    <script src="/static/admin/js/urlify.js"></script>
+    <script src="/static/admin/js/prepopulate.js"></script>
+    <script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+    
+    
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+        
+    
+    <meta name="robots" content="NONE,NOARCHIVE">
+    </head>
+
+    <body class=" app-website model-book change-list" data-admin-utc-offset="0">
+
+        <!-- Container -->
+        <div id="container">
+        
+            
+            <!-- Header -->
+            
+            <div id="header">
+                <div id="branding">
+                
+        <h1 id="site-name"><a href="/admin/">Django administration</a></h1>
+        
+                </div>
+                
+                
+                <div id="user-tools">
+                    
+                        Welcome,
+                        <strong>admin</strong>.
+                    
+                    
+                        
+                            <a href="/">View site</a> /
+                        
+                        
+                            
+                            
+                        
+                        
+                        <a href="/admin/password_change/">Change password</a> /
+                        
+                        <a href="/admin/logout/">Log out</a>
+                    
+                </div>
+                
+                
+                
+            </div>
+            
+            <!-- END Header -->
+            
+        <div class="breadcrumbs">
+        <a href="/admin/">Home</a>
+        › <a href="/admin/website/">Website</a>
+        › Books
+        </div>
+        
+            
+        
+            <div class="main shifted" id="main">
+              
+                
+                  
+        <button class="sticky toggle-nav-sidebar" id="toggle-nav-sidebar" aria-label="Toggle navigation"></button>
+        <nav class="sticky" id="nav-sidebar">
+          <input type="search" id="nav-filter" placeholder="Start typing to filter…" aria-label="Filter navigation items">
+          
+        
+        
+          
+            <div class="app-auth module">
+              <table>
+                <caption>
+                  <a href="/admin/auth/" class="section" title="Models in the Authentication and Authorization application">Authentication and Authorization</a>
+                </caption>
+                
+                  <tbody><tr class="model-group">
+                    
+                      <th scope="row"><a href="/admin/auth/group/">Groups</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/auth/group/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-user">
+                    
+                      <th scope="row"><a href="/admin/auth/user/">Users</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/auth/user/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+              </tbody></table>
+            </div>
+          
+            <div class="app-website module current-app">
+              <table>
+                <caption>
+                  <a href="/admin/website/" class="section" title="Models in the Website application">Website</a>
+                </caption>
+                
+                  <tbody><tr class="model-admin">
+                    
+                      <th scope="row"><a href="/admin/website/admin/">Admins</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/admin/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-booksale">
+                    
+                      <th scope="row"><a href="/admin/website/booksale/">Book sales</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/booksale/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-book current-model">
+                    
+                      <th scope="row"><a href="/admin/website/book/" aria-current="page">Books</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/book/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-client">
+                    
+                      <th scope="row"><a href="/admin/website/client/">Clients</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/client/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-newsletter">
+                    
+                      <th scope="row"><a href="/admin/website/newsletter/">News letters</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/newsletter/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-promotion">
+                    
+                      <th scope="row"><a href="/admin/website/promotion/">Promotions</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/promotion/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-sale">
+                    
+                      <th scope="row"><a href="/admin/website/sale/">Sales</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/sale/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-user">
+                    
+                      <th scope="row"><a href="/admin/website/user/">Users</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/user/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+                  <tr class="model-vendor">
+                    
+                      <th scope="row"><a href="/admin/website/vendor/">Vendors</a></th>
+                    
+        
+                    
+                      <td><a href="/admin/website/vendor/add/" class="addlink">Add</a></td>
+                    
+        
+                    
+                  </tr>
+                
+              </tbody></table>
+            </div>
+          
+        
+        
+        </nav>
+        
+                
+              
+              <div class="content">
+                
+                  
+                
+                <!-- Content -->
+                <div id="content" class="">
+                  
+                  <h1>Select book to change</h1>
+                  
+                  
+          <div id="content-main">
+            
+                <ul class="object-tools">
+                  
+                    
+        
+        
+          
+          <li>
+            
+            <a href="/admin/website/book/add/" class="addlink">
+              Add book
+            </a>
+          </li>
+          
+        
+        
+                  
+                </ul>
+            
+            
+            <div class="module filtered" id="changelist">
+              <div class="changelist-form-container">
+                
+        
+        
+                
+        
+                <form id="changelist-form" method="post" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="pTHm4LvNP3gPnrti3FpsJASimPoztDBLz4NAk0mgKIZBPCrMc2HpPicpGVJACCTV">
+                
+                  <div><input type="hidden" name="form-TOTAL_FORMS" value="3" id="id_form-TOTAL_FORMS"><input type="hidden" name="form-INITIAL_FORMS" value="3" id="id_form-INITIAL_FORMS"><input type="hidden" name="form-MIN_NUM_FORMS" value="0" id="id_form-MIN_NUM_FORMS"><input type="hidden" name="form-MAX_NUM_FORMS" value="1000" id="id_form-MAX_NUM_FORMS"></div>
+                
+        
+                
+                  
+        <div class="actions">
+          
+            
+            <label>Action: <select name="action" required="">
+          <option value="" selected="">---------</option>
+        
+          <option value="delete_selected">Delete selected Books</option>
+        
+        </select></label><input type="hidden" name="select_across" value="0" class="select-across">
+            
+            
+            <button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+            
+            
+            
+                <span class="action-counter" data-actions-icnt="3">0 of 3 selected</span>
+                
+            
+            
+          
+        </div>
+        
+                  
+        
+        <div class="hiddenfields">
+        <input type="hidden" name="form-0-id" value="3" id="id_form-0-id"><input type="hidden" name="form-1-id" value="2" id="id_form-1-id"><input type="hidden" name="form-2-id" value="1" id="id_form-2-id">
+        </div>
+        
+        
+        <div class="results">
+        <table id="result_list">
+        <thead>
+        <tr>
+        
+        <th scope="col" class="action-checkbox-column">
+           
+           <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-id">
+           
+             
+           
+           <div class="text"><a href="?o=1.-12">Id</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-title">
+           
+             
+           
+           <div class="text"><a href="?o=2.-12">Title</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-author">
+           
+             
+           
+           <div class="text"><a href="?o=3.-12">Author</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-ISBN">
+           
+             
+           
+           <div class="text"><a href="?o=4.-12">ISBN</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-genre">
+           
+             
+           
+           <div class="text"><a href="?o=5.-12">Genre</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-price">
+           
+             
+           
+           <div class="text"><a href="?o=6.-12">Price</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-numSold">
+           
+             
+           
+           <div class="text"><a href="?o=7.-12">NumSold</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-picture">
+           
+             
+           
+           <div class="text"><a href="?o=8.-12">Picture</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-description">
+           
+             
+           
+           <div class="text"><a href="?o=9.-12">Description</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-slug">
+           
+             
+           
+           <div class="text"><a href="?o=10.-12">Slug</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-in_stock">
+           
+             
+           
+           <div class="text"><a href="?o=11.-12">In stock</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-created sorted descending">
+           
+             
+               <div class="sortoptions">
+                 <a class="sortremove" href="?o=" title="Remove from sorting"></a>
+                 
+                 <a href="?o=12" class="toggle descending" title="Toggle sorting"></a>
+               </div>
+             
+           
+           <div class="text"><a href="?o=12">Created</a></div>
+           <div class="clear"></div>
+        </th>
+        <th scope="col" class="sortable column-updated">
+           
+             
+           
+           <div class="text"><a href="?o=13.-12">Updated</a></div>
+           <div class="clear"></div>
+        </th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        
+        <tr><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="3" class="action-select"></td><th class="field-id"><a href="/admin/website/book/3/change/">3</a></th><td class="field-title">Small Book</td><td class="field-author">Pseudonym</td><td class="field-ISBN">56892</td><td class="field-genre">Genre</td><td class="field-price"><input type="number" name="form-0-price" value="20.00" step="0.01" id="id_form-0-price"></td><td class="field-numSold">0</td><td class="field-picture">/</td><td class="field-description">book</td><td class="field-slug">text</td><td class="field-in_stock"><input type="checkbox" name="form-0-in_stock" id="id_form-0-in_stock" checked=""></td><td class="field-created nowrap">April 19, 2022, 2:29 p.m.</td><td class="field-updated nowrap">April 19, 2022, 2:29 p.m.</td></tr>
+        
+        
+        <tr><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="2" class="action-select"></td><th class="field-id"><a href="/admin/website/book/2/change/">2</a></th><td class="field-title">Medium Book</td><td class="field-author">Writer</td><td class="field-ISBN">34278950</td><td class="field-genre">Genre</td><td class="field-price"><input type="number" name="form-1-price" value="40.00" step="0.01" id="id_form-1-price"></td><td class="field-numSold">0</td><td class="field-picture">/</td><td class="field-description">A book</td><td class="field-slug">text</td><td class="field-in_stock"><input type="checkbox" name="form-1-in_stock" id="id_form-1-in_stock" checked=""></td><td class="field-created nowrap">April 19, 2022, 2:28 p.m.</td><td class="field-updated nowrap">April 19, 2022, 2:28 p.m.</td></tr>
+        
+        
+        <tr><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="1" class="action-select"></td><th class="field-id"><a href="/admin/website/book/1/change/">1</a></th><td class="field-title">Large Book</td><td class="field-author">Author</td><td class="field-ISBN">123407748320</td><td class="field-genre">Yes</td><td class="field-price"><input type="number" name="form-2-price" value="75.00" step="0.01" id="id_form-2-price"></td><td class="field-numSold">0</td><td class="field-picture">/</td><td class="field-description">A very real book by a very real person.</td><td class="field-slug">text</td><td class="field-in_stock"><input type="checkbox" name="form-2-in_stock" id="id_form-2-in_stock" checked=""></td><td class="field-created nowrap">April 19, 2022, 2:27 p.m.</td><td class="field-updated nowrap">April 19, 2022, 2:27 p.m.</td></tr>
+        
+        </tbody>
+        </table>
+        </div>
+        
+        
+                  
+                
+                
+        
+        <p class="paginator">
+        
+        3 Books
+        
+        <input type="submit" name="_save" class="default" value="Save">
+        </p>
+        
+                </form>
+              </div>
+              
+                
+                  <div id="changelist-filter">
+                    <h2>Filter</h2>
+                    
+                    
+        <h3> By in stock </h3>
+        <ul>
+        
+            <li class="selected">
+            <a href="?" title="All">All</a></li>
+        
+            <li>
+            <a href="?in_stock__exact=1" title="Yes">Yes</a></li>
+        
+            <li>
+            <a href="?in_stock__exact=0" title="No">No</a></li>
+        
+        </ul>
+        
+                  </div>
+                
+              
+            </div>
+          </div>
+        
+                  
+                  <br class="clear">
+                </div>
+                <!-- END Content -->
+                <div id="footer"></div>
+              </div>
+            </div>
+        </div>
+        <!-- END Container -->
+        
+        
+        </body>
+
+        
