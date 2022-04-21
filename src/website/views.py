@@ -74,21 +74,22 @@ def home(request):
 
 def conf(request):
     cart = Cart(request)
-    basket = [1,2] # Given the books stored as an array of IDs...
-    books = list(Book.objects.filter(id__in=(cart))) 
+    #basket = [1,2] # Given the books stored as an array of IDs...
+    #books = list(Book.objects.filter(id__in=(cart))) 
         #generate a list of the book objects and iterate through them.
-    price = 0
-    for b in books:
-        price += b.price
+    price = cart.get_total_price()
+    #for b in books:
+    #    price += b.price
     discount = 0
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
-    for book in books:
-        bookSale = BookSale()
-        bookSale.bookID = book
-        bookSale.salePrice = book.price
-        bookSale.saleDate = datetime.date.today()
-        bookSale.save()
+    for item in cart:
+        for i in range(item.qty): # not working, need to figure out how to get these values
+            bookSale = BookSale()
+            bookSale.bookID = (item.book).id
+            bookSale.salePrice = (item.book).price
+            bookSale.saleDate = datetime.date.today()
+            bookSale.save()
     if request.method == "POST":
         sale = Sale()
         if request.COOKIES.get('username'):
@@ -97,7 +98,7 @@ def conf(request):
             sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
         sale.totalPrice = price + discount + 20
         sale.save()
-        return render(request, 'website/orderconf.html', {'price' : price, 'books' : books, 'sale' : sale, 'discount' : discount})
+        return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount})
     return render(request, 'website/orderconf.html', {'price' : price})
 
 def adset(request):
@@ -105,11 +106,11 @@ def adset(request):
 
 def ordersum(request):
     cart = Cart(request)
-    basket = [1,2]
-    books = list(Book.objects.filter(id__in=(basket)))
-    price = 0
-    for b in books:
-        price += b.price
+    #basket = [1,2]
+    #books = list(Book.objects.filter(id__in=(basket)))
+    price = cart.get_total_price()
+    #for b in books:
+    #    price += b.price
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -120,9 +121,9 @@ def ordersum(request):
             else:
                 discount = -promo.amountdiscount
         finally:
-            return render(request, 'website/ordersummary.html', {'books' : books, 'price' : price, 'discount' : discount})
+            return render(request, 'website/ordersummary.html', {'cart' : cart, 'price' : price, 'discount' : discount})
     #TODO get the list of books from the user session.
-    return render(request, 'website/ordersummary.html', {'books' : books, 'price' : price})
+    return render(request, 'website/ordersummary.html', {'cart' : cart, 'price' : price})
 
 def adminmain(request):
     return render(request, 'website/adminmain.html')

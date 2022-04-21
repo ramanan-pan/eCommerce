@@ -95,7 +95,9 @@
                             <div class="card-body pt-0">
 
                                 <!-- Book List -->
-                                {% for b in books %}
+                                {% for item in cart %}
+                                {% with b=item.book %}
+                                
                                 <div class="row justify-content-between">
                                     <div class="col-auto col-md-7">
                                         <div class="media flex-column flex-sm-row"> <img class=" img-fluid"
@@ -111,14 +113,14 @@
                                         </div>
                                     </div>
                                     <div class=" pl-0 flex-sm-col col-auto my-auto">
-                                        <p class="boxed-1">1</p>
+                                        <p class="boxed-1">{{item.qty}}</p>
                                     </div>
                                     <div class=" pl-0 flex-sm-col col-auto my-auto ">
                                         <p><b>${{ b.price }}</b></p>
                                     </div>
                                 </div>
                                 <hr class="my-2">
-
+                                {% endwith %}
                                 {% endfor %}
                                 <!-- End BookList-->
 
