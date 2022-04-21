@@ -15,11 +15,11 @@
   <div class="row py-lg-5 bg-dark text-light rounded-3">
     <div class="col-lg-6 col-md-8 mx-auto">
       <h1 class="display-5 fw-bold">Welcome to Book Store</h1>
-      <p class="lead text-muted">It seems you have not made an account on our site yet. Members of our site can reserve books, use promotions, and save their cart across visits. If you're not convinced you may always browse anonomously. If you've already made one and don't want to see this screen again don't forget to check remember me.</p>
+      <p class="lead text-muted">Select books from our online catalog and get them delivered to your door!</p>
       <p>
-        <button class="btn btn-outline-warning btn-lg m-2" type="button">Sign Up</button>
+        <!--button class="btn btn-outline-warning btn-lg m-2" type="button">Sign Up</button>
         <button class="btn btn-outline-success btn-lg m-2" type="button">Log In</button>
-        <button class="btn btn-outline-danger btn-lg m-2" type="button">Browse </button>
+        <button class="btn btn-outline-danger btn-lg m-2" type="button">Browse </button-->
       </p>
     </div>
   </div>
@@ -29,7 +29,7 @@
   <div class="album py-5 bg-light">
     <div class="container">
 
-      <div class="pb-3 h5">Catalog</div>
+      <div class="pb-3 h5">Catalog:</div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
 
         {% for book in books %}
@@ -42,7 +42,7 @@
                 <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
               </p>
               <div class="d-flex justify-content-between align-items-center">
-                <small class="text-muted">9min read</small>
+                <small class="text-muted">{{book.author}}</small>
               </div>
             </div>
           </div>
