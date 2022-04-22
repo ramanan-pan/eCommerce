@@ -178,6 +178,8 @@ def ordersum(request):
     return render(request, 'website/ordersummary.html', context)
 
 def adminmain(request):
+    for reservation in Reservation.objects.all():
+        reservation.complete()
     return render(request, 'website/adminmain.html')
 
 def vendorset(request):
