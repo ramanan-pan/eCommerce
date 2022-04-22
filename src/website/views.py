@@ -15,6 +15,9 @@ from .models import Book
 # Create your views here.
 def index(request):
     books = Book.objects.all()
+
+
+    
     if request.method == 'GET':
         query = request.GET.get('q')
         searchbutton = request.GET.get('submit')
@@ -35,18 +38,45 @@ def index(request):
             context={'results': results,
                      'searchbutton': searchbutton,
                      'options' : options,
-                     'books': books}
-
+                     'books': books
+                     }
+            try: 
+                if request.session['user']:
+                    user = User.objects.filter(username=request.session['user'])
+                    context['log'] = user
+            except:
+                context['log'] = ''
             return render(request, 'website/index.html', context)  
         else: 
-            return render(request, 'website/index.html', {'books': books})
+            context = {'books' : books}
+            try: 
+                if request.session['user']:
+                    user = User.objects.filter(username=request.session['user'])
+                    context['log'] = user
+            except:
+                context['log'] = ''
+            return render(request, 'website/index.html', context)
     else:
-        return render(request, 'website/index.html', {'books': books})
+        context = {'books' : books}
+        try: 
+            if request.session['user']:
+                user = User.objects.filter(username=request.session['user'])
+                context['log'] = user
+        except:
+            context['log'] = ''
+        return render(request, 'website/index.html', context)
         
 
 def book_detail(request, slug):
     book = get_object_or_404(Book, slug=slug, in_stock=True)
-    return render(request, 'website/books/detail.html', {'book': book})
+    context = {'book' : book}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            context['log'] = user
+    except:
+            context['log'] = ''
+    return render(request, 'website/books/detail.html',  context)
 
 def book_edit(request, slug):
     book = get_object_or_404(Book, slug=slug, in_stock=True)
@@ -54,16 +84,24 @@ def book_edit(request, slug):
         book.title = request.POST.get('title')
         book.author = request.POST.get('author')
         book.description = request.POST.get('description')
-        book.price = int(request.POST.get('price'))
+        book.price = request.POST.get('price')
         book.genre = request.POST.get('genre')
-        book.in_stock = request.POST.get('stock')
+        book.stock = request.POST.get('stock')
+        book.save()
         message = "The book has been updated."
-        return render(request, book.slug, 'website/books/edit.html', {'book' : book, 'message' : message})
+        return render(request, 'website/books/edit.html', {'book' : book, 'message' : message})
     return render(request, 'website/books/edit.html', {'book': book})
     
 def welcome(request):
     books = Book.objects.all()
-    return render(request, 'website/welcome.html', {'books' : books})
+    context = {'books' : books}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            context['log'] = user
+    except:
+            context['log'] = ''
+    return render(request, 'website/welcome.html', context)
 
 
 def cv(request):
@@ -115,10 +153,13 @@ def ordersum(request):
     #for b in books:
     #    price += b.price
     context = {'cart' : cart}
-    if request.session['user']:
-        user = User.objects.filter(username=request.session['user'])
-        address = user[0].address
-        context['address'] = address
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            address = user[0].address
+            context['address'] = address
+    except:
+        context['address'] = ''
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -214,7 +255,14 @@ def createsuccess(request):
     return render(request, 'website/createsuccess.html')
 
 def editaccount(request):
-    return render(request, 'website/editaccount.html')
+    context = {}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            context['log'] = user
+    except:
+            context['log'] = ''  
+    return render(request, 'website/editaccount.html', context)
 
 def changeAccount(request):
     users = User.objects.all()
@@ -239,7 +287,15 @@ def changeAccount(request):
                     user.zipcode = request.POST['zipcode']
                     user.save()
 
-    return render(request, 'website/editaccount.html')
+    context = {}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            context['log'] = user
+    except:
+            context['log'] = ''                
+
+    return render(request, 'website/editaccount.html', context)
 
 
 def changePassword(request):
@@ -257,7 +313,14 @@ def changePassword(request):
                     user.password = request.POST['newPassword']
                     user.save()
     
-    return render(request, 'website/editaccount.html')
+    context = {}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            context['log'] = user
+    except:
+            context['log'] = ''
+    return render(request, 'website/editaccount.html', context)
 
 
 def deleteAccount(request):
@@ -329,6 +392,16 @@ def validateCreds(request):
     admins = Admin.objects.all()
     clients = Client.objects.all()
 
+
+    books = Book.objects.all()
+    context = {'books' : books}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            context['log'] = user
+    except:
+            context['log'] = ''  
+
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
@@ -365,7 +438,7 @@ def validateCreds(request):
         
         if (foundU):
             if (request.POST.get('box') == 'checked'):
-                response = render(request, 'website/welcome.html')
+                response = render(request, 'website/welcome.html', context)
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
                 response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
                 request.session['cart'] = {} 
@@ -373,11 +446,11 @@ def validateCreds(request):
                 return response
             else:
                 request.session['user'] = request.POST['username']
-                return render(request, 'website/welcome.html')
+                return render(request, 'website/welcome.html', context)
         
         elif (foundV):
             if (request.POST.get('box') == 'checked'):
-                response = render(request, 'website/welcome.html')
+                response = render(request, 'website/vendorview.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
                 response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
                 request.session['cart'] = {} 
@@ -385,7 +458,7 @@ def validateCreds(request):
                 return response
             else:
                 request.session['user'] = request.POST['username']
-                return render(request, 'website/welcome.html')
+                return render(request, 'website/vendorview.html')
         elif (foundA):
             if (request.POST.get('box') == 'checked'):
                 response = render(request, 'website/adminmain.html')
@@ -440,7 +513,14 @@ def recoversent(request):
 
 def cart(request):
     cart = Cart(request)
-    return render(request, 'website/cart.html', {'cart' : cart})
+    context = {'cart' : cart}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            context['log'] = user
+    except:
+            context['log'] = ''
+    return render(request, 'website/cart.html', context)
 
 def viewBook(request):
     return render(request, 'website/viewBook.html')
@@ -506,13 +586,16 @@ def cart_update(request):
 def inventory(request):
     books = []
     
-    user = request.COOKIES.get('username')
+    user = request.session['user']
+    acct = None
     if Vendor.objects.filter(username = user):
         books = getBooksByVendor(user)
+        acct = Vendor.objects.filter(username = user)[0]
     elif Admin.objects.filter(username = user):
         books = Book.objects.all()
+        acct = Admin.objects.filter(username = user)
     price = sumPrice(books)
-    return render(request, 'website/inventory.html',{'books' : books, 'price' : price})
+    return render(request, 'website/inventory.html',{'books' : books, 'price' : price, 'acct' : acct})
     
 
 def sumPrice(books):

@@ -45,8 +45,14 @@
                     </svg>
                     Cart
                     </a>
-        <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2">Log In</a>
-        <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2"> {{book.title}} </a>
+                    {% if log %}
+                    <a href="#" class="border rounded text-decoration-none text-light mx-2 p-2"> Log Out </a>
+                    <a href="{% url 'website:website-editaccount' %}" class="border rounded text-decoration-none text-light mx-2 p-2"> Profile </a>
+                    {% else %}
+                      
+                      <a href="{% url 'website:website-login' %}" class="border rounded text-decoration-none text-light mx-2 p-2">Log In</a>
+                      <a href="{% url 'website:website-create' %}" class="border rounded text-decoration-none text-light mx-2 p-2"> Sign Up </a>
+                    {% endif %}
       </div>
     </div>
 </nav>

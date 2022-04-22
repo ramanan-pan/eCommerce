@@ -55,6 +55,33 @@
     }
     </style>
 </head>
+<nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+  <div class="container-fluid">
+    
+    
+    <button onclick="document.location='welcome'" class="btn btn-outline-light" type="button">Book Store</button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <button onclick="document.location='inventory'" class="btn btn-outline-light" type="button">Inventory</button>
+        </li>
+      </ul>
+      <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <button onclick="document.location='vendorview'" class="btn btn-outline-light" type="button">Vendor View</button>
+       
+          </li>
+        </ul>
+    </div>
+
+    
+    </div>
+    
+  </div>
+</nav>
+
 <body>
 	<section class="py-5 my-5">
 		<div class="container">
@@ -97,31 +124,31 @@
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>First name</label>
-								  	<input type="text" class="form-control" value="Vishruth">
+								  	<input type="text" class="form-control" value="{{acct.fname}}">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Last Name</label>
-								  	<input type="text" class="form-control" value="TheVendor">
+								  	<input type="text" class="form-control" value="{{acct.lname}}">
 								</div>
 							</div>
               <div class="col-md-6">
 								<div class="form-group">
 								  	<label>Username</label>
-								  	<input type="text" class="form-control" value="vtvendor">
+								  	<input type="text" class="form-control" value="{{acct.username}}">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Email</label>
-								  	<input type="text" class="form-control" value="vtvendor@gmail.com">
+								  	<input type="text" class="form-control" value="{{acct.email}}">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>password</label>
-								  	<input type="text" class="form-control" value="vtvendoristhebest123">
+								  	<input type="text" class="form-control" value="{{acct.password}}">
 								</div>
 							</div>
 							
@@ -141,105 +168,20 @@
             <input type="text" id="myInput" onkeyup="myeFunction()" placeholder="Search for names..">
 
 						<table id="customers">
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <th>Picture</th>
-                <th>Author</th>
-                <th>Title</Title></th>
-                <th>ISBN</th>
-                <th>Genre</th>
-                <th>Number Sold</th>
-                <th>Price</th>
-                
-              </tr>
+             
+              {% for book in books %}
               <tr>
                 <td><input type="checkbox" />    &nbsp;   </td>
                 <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Harry Potter 2</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>4.20</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
+                <td>{{book.author}}</td>
+                <td>{{book.title}}</td>
+                <td>{{book.ISBN}}</td>
+                <td>{{book.genre}}</td>
+                <td>{{book.numSold}}</td>
+                <td>{{book.updated}}</td>
+                <td><form action="editbook/{{book.slug}}"><button class="btn btn-outline-dark" method="GET">EDIT</button></form></td>
               </tr>
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Harry Potter 3</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>13.24</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Harry Potter 4</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>17.99</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Harry Potter 5</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>18.99</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Harry Potter 6</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>19.99</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Harry Potter 7 part 1</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>20.99</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Harry Potter 7 part 2</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>21.99</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
-              </tr>
-              <tr>
-                <td><input type="checkbox" />    &nbsp;   </td>
-                <td><img src="./img/book2.jpg"></img> </td>
-                <td>J.K. Rowling</td>
-                <td>Autobiography</td>
-                <td>9991234568</td>
-                <td>Adventure, Fiction</td>
-                <td>12</td>
-                <td>22.99</td>
-                <td><button class="btn btn-outline-dark">Edit</button></td>
-              </tr>
+              {% endfor %}
             
             </table>
             

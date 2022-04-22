@@ -99,6 +99,9 @@ class Book(Model):
     def get_absolute_url(self):
         return reverse('website:website-book_detail', args=[self.slug])
 
+    def get_edit_url(self):
+        return reverse('website:website-book_edit', args=[self.slug])
+
     def __str__(self):
         return self.title
 
