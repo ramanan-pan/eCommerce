@@ -107,9 +107,10 @@ class Book(Model):
 
 class Sale(Model):
     orderID = AutoField(primary_key=True)
-    purchaser = CharField(max_length=255) #For now, saving CC number
-    #purchaser = ForeignKey(User, on_delete=CASCADE)
+    purchaser = ForeignKey(User, null=True, on_delete=SET_NULL)
     totalPrice = IntegerField()
+    address = CharField(null=True) #Null if in-store pickup
+    
 
 class BookSale(Model):
     bookID = ForeignKey(Book, related_name="bookID", on_delete=CASCADE)
@@ -144,5 +145,5 @@ class ReservedBook(Model):
     book = ForeignKey(Book, related_name="reservedBookID", on_delete=CASCADE)
     reservation = ForeignKey(Reservation, related_name="reservationID", on_delete=CASCADE)
 
-    
+
 
