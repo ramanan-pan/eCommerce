@@ -6,25 +6,31 @@
     <link href="./css/bootstrap-grid.css" rel="stylesheet" media="screen">
     <link href="./modify.css" rel="stylesheet" media="screen">
 </head>
-
 <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
     <div class="container-fluid">
       
       
-      <button onclick="document.location='welcome'" class="btn btn-outline-light" type="button">Book Store</button>
+
 
       <div class="collapse navbar-collapse" id="navbarsExample02">
         <ul class="navbar-nav me-auto">
           <li class="nav-item justify-content-end">
-            <button onclick="document.location='index'" class="btn btn-outline-light" type="button">Inventory</button>
+            <button onclick="document.location='adminview'" class="btn btn-outline-light" type="button">Admin Hub</button>
           </li>
         </ul>
         <div class="collapse navbar-collapse" id="navbarsExample02">
           <ul class="navbar-nav me-auto">
             <li class="nav-item ">
-              <button onclick="document.location='adset'" class="btn btn-outline-light " type="button">Admin Settings</button>
+             
          
             </li>
+          </ul>
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <button onclick="document.location='welcome'" class="btn btn-outline-light mr-1" type="button">Log Out</button>
+             
+            </li>
+           
           </ul>
       </div>
 
@@ -33,30 +39,71 @@
       
     </div>
 </nav>
+<body style= "background-color: #34568B;">
 
 
-
-<div class="row align-items-md-stretch">
-    <div class="col-md-6">
-      <div class="h-100 p-5 text-white  border rounded-3 mt-2 my-3" style="background-color: #34568B">
-        <h1>Management Portal</h1>
+  <div class="row align-items-md-stretch ">
+      
+        <div class=" rounded " style= "background-size: cover;background-image: url('https://wallpaperaccess.com/full/38591.jpg');height: 1000px;  filter: blur(8px);
+        -webkit-filter: blur(8px);">
+        </div>
+          <div style=" /* Fallback color */
+           /* Black w/opacity/see-through */
+          color: white;
+          font-weight: bold;
+           
+         
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -190%);
+          z-index: 3;
+          width: 50%;
+          padding: 20px;
+          text-align: center;"> 
+          <h2>Welcome to the Admin Hub</h2>
+          <p>Below you will find all the options available</p>
+          
+          </div>
+        </div>
+      
+      
+  
+  
+    <div class="row align-items-md-stretch">
+      <div class="col-md-6">
+        <div class="h-100 p-5 border text-white rounded  ml-3" style="margin-left: 5px;transform: translate(0%, -210%); ">
+          <h1>Management Portal</h1>
         <h4>User Managment Portal:</h4> <ul><li>Users: Here you can manage users/vendors (Create, View, Delete)</li>
         <li>Orders: Orders can be edited/deleted or simply viewed</li><li>Newsletters: Create and send newsletters</li></ul>
        
         <button onclick="document.location='manageusers'" class="btn btn-outline-light" type="button">Manage</button>
+        </div>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="h-100 p-5 text-white  border rounded-3  mt-2 mr-3" style="background-color: #34568B">
-        <h1>Reservation Management</h1>
-        <h4>In Store pickups:</h4> <ul><li>View Orders: View any pending orders and the details</li>
+      <div class="col-md-6">
+        <div class="h-100 p-5 text-white border rounded  mr-3" style="transform: translate(0%, -210%);  border: 3px solid #f1f1f1; margin-right: 5px">
+          <h1>Reservation Management</h1>
+           <h4>In Store pickups:</h4> <ul><li>View Orders: View any pending orders and the details</li>
           <li>Complete Orders: Mark any pending orders as completed upon pickup</li><li>Expired Orders: View expired orders and warn customer</li></ul>
         
         <button onclick="document.location='reserve'"class="btn btn-outline-light" type="button">Manage</button>
+        </div>
       </div>
     </div>
-  </div>
- 
+    <div class="row align-items-md-stretch">
+      
+        <div class="h-100 p-5  text-white rounded  ml-3" style="border: 3px #f1f1f1; 
+          margin-left: 5px;transform: translate(0%, -290%); text-align: center; list-style-position: inside;">
+          <h1>Profile Settings</h1>
+        <h4>---------------------------</h4> 
+       
+        <button onclick="document.location='adset'" class="btn btn-outline-light" type="button">Profile</button>
+        </div>
+      </div>
+
+
+
+</body>
 
 
 <script src="./js/bootstrap.bundle.min.js"></script>

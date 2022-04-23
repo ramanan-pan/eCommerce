@@ -154,6 +154,12 @@ def conf(request):
 def adset(request):
     return render(request, 'website/addex.html') 
 
+def cliset(request):
+    return render(request, 'website/cliset.html') 
+
+def venset(request):
+    return render(request, 'website/venset.html') 
+
 def ordersum(request):
     cart = Cart(request)
     #basket = [1,2]
