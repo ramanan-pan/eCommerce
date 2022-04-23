@@ -1,7 +1,8 @@
 from django.contrib import admin
+from requests import request
 from .models import *
 
-# Register your models here.
+# ADMIN MODELS
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -45,7 +46,7 @@ class NewsletterAdmin(admin.ModelAdmin):
 
 @admin.register(Book)    
 class BookAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'author', 'ISBN', 'genre', 'price', 
+    list_display = ['id', 'title', 'author','created_by' ,'ISBN', 'genre', 'price', 
                     'numSold', 'picture', 'description','slug','in_stock','created','updated']
     list_editable = list_display[1:]
     list_filter = ['in_stock']
@@ -61,3 +62,51 @@ class SaleAdmin(admin.ModelAdmin):
 class SoldBookAdmin(admin.ModelAdmin):
     list_display = ['id', 'bookID', 'salePrice']
     list_editable = list_display[1:]
+
+# VENDOR MODELS
+
+
+class VendorSite(admin.AdminSite):
+    site_header = 'Vendor Area'
+    site_title = 'Manage Inventory'
+
+
+vendor_site = VendorSite(name="VendorSitef")  
+
+class VendorBookAdmin(admin.ModelAdmin):
+    list_display = ['title', 'author', 'ISBN', 'genre', 'price', 
+                    'numSold', 'picture', 'description','slug','in_stock','stock','created','updated']
+    #list_editable = ['title', 'author', 'ISBN', 'genre', 'price', 
+    #                'numSold', 'picture', 'description','slug','in_stock','stock','created','updated']
+    #list_filter = ['in_stock']
+    #prepopulated_fields = {'slug': ('title',)}
+    def get_queryset(self, request):
+        return Book.objects.filter(created_by = request.user)
+
+vendor_site.register(Book, VendorBookAdmin)
+
+
+# CLIENT MODELS
+
+class ClientSite(admin.AdminSite):
+    site_header = 'Client Area'
+
+    
+client_site = ClientSite(name="ClientSitef")  
+
+class ReadOnlyAdminMixin:
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+class ClientBookAdmin(ReadOnlyAdminMixin,admin.ModelAdmin):
+    list_display = ['title', 'author', 'created_by' ,'ISBN', 'genre', 'price', 
+                    'numSold', 'picture', 'description','slug','in_stock','stock','created','updated']
+
+client_site.register(Book, ClientBookAdmin)
+

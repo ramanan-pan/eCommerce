@@ -186,6 +186,73 @@ def ordersum(request):
     context['price'] = price
     return render(request, 'website/ordersummary.html', context)
 
+def reservesum(request):
+    cart = Cart(request)
+    #basket = [1,2]
+    #books = list(Book.objects.filter(id__in=(basket)))
+    price = cart.get_total_price()
+    #for b in books:
+    #    price += b.price
+    context = {'cart' : cart}
+    try: 
+        if request.session['user']:
+            user = User.objects.filter(username=request.session['user'])
+            address = user[0].address
+            context['address'] = address
+    except:
+        context['address'] = ''
+    if request.method == "POST" and request.POST.get('CODE'):
+        discount = 0
+        try:
+            promo = Promotion.objects.filter(code=request.POST.get('CODE'))[0]
+            if promo.pctdiscount:
+                discount = -price*promo.pctdiscount
+                discount = int(discount/100)
+            else:
+                discount = -promo.amountdiscount
+        finally:
+            context['discount'] = discount
+            context['price'] = price
+            return render(request, 'website/reserveSummary.html', context)
+    #TODO get the list of books from the user session.
+    context['price'] = price
+    return render(request, 'website/reserveSummary.html', context)
+
+
+def reserveconf(request):
+    cart = Cart(request)
+    #basket = [1,2] # Given the books stored as an array of IDs...
+    #books = list(Book.objects.filter(id__in=(cart))) 
+        #generate a list of the book objects and iterate through them.
+    price = cart.get_total_price()
+    #for b in books:
+    #    price += b.price
+    discount = 0
+    if request.POST.get('DISCOUNT'):
+        discount = int(request.POST.get('DISCOUNT'))
+    '''
+    for item in cart:
+        for i in range(item['qty']): # not working, need to figure out how to get these values
+            bookSale = BookSale()
+            bookSale.bookID = (item['book'])
+            bookSale.salePrice = (item['price'])
+            bookSale.saleDate = datetime.date.today()
+            bookSale.save()
+    if request.method == "POST":
+        sale = Sale()
+        if request.COOKIES.get('username'):
+            sale.purchaser = request.COOKIES.get('username')
+        else:
+            sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
+        sale.totalPrice = price + discount + 20
+        sale.save()
+        address = request.POST.get('ADDR')
+        
+        request.session['cart'] = {}
+        return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
+        '''
+    return render(request, 'website/reserveconf.html', {'price' : price, 'cart': cart, 'discount': discount})
+
 def adminmain(request):
     return render(request, 'website/adminmain.html')
 
