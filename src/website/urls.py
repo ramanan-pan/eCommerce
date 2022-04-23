@@ -63,6 +63,7 @@ urlpatterns = [
     path('vendorsettings', views.vendorset, name='website-vendorsettings'),
     path('vendorview', views.vendview, name='website-vendorview'),
     path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery'),
+    path('logout', views.logout, name='website-logout'),
     path('testimage', views.image, name='website-test-image'),
     path('reserve', views.res, name='website-reservationsmanagement'), 
     path('expiredpu', views.expiry, name='website-reservationsmanagement')

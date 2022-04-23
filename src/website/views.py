@@ -1,6 +1,7 @@
 
 from pyexpat.errors import messages
 from turtle import update
+from xml.etree.ElementTree import tostring
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
@@ -458,7 +459,7 @@ def login(request):
             return render(request, 'website/adminmain.html')
         
         
-    return render(request,'website/login.html' )
+    return render(request, 'website/login.html')
     
 
 
@@ -487,10 +488,10 @@ def validateCreds(request):
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
-            return render(request, 'website/login.html')
+            redirect('http://127.0.0.1:8000/website/login')
         if not request.POST['password']:
             messages.info(request, 'Password empty')
-            return render(request, 'website/login.html')
+            redirect('http://127.0.0.1:8000/website/login')
         
 
         for user in users:
@@ -522,8 +523,7 @@ def validateCreds(request):
             if (request.POST.get('box') == 'checked'):
                 response = render(request, 'website/welcome.html', context)
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
-                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
-                request.session['cart'] = {} 
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4) 
                 request.session['user'] = request.POST['username']
                 return response
             else:
@@ -535,7 +535,7 @@ def validateCreds(request):
                 response = render(request, 'website/vendorview.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
                 response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
-                request.session['cart'] = {} 
+
                 request.session['user'] = request.POST['username']
                 return response
             else:
@@ -546,7 +546,6 @@ def validateCreds(request):
                 response = render(request, 'website/adminmain.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
                 response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
-                request.session['cart'] = {} 
                 request.session['user'] = request.POST['username']
                 return response
             else:
@@ -556,8 +555,7 @@ def validateCreds(request):
             if (request.POST.get('box') == 'checked'):
                 response = render(request, 'website/ClientView.html')
                 response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
-                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
-                request.session['cart'] = {} 
+                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4) 
                 request.session['user'] = request.POST['username']
                 return response
             else:
@@ -567,7 +565,7 @@ def validateCreds(request):
             messages.info(request, 'Invalid Login')
             return render(request, 'website/login.html')
 
-    return render(request, 'website/login.html')
+    return redirect('http://127.0.0.1:8000/website/login')
 
 
 def passwordRecovery(request):
@@ -663,6 +661,31 @@ def cart_update(request):
         carttotal = cart.get_total_price()
         response = JsonResponse({'qty': cartqty, 'subtotal': carttotal})
         return response
+
+def logout(request):
+
+    cart = Cart(request)
+
+    if request.session['user'] and len(cart.getStore()):
+        users = User.objects.all()
+        record = None
+        list = cart.getStore()
+        for i in range(len(list)):
+            for j in range(0,1):
+                record = " " + tostring(list[i][j])
+
+        for user in users:
+            if user.username == request.session['user']:
+                user.cart = record
+                user.save()
+
+    return redirect('http://localhost:8000/website/login')
+
+            
+
+
+
+
 
 #TODO integrate with login when it's fixed
 def inventory(request):

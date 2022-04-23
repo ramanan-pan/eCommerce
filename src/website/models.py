@@ -12,12 +12,21 @@ class Account(Model):
     username = CharField(max_length=40, unique=True)
     password = CharField(max_length=255)
     email = CharField(max_length=255)
+    rkey = CharField(max_length=255, default="none") # used for recovery
+    class UserType(TextChoices):
+        USER = 'USER'
+        CLIENT = 'CLIENT'
+        VENDOR = 'VENDOR'
+        ADMIN = 'ADMIN'
+    type = CharField(max_length=6, choices=UserType.choices, default=UserType.USER) # 'USER', 'ADMIN', 'VENDOR', 'CLIENT'
 
     def __str__(self):
         return self.username
 
     class Meta:
         abstract = True
+
+
 
 class User(Account):
     #TODO decomp into account, and inherit from account
