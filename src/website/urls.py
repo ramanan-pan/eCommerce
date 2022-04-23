@@ -58,6 +58,8 @@ urlpatterns = [
     path('adminview', views.adminmain, name='website-adminview'),
     path('vendorsettings', views.vendorset, name='website-vendorsettings'),
     path('vendorview', views.vendview, name='website-vendorview'),
-    path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery')
+    path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery'),
+    path('logout', views.logout, name='website-logout')
+
 
 ]
