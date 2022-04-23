@@ -260,10 +260,10 @@ def editaccount(request):
     context = {}
     try: 
         if request.session['user']:
-            user = User.objects.filter(username=request.session['user'])
+            user = User.objects.filter(username=request.session['user'])[0]
             context['log'] = user
     except:
-            context['log'] = ''  
+            render(request, 'website/login.html', context)  
     return render(request, 'website/editaccount.html', context)
 
 def changeAccount(request):
@@ -292,10 +292,10 @@ def changeAccount(request):
     context = {}
     try: 
         if request.session['user']:
-            user = User.objects.filter(username=request.session['user'])
+            user = User.objects.filter(username=request.session['user'])[0]
             context['log'] = user
     except:
-            context['log'] = ''                
+            render(request, 'website/login.html', context)                
 
     return render(request, 'website/editaccount.html', context)
 
