@@ -110,6 +110,15 @@ def cv(request):
 def home(request):
     return render(request, 'website/home.html')
 
+def res(request):
+    return render(request, 'website/reservations.html')
+
+def expiry(request):
+    return render(request, 'website/expiredreservations.html')
+
+def image(request):
+    return render(request, 'website/manageusers/turnpike-blur.jpeg')
+
 def conf(request):
     cart = Cart(request)
     #basket = [1,2] # Given the books stored as an array of IDs...
