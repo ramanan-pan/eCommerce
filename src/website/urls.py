@@ -22,9 +22,11 @@ app_name = "website"
 urlpatterns = [
 
     path('', views.home, name='website-home'),
-    path('ordersummary/', views.ordersum, name='Order-summary'),
-    path('orderconfirmation/', views.conf, name='Order-confirmation'),
-    path('ordersummary/', views.ordersum, name="website-orderSummary"),
+    #path('ordersummary/', views.ordersum, name='Order-summary'),
+    path('orderconfirmation', views.conf, name='Order-confirmation'),
+    path('ordersummary', views.ordersum, name="website-orderSummary"),
+    path('reservesummary', views.reservesum, name='website-reserveSummary'),
+    path('reserveconfirmation', views.reserveconf, name='website-reserve-confirmation'),
     path('create', views.create, name='website-create'),
     path('createsuccess', views.createsuccess, name='website-createsuccess'),
     path('editaccount', views.editaccount, name='website-editaccount'),
