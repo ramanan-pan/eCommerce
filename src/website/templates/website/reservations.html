@@ -1,0 +1,184 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="./css/bootstrap-grid.css" rel="stylesheet" media="screen">
+    <link href="./modify.css" rel="stylesheet" media="screen">
+</head>
+<style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customers tr:hover {background-color: #ddd;}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    #customersd {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+     position: relative;
+     margin-top: 20px;
+      
+
+    }
+    
+    #customersd td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #customersd tr {
+        background-color: #f2f2f2;
+        border: 3px#ddd;
+    }
+    
+    #customersd tr:hover {background-color: #ddd;}
+    
+    #customersd th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: center;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+<body style ="background-color: #34568B">
+    <nav class="navbar navbar-expand" style="background-color:	 #8faad6" aria-label="Second navbar example">
+        <div class="container-fluid">
+          
+          
+          <button onclick="document.location='welcome'" class="btn btn-outline-light" type="button">Book Store</button>
+    
+          <div class="collapse navbar-collapse" id="navbarsExample02">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item justify-content-end">
+                <button onclick="document.location='index'" class="btn btn-outline-light" type="button">Inventory</button>
+              </li>
+            </ul>
+            <div class="collapse navbar-collapse" id="navbarsExample02">
+              <ul class="navbar-nav me-auto">
+                <li class="nav-item ">
+                  <button onclick="document.location='adset'" class="btn btn-outline-light " type="button">Admin Settings</button>
+             
+                </li>
+              </ul>
+          </div>
+    
+          
+          </div>
+          
+        </div>
+    </nav>
+  
+
+<div>
+    
+    <table id="customersd">
+        <tr>
+          <th>Order ID</th>
+               <th>Pickup Store</th>
+               <th>Name</th>
+               <th>Email</th>
+               <th>Total Price</th>
+               <th>Pickup by</th>
+               <th></th>
+               
+          
+        </tr>
+        <tr>
+            <td>991783</td>
+                 <td>Athens Superstore</td>
+                 <td>John Doe</td>
+                 <td>Johndoe@gmail.com</td>
+                 <td>$89.12</td>
+                 <td>04/23/2022</td>
+                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
+                 
+            
+          </tr>
+
+          <tr>
+            <td>991783</td>
+                 <td>Athens Superstore</td>
+                 <td>John Doe</td>
+                 <td>Johndoe@gmail.com</td>
+                 <td>$89.12</td>
+                 <td>04/23/2022</td>
+                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
+                 
+            
+          </tr>
+          <tr>
+            <td>991783</td>
+                 <td>Athens Superstore</td>
+                 <td>John Doe</td>
+                 <td>Johndoe@gmail.com</td>
+                 <td>$89.12</td>
+                 <td>04/23/2022</td>
+                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
+                 
+            
+          </tr>
+          <tr>
+            <td>991783</td>
+                 <td>Athens Superstore</td>
+                 <td>John Doe</td>
+                 <td>Johndoe@gmail.com</td>
+                 <td>$89.12</td>
+                 <td>04/23/2022</td>
+                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
+                 
+            
+          </tr>
+          <tr>
+            <td>991783</td>
+                 <td>Athens Superstore</td>
+                 <td>John Doe</td>
+                 <td>Johndoe@gmail.com</td>
+                 <td>$89.12</td>
+                 <td>04/23/2022</td>
+                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
+                 
+            
+          </tr>
+
+          
+          
+        
+            <!-- <input type="text" id="myInput" onkeyup="myeFunction()" placeholder="Search for names..">
+       -->  
+             
+            <!-- {% for book in books %} -->
+             
+            <!-- {% endfor %} -->
+           
+           
+		
+      
+      
+      
+    </div>
+
+</body>
+
+
+<script src="./js/bootstrap.bundle.min.js"></script>
+</html>

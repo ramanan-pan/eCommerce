@@ -15,14 +15,14 @@
 
       <div class="collapse navbar-collapse" id="navbarsExample02">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
+          <li class="nav-item justify-content-end">
             <button onclick="document.location='index'" class="btn btn-outline-light" type="button">Inventory</button>
           </li>
         </ul>
         <div class="collapse navbar-collapse" id="navbarsExample02">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <button onclick="document.location='adset'" class="btn btn-outline-light" type="button">Admin Settings</button>
+            <li class="nav-item ">
+              <button onclick="document.location='adset'" class="btn btn-outline-light " type="button">Admin Settings</button>
          
             </li>
           </ul>
@@ -38,54 +38,25 @@
 
 <div class="row align-items-md-stretch">
     <div class="col-md-6">
-      <div class="h-100 p-5 text-white bg-success rounded-3 mt-2">
-        <h1>Manage Users</h1>
-        <h4>User Managment Portal:</h4> <ul><li>Create: the ability to create users</li>
-        <li>Edit: The ability to edit users</li><li>Delete: The ability to delete users</li></ul>
+      <div class="h-100 p-5 text-white  border rounded-3 mt-2 my-3" style="background-color: #34568B">
+        <h1>Management Portal</h1>
+        <h4>User Managment Portal:</h4> <ul><li>Users: Here you can manage users/vendors (Create, View, Delete)</li>
+        <li>Orders: Orders can be edited/deleted or simply viewed</li><li>Newsletters: Create and send newsletters</li></ul>
        
         <button onclick="document.location='manageusers'" class="btn btn-outline-light" type="button">Manage</button>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="h-100 p-5 bg-light border rounded-3 mt-2">
-        <h2>Manage Vendors</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <button onclick="document.location='managevendors'"class="btn btn-outline-secondary" type="button">Manage</button>
+      <div class="h-100 p-5 text-white  border rounded-3  mt-2 mr-3" style="background-color: #34568B">
+        <h1>Reservation Management</h1>
+        <h4>In Store pickups:</h4> <ul><li>View Orders: View any pending orders and the details</li>
+          <li>Complete Orders: Mark any pending orders as completed upon pickup</li><li>Expired Orders: View expired orders and warn customer</li></ul>
+        
+        <button onclick="document.location='reserve'"class="btn btn-outline-light" type="button">Manage</button>
       </div>
     </div>
   </div>
-  <div class="row align-items-md-stretch">
-    <div class="h-100 p-5 bg-muted border rounded-3 mt-3">
-      <h2>Manage Orders</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <button onclick="document.location='manageorders'"class="btn btn-outline-secondary" type="button">Manage</button>
-    </div>
-  </div>
-
-  <div class="row align-items-md-stretch">
-    <div class="col-md-6">
-      <div class="h-100 p-5 text-white bg-success rounded-3 mt-3">
-        <h2>Manage Promotions</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <button onclick="document.location='managepromotions'"class="btn btn-outline-light" type="button">Manage</button>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="h-100 p-5 bg-muted border rounded-3 mt-3">
-        <h2>Manage Inventory</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <button class="btn btn-outline-secondary" type="button">Manage</button>
-      </div>
-    </div>
-    
-    <div class="row align-items-md-stretch">
-      <div class="h-100 p-5 bg-muted border rounded-3 mt-3">
-        <h2>Manage Newsletter</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <button class="btn btn-outline-secondary" type="button">Manage</button>
-      </div>
-    </div>
-  </div>
+ 
 
 
 <script src="./js/bootstrap.bundle.min.js"></script>

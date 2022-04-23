@@ -22,9 +22,11 @@ app_name = "website"
 urlpatterns = [
 
     path('', views.home, name='website-home'),
-    path('ordersummary/', views.ordersum, name='Order-summary'),
-    path('orderconfirmation/', views.conf, name='Order-confirmation'),
-    path('ordersummary/', views.ordersum, name="website-orderSummary"),
+    #path('ordersummary/', views.ordersum, name='Order-summary'),
+    path('orderconfirmation', views.conf, name='Order-confirmation'),
+    path('ordersummary', views.ordersum, name="website-orderSummary"),
+    path('reservesummary', views.reservesum, name='website-reserveSummary'),
+    path('reserveconfirmation', views.reserveconf, name='website-reserve-confirmation'),
     path('create', views.create, name='website-create'),
     path('createsuccess', views.createsuccess, name='website-createsuccess'),
     path('editaccount', views.editaccount, name='website-editaccount'),
@@ -59,7 +61,8 @@ urlpatterns = [
     path('vendorsettings', views.vendorset, name='website-vendorsettings'),
     path('vendorview', views.vendview, name='website-vendorview'),
     path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery'),
-    path('logout', views.logout, name='website-logout')
-
-
+    path('logout', views.logout, name='website-logout'),
+    path('testimage', views.image, name='website-test-image'),
+    path('reserve', views.res, name='website-reservationsmanagement'), 
+    path('expiredpu', views.expiry, name='website-reservationsmanagement')
 ]

@@ -125,6 +125,14 @@ class BookSale(Model):
     salePrice = IntegerField()
     saleDate = DateField(default=datetime.date.today())
 
+# Vendor Proxy Models
 
+class VendorBook(Book):
+    class Meta:
+        proxy = True
 
+# Client Proxy Models
 
+class ClientBook(Book):
+    class Meta:
+        proxy = True
