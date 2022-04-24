@@ -107,9 +107,12 @@ class Book(Model):
 
 class Sale(Model):
     orderID = AutoField(primary_key=True)
-    purchaser = ForeignKey(User, null=True, on_delete=SET_NULL)
+    purchaser = ForeignKey(User, null=True, on_delete=SET_NULL) #Null if not logged in
     totalPrice = IntegerField()
     address = CharField(max_length=255, null=True) #Null if in-store pickup
+    name = CharField(max_length=255) 
+    date = DateField(default=datetime.date.today())
+
 
 
 class BookSale(Model):
@@ -148,5 +151,6 @@ class ReservedBook(Model):
 class CartBook(Model):
     book = ForeignKey(Book, related_name="cartBook", on_delete=CASCADE)
     user = ForeignKey(User, related_name="cartUser", on_delete=CASCADE)
+    qty = IntegerField()
 
 
