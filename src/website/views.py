@@ -130,10 +130,9 @@ def conf(request):
             bookSale.save()
     if request.method == "POST":
         sale = Sale()
+        sale.address = request.POST.get('ADDR')
         if request.COOKIES.get('username'):
             sale.purchaser = request.COOKIES.get('username')
-        else:
-            sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
         sale.totalPrice = price + discount + 20
         sale.save()
         address = request.POST.get('ADDR')

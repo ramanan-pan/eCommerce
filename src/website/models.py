@@ -82,7 +82,7 @@ class Book(Model):
     title = CharField(max_length=255)
     genre = CharField(max_length=255)
     numSold = IntegerField(default=0)
-    picture = CharField(max_length=255, blank=True)
+    picture = ImageField(upload_to='images')
     slug = SlugField(max_length=255)
     description = TextField(blank=True)
     in_stock = BooleanField(default=True)
