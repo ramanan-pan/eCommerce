@@ -7,14 +7,15 @@ class EmailBot:
         self.subject = NONE
         self.message = NONE
 
-    def confirmAccount(self,  fname:str, lname:str, email:str ):
+    def confirmAccount(self,  fname:str, lname:str, email:str, vkey:str):
         self.subject = 'Book Store Confirmation'
         self.message = [
         'Hi, ' + fname + " " + lname ,
 
         'Welcome to Book Store!',
 
-        'Happy Shopping!',
+        'Before you can access the site as a registered user please use the code provided to verify your email',
+        'Code: ' + vkey,
 
         'DO NOT RESPOND TO THIS EMAIL, ANY EMAILS SENT REGARDING THIS WILL BE IGNORED' ]
 

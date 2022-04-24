@@ -68,6 +68,8 @@ urlpatterns = [
     path('recoveryKey', views.recoveryKey, name='website-recoveryKey'),
     path('recoverAccount', views.recoverAccount, name='website-recoverAccount'),
     path('reservations', views.res, name='website-reservations'),
-    path('expiredreservations', views.expiry, name='website-expired-reservations')
+    path('expiredreservations', views.expiry, name='website-expired-reservations'),
+    path('verify', views.verify, name='website-verify'),
+    path('verifyUser', views.verifyUser, name='website-expired-verifyUser')
 
 ]
