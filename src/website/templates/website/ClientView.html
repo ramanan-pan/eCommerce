@@ -10,63 +10,82 @@
 </head>
 
 <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
-    <div class="container-fluid justify-content-end">
+    <div class="container-fluid ">
      <!----<img src="https://www.w3schools.com/images/img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
      -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div >
-        <ul class="nav justify-content-end">
-          <li class="nav-item">
-            <button onclick="document.location='welcome'" class="btn btn-outline-light mr-1" type="button">Catalog</button>
+     <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item justify-content-end">
+          <button onclick="document.location='clientview'" class="btn btn-outline-light" type="button">Client Hub</button>
+        </li>
+      </ul>
+      <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item ">
            
-          </li>
-          <li class="nav-item">
-            <button onclick="document.location='inventory'" class="btn btn-outline-light" type="button">Inventory</button>
+       
           </li>
         </ul>
-      </div>
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <button onclick="document.location='welcome'" class="btn btn-outline-light mr-1" type="button">Log Out</button>
+           
+          </li>
+         
+        </ul>
+    </div>
+
+    
+    </div>
     </div>
 </nav>
-
+<body style= "background-color: #34568B;">
 
 
 <div class="row align-items-md-stretch">
-    <div class="col-md-6">
-      <div class="h-100 p-5 border rounded mt-2 ml-3" style= "background-color: #b6ddfa;">
-        <h2>Catalog</h2>
-        <p>Browse our catalog for your next great read!</p>
-        <button class="btn btn-outline-secondary" type="button">View</button>
+    
+      <div class="border rounded mt-2" style= "background-size: cover;background-image: url('https://wallpaperaccess.com/full/38591.jpg');height: 1000px;  filter: blur(8px);
+      -webkit-filter: blur(8px);">
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="h-100 p-5  bg-light border rounded mt-2 mr-3">
-        <h2>Profile</h2>
-        <p>Edit your profile and more!</p>
-        <button class="btn btn-outline-secondary" type="button">Profile Settings</button>
+        <div style=" /* Fallback color */
+         /* Black w/opacity/see-through */
+        color: white;
+        font-weight: bold;
+       
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -190%);
+        z-index: 2;
+        width: 50%;
+        padding: 20px;
+        text-align: center;"> 
+        <h2>Welcome to the Client Hub</h2>
+        <p>Below you will find all the options available</p>
+       
+        </div>
       </div>
-    </div>
+    
+    
   </div>
 
   <div class="row align-items-md-stretch">
     <div class="col-md-6">
-      <div class="h-100 p-5 bg-light border rounded mt-3 ml-3">
-        <h2>View Sales Report</h2>
-        <p>View the total amount of money you spent on paper that has text on it</p>
-        <button class="btn btn-outline-secondary" type="button">Sales</button>
+      <div class="h-100 p-5 text-white border rounded mt--3 ml-3 mr-3" style="transform: translate(0%, -300%); ">
+        <h2>Profile</h2>
+        <p>Edit your profile and more!</p>
+        <button onclick="document.location='cliset'"class="btn btn-outline-light" type="button">Profile Settings</button>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="h-100 p-5   border rounded mt-3 mr-3" style= "background-color: #b6ddfa;">
-        <h2>View Purchased Books</h2>
-        <p>View past purchases as well as your inventory!</p>
-        <button class="btn btn-outline-secondary" type="button">Inventory</button>
+      <div class="h-100 p-5 text-white border rounded  mr-3" style="transform: translate(0%, -300%);">
+        <h2>View Sales Report</h2>
+        <p>Check out how your sales are doing!</p>
+        <button  class="btn btn-outline-light" type="button">Sales</button>
       </div>
     </div>
   </div>
 
-
+</body>
 <script src="../../../static/js/bootstrap.min.js"></script>
 </html>
