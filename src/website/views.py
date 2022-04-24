@@ -116,10 +116,23 @@ def home(request):
     return render(request, 'website/home.html')
 
 def res(request):
-    return render(request, 'website/reservations.html')
+    if request.method=='POST':
+        print( request.POST.get('id'))
+        res = Reservation.objects.filter(id = request.POST.get('id'))[0]
+        res.complete()
+    
+    reservations = Reservation.objects.filter(expiry__gte = datetime.date.today())
+    context = {'reservations' : reservations}
+    return render(request, 'website/reservations.html', context)
 
 def expiry(request):
-    return render(request, 'website/expiredreservations.html')
+    if request.method=='POST':
+        res = Reservation.objects.filter(id = request.POST.get('id'))[0]
+        res.delete()
+
+    reservations = Reservation.objects.filter(expiry__lte = datetime.datetime.now())
+    context = {'reservations' : reservations}
+    return render(request, 'website/expiredreservations.html', context)
 
 def image(request):
     return render(request, 'website/manageusers/turnpike-blur.jpeg')
@@ -268,8 +281,6 @@ def reserveconf(request):
     return render(request, 'website/reserveconf.html', {'price' : price, 'cart': cart, 'discount': discount})
 
 def adminmain(request):
-    for reservation in Reservation.objects.all():
-        reservation.complete()
     return render(request, 'website/adminmain.html')
 
 def vendorset(request):

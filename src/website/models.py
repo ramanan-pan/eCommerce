@@ -150,6 +150,7 @@ class Reservation(Model):
         sale.save()
         self.delete()
 
+        
 
 class ReservedBook(Model):
     book = ForeignKey(Book, related_name="reservedBookID", on_delete=CASCADE)

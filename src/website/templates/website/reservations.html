@@ -47,7 +47,7 @@
     
     #customersd tr {
         background-color: #f2f2f2;
-        border: 3px#ddd;
+        border: 3px #ddd;
     }
     
     #customersd tr:hover {background-color: #ddd;}
@@ -81,7 +81,7 @@
               </ul>
               <ul class="nav justify-content-end">
                 <li class="nav-item">
-                  <button onclick="document.location='expiredpu'" class="btn btn-outline-light mr-1" type="button">Expired Reservations</button>
+                  <button class="btn btn-outline-light mr-1" type="button"><a style="text-decoration:none;color:white" href="{% url 'website:website-expired-reservations' %}" >Expired Reservations</a></button>
                  
                 </li>
                 <li class="nav-item">
@@ -111,64 +111,33 @@
                
           
         </tr>
+
+        {% for r in reservations %}
         <tr>
-            <td>991783</td>
+            <td>{{r.id}}</td>
                  <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
-                 
+                 <td>{{r.purchaser.username}}</td>
+                 <td>{{r.purchaser.email}}</td>
+                 <td>${{r.totalPrice}}</td>
+                 <td>{{r.expiry}}</td>
+                 <td>
+                  <form action="{%url 'website:website-reservations' %}" name="complete" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary">
+                   
+                     
+                     <input type="hidden" name="id" value="{{r.id}}">
+  
+                   
+                  Mark as Complete
+                
+                </button>
+              </form>
+              </td>
             
           </tr>
 
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
-                 
-            
-          </tr>
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
-                 
-            
-          </tr>
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
-                 
-            
-          </tr>
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Mark as Complete</button></td>
-                 
-            
-          </tr>
-
-          
+          {% endfor %}          
           
         
             <!-- <input type="text" id="myInput" onkeyup="myeFunction()" placeholder="Search for names..">
