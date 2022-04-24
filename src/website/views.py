@@ -3,11 +3,12 @@ from operator import truediv
 from pyexpat.errors import messages
 from tkinter.tix import Tree
 from turtle import update
+from urllib import response
 from xml.etree.ElementTree import tostring
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from website.EmailBot import EmailBot
 from .models import *
 import re
@@ -452,28 +453,28 @@ def login(request):
             target = User.objects.get(username=request.COOKIES.get('username'))
             if (target.password == request.COOKIES.get('password')):
                 request.session['user'] = request.COOKIES.get('username')
-                redirect('http://localhost:8000/website/welcome')
+                return redirect('http://localhost:8000/website/welcome')
 
 
         if Vendor.objects.filter(username=request.COOKIES.get('username')).exists():
             target = Vendor.objects.get(username=request.COOKIES.get('username'))
             if (target.password == request.COOKIES.get('password')):
                 request.session['user'] = request.COOKIES.get('username')
-                redirect('http://localhost:8000/website/welcome')
+                return redirect('http://localhost:8000/website/vendorview')
 
     
         if Client.objects.filter(username=request.COOKIES.get('username')).exists():
             target = Client.objects.get(username=request.COOKIES.get('username'))
             if (target.password == request.COOKIES.get('password')):
                 request.session['user'] = request.COOKIES.get('username')
-                redirect('http://localhost:8000/website/welcome')
+                return redirect('http://localhost:8000/website/Clientview')
 
 
         if Admin.objects.filter(username=request.COOKIES.get('username')).exists():
             target = Admin.objects.get(username=request.COOKIES.get('username'))
             if (target.password == request.COOKIES.get('password')):
                 request.session['user'] = request.COOKIES.get('username')
-                redirect('http://localhost:8000/website/welcome')
+                return redirect('http://localhost:8000/website/adminview')
         
         
         
@@ -505,8 +506,11 @@ def validateCreds(request):
         if User.objects.filter(username=request.POST['username']).exists():
             target = User.objects.get(username=request.POST['username'])
             if (target.password == request.POST['password']):
+                response = redirect('http://localhost:8000/website/welcome') 
+                response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
+                response.set_cookie('password', request.POST['password'],max_age=60*60*60*24*7*4 )
                 request.session['user'] = request.POST['username']
-                return redirect('http://localhost:8000/website/welcome')
+                return response
             else:
                 messages.info(request, 'Invalid Password')
                 return redirect('http://localhost:8000/website/login')
@@ -514,8 +518,11 @@ def validateCreds(request):
         if Vendor.objects.filter(username=request.POST['username']).exists():
             target = Vendor.objects.get(username=request.POST['username'])
             if (target.password == request.POST['password']):
+                response = redirect('http://localhost:8000/website/vendorview') 
+                response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
+                response.set_cookie('password', request.POST['password'],max_age=60*60*60*24*7*4 )
                 request.session['user'] = request.POST['username']
-                return redirect('http://localhost:8000/website/welcome')
+                return response
             else:
                 messages.info(request, 'Invalid Password')
                 return redirect('http://localhost:8000/website/login')
@@ -523,8 +530,11 @@ def validateCreds(request):
         if Client.objects.filter(username=request.POST['username']).exists():
             target = Client.objects.get(username=request.POST['username'])
             if (target.password == request.POST['password']):
+                response = redirect('http://localhost:8000/website/ClientView') 
+                response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
+                response.set_cookie('password', request.POST['password'],max_age=60*60*60*24*7*4 )
                 request.session['user'] = request.POST['username']
-                return redirect('http://localhost:8000/website/welcome')
+                return response
             else:
                 messages.info(request, 'Invalid Password')
                 return redirect('http://localhost:8000/website/login')
@@ -532,12 +542,14 @@ def validateCreds(request):
         if Admin.objects.filter(username=request.POST['username']).exists():
             target = Admin.objects.get(username=request.POST['username'])
             if (target.password == request.POST['password']):
+                response = redirect('http://localhost:8000/website/adminview') 
+                response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
+                response.set_cookie('password', request.POST['password'],max_age=60*60*60*24*7*4 )
                 request.session['user'] = request.POST['username']
-                return redirect('http://localhost:8000/website/welcome')
+                return response
             else:
                 messages.info(request, 'Invalid Password')
                 return redirect('http://localhost:8000/website/login')
-
 
 
     return redirect('http://localhost:8000/website/login')
@@ -638,23 +650,11 @@ def cart_update(request):
         return response
 
 def logout(request):
-
-    cart = Cart(request)
-
-    if request.session['user'] and len(cart.getStore()):
-        users = User.objects.all()
-        record = None
-        list = cart.getStore()
-        for i in range(len(list)):
-            for j in range(0,1):
-                record = " " + tostring(list[i][j])
-
-        for user in users:
-            if user.username == request.session['user']:
-                user.cart = record
-                user.save()
-
-    return redirect('http://localhost:8000/website/login')
+    request.session['user'] = None
+    response = redirect('http://localhost:8000/website/welcome')
+    response.delete_cookie('username')
+    response.delete_cookie('password')
+    return response
 
             
 
