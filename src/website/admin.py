@@ -70,7 +70,7 @@ class ReservedBookAdmin(admin.ModelAdmin):
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ['id', 'purchaser', 'order', 'expiry']
+    list_display = ['id', 'purchaser', 'totalPrice', 'expiry']
     list_ediable = list_display[1:]
 # VENDOR MODELS
 
