@@ -11,20 +11,27 @@
     <div class="container-fluid">
       
       
-      <button onclick="document.location='welcome'" class="btn btn-outline-light" type="button">Book Store</button>
+     
 
       <div class="collapse navbar-collapse" id="navbarsExample02">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <button onclick="document.location='inventory'" class="btn btn-outline-light" type="button">Inventory</button>
+            <button onclick="document.location='vendorview'" class="btn btn-outline-light" type="button">Vendor Hub</button>
           </li>
         </ul>
         <div class="collapse navbar-collapse" id="navbarsExample02">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <button onclick="document.location='vendorview'" class="btn btn-outline-light" type="button">Vendor View</button>
+             
          
             </li>
+          </ul>
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <button onclick="document.location='welcome'" class="btn btn-outline-light mr-1" type="button">Log Out</button>
+             
+            </li>
+           
           </ul>
       </div>
 
@@ -34,37 +41,58 @@
     </div>
 </nav>
 
+<body style= "background-color: #34568B;">
 
 
-<div class="row align-items-md-stretch">
-    <div class="col-md-6">
-      <div class="h-100 p-5 text-white bg-success rounded-3 mt-2">
-        <h1>Manage Books</h1>
-        
-        <button onclick="document.location='inventory'" class="btn btn-outline-light" type="button">Manage</button>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="h-100 p-5 bg-light border rounded-3 mt-2">
-        <h2>Manage Promotions</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <button onclick="document.location='managepromotions'"class="btn btn-outline-secondary" type="button">Manage</button>
-      </div>
-    </div>
-  </div>
   <div class="row align-items-md-stretch">
-    <div class="h-100 p-5 bg-muted border rounded-3 mt-3">
-      <h2>Manage Orders</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <button onclick="document.location='manageorders'"class="btn btn-outline-secondary" type="button">Manage</button>
+      
+        <div class="border rounded mt-2" style= "background-size: cover;background-image: url('https://wallpaperaccess.com/full/38591.jpg');height: 1000px;  filter: blur(8px);
+        -webkit-filter: blur(8px);">
+        </div>
+          <div style=" /* Fallback color */
+           /* Black w/opacity/see-through */
+           color: white;
+          font-weight: bold;
+         
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -190%);
+          z-index: 2;
+          width: 50%;
+          padding: 20px;
+          text-align: center;"> 
+          <h2>Welcome to the Vendor Hub</h2>
+          <p>Below you will find all the options available</p>
+         
+          </div>
+        </div>
+      
+      
     </div>
-  </div>
-  <div class="row align-items-md-stretch">
-      <img id="currentPhoto" src="manageusers/turnpike-blur.jpeg" onerror="this.onerror=null; this.remove();" alt="2" width="100" height="120">
-
   
-  </div>
-
+    <div class="row align-items-md-stretch">
+      <div class="col-md-6">
+        <div class="h-100 p-5 border text-white rounded  ml-3" style="transform: translate(1%, -200%);">
+          <h1>Profile</h1>
+          <h4>---------------------------</h4>
+          <p>Edit your profile and more!</p>
+          <button onclick="document.location='venset'"class="btn btn-outline-light" type="button">Profile Settings</button>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="h-100 p-5 text-white border rounded-3 ml-3 mr-3" style="transform: translate(-1%, -200%); list-style-position: inside">
+          <h1>Inventory Management Portal</h1>
+          <h4>---------------------------</h4> <ul><li>Books: Here you can manage books (Create, View, Delete)</li>
+          <li>Orders: Orders can be edited/deleted or simply viewed</li><li>Newsletters: Create and send newsletters</li></ul>
+         
+          <button onclick="document.location='manageusers'" class="btn btn-outline-light" type="button">Manage</button>
+        
+      </div>
+      </div>  
+    </div>
+  </body>
 
 <script src="./js/bootstrap.bundle.min.js"></script>
 </html>

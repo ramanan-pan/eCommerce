@@ -58,10 +58,14 @@
                                     <div class="form-group"> <label for="ADDR1" class="small text-muted mb-1">SHIPPING ADDRESS
                                     </label> <input type="text"  required class="form-control form-control-sm"
                                             name="ADDR" id="ADDR" aria-describedby="helpId" value="{% if address %}{{address}}{%endif%}"> </div>
-                                    <div class="row no-gutters">
+                                    
+                                            <div class="form-group"> <label for="EMAIL" class="small text-muted mb-1">EMAIL ADDRESS
+                                            </label> <input type="text"  required class="form-control form-control-sm"
+                                                    name="EMAIL" id="EMAIL" aria-describedby="helpId" value="{% if email %}{{email}}{%endif%}"> </div>
+                                            <div class="row no-gutters">
+                                     
                                         
-                                        
-                                    </div>
+                                            </div>
 
                                     <div class="row mt-4">
                                         <div class="col">
@@ -191,7 +195,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-5 mt-4 ">
-                                    <form action="{% url 'website:Order-summary' %}" name="applycode" method="POST">
+                                    <form action="{% url 'website:website-orderSummary' %}" name="applycode" method="POST">
                                         {% csrf_token %}
                                         <div class="row mb-12">
                                             <div class="col-sm-6">

@@ -34,7 +34,7 @@ urlpatterns = [
     path('index', views.index, name='website-index'),
     path('clientview', views.cv, name='website-clientview'),
     path('recoversent', views.recoversent, name='website-recoversent'),
-    path('cart/', views.cart, name='website-cart'),
+    path('cart', views.cart, name='website-cart'),
     path('viewBook/', views.viewBook, name='website-viewBook'),
     path('manageusers/', views.mangusers, name = 'website-site1-manageusers'),
     path('viewBook/', views.viewBook, name='website-viewBook'),
@@ -48,6 +48,8 @@ urlpatterns = [
     path('changeAccount', views.changeAccount, name='website-changeAccount'),
     path('home/', views.home, name='website-home'),
     path('adset/', views.adset, name='website-adset'),
+    path('cliset/', views.cliset, name='website-adset'),
+    path('venset/', views.venset, name='website-adset'),
     path('changePassword', views.changePassword, name='website-changePassword'),
     path('deleteAccount', views.deleteAccount, name='website-deleteAccount'),
     path('inventory', views.inventory, name='website-inventory'),
@@ -58,6 +60,8 @@ urlpatterns = [
     path('adminview', views.adminmain, name='website-adminview'),
     path('vendorsettings', views.vendorset, name='website-vendorsettings'),
     path('vendorview', views.vendview, name='website-vendorview'),
-    path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery')
+    path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery'),
+    path('logout', views.logout, name='website-logout'),
+    path('reserveSummary', views.reserveSummary, name='website-reserveSummary')
 
 ]

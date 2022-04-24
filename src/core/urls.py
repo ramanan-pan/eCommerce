@@ -15,16 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD
 from django.conf import settings
 from django.conf.urls.static import static
 
+=======
+from website.admin import vendor_site, client_site
+>>>>>>> 8a713bb60bd37f8ed82c32dd321276986433a3f2
 
 from website import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('website/', include('website.urls', namespace = 'website')),
-
+    path('vendorSite/', vendor_site.urls),
+    path('clientSite/', client_site.urls)
     
 ]
 
