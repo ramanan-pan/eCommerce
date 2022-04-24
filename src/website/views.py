@@ -1,5 +1,7 @@
 
+from operator import truediv
 from pyexpat.errors import messages
+from tkinter.tix import Tree
 from turtle import update
 from xml.etree.ElementTree import tostring
 from django.contrib import messages
@@ -11,6 +13,7 @@ from .models import *
 import re
 from website.cart import Cart
 from .models import Book
+from yagmail import YagAddressError
 
 
 # Create your views here.
@@ -264,65 +267,88 @@ def vendview(request):
     return render(request, 'website/vendorview.html')
 
 
+def reserveSummary(request):
+    return render(request, 'website/reserveSummary.html')
+
+
 
 def addUser(request):
     user = User()
     bot = EmailBot()
+    u = True
+    e = True
+    c = True
+    p = True
+    pc = True
+    fn = True
+    ln = True
+    addy = True
+    zip = True
+
 
     if request.method == 'POST' and request.POST != None:
         if not request.POST['email']: #checks for an empty user input 
-            messages.info(request, ' Email Empty') # tells the user what is wrong
-            return render(request, 'website/create.html') #returns user back to the creation screen
+            messages.info(request, 'Email Empty ') # tells the user what is wrong
+            e = False
         if not request.POST['firstName']:
-            messages.info(request, ' First Name Empty')
-            return render(request, 'website/create.html')
+            messages.info(request, 'First Name Empty')
+            fn = False
         if not request.POST['lastName']:
-            messages.info(request, 'Last Name Empty')
-            return render(request, 'website/create.html')
-        if not request.POST['address1']:
-            messages.info(request, 'Address 1 Empty')
-            return render(request, 'website/create.html')
-        if not request.POST['address2']:
-           messages.info(request, 'Adress 2 Empty')
-           return render(request, 'website/create.html')
+            messages.info(request, 'Last Name Empty ')
+            ln = False
+        if not request.POST['city']:
+            messages.info(request, 'City Empty')
+            c = False
+        if not request.POST['address']:
+            messages.info(request, 'Address Empty ')
+            addy = False
         if not request.POST['zipcode']:
-            messages.info(request, 'Zipcode Empty')
-            return render(request, 'website/create.html')
+            messages.info(request, 'Zipcode Empty ')
+            zip = False
         if not request.POST['userName']:
-            messages.info(request, 'Username Empty')
-            return render(request, 'website/create.html')
+            messages.info(request, 'Username Empty ')
+            u = False
         if not request.POST['password']:
-            messages.info(request, 'Password Empty')
-            return render(request, 'website/create.html')
+            messages.info(request, 'Password Empty ')
+            p = False
         if not request.POST['confirm']:
             messages.info(request, 'You must confirm Your password')
-            return render(request, 'website/create.html')
+            pc = False
+
+        if u and e and p and c and fn and ln and pc and zip and addy:     
+            return redirect('http://localhost:8000/website/create')
+
 
         if request.POST['confirm'] != request.POST['password'] :
             messages.info(request, 'The passwords do not match')
-            return render(request, 'website/create.html')
+            return redirect('http://localhost:8000/website/create')
         
         if User.objects.filter(email = request.POST['email']).exists() or Client.objects.filter(email = request.POST['email']).exists() or Vendor.objects.filter(email = request.POST['email']).exists() or Admin.objects.filter(email = request.POST['email']).exists():
             messages.info(request, 'Email Already Used')
-            return render(request, 'website/create.html')
+            return redirect('http://localhost:8000/website/create')
         elif User.objects.filter(username = request.POST['userName'] ).exists() or Client.objects.filter(username = request.POST['userName'] ).exists() or Vendor.objects.filter(username = request.POST['userName'] ).exists() or Admin.objects.filter(username = request.POST['userName'] ).exists():
             messages.info(request, 'Username Already Used')
-            return render(request, 'website/create.html')
+            return redirect('http://localhost:8000/website/create')
         else:
             user.fname = request.POST['firstName']
             user.lname = request.POST['lastName']
             user.username = request.POST['userName']
-            user.address = request.POST['address1']
+            user.address = request.POST['address'] + ", " + request.POST['state'] + ", " + str(request.POST['zipcode'])
             user.email = request.POST['email']
             user.birthDate = request.POST['DOB']
             user.password = request.POST['password']
-            bot.confirmAccount(request.POST['firstName'],request.POST['lastName'],request.POST['email'] )
+            try:
+                bot.confirmAccount(request.POST['firstName'],request.POST['lastName'],request.POST['email'] )
+            except Exception:
+                return redirect('http://localhost:8000/website/create')
+
             user.save()
 
-            return render(request, 'website/login.html')
+            return redirect('http://localhost:8000/website/create')
             
     else:
-        return render(request, 'website/create.html')
+
+        return redirect('http://localhost:8000/website/editaccount')
 
     
 def create(request):
@@ -364,40 +390,30 @@ def changeAccount(request):
                     user.zipcode = request.POST['zipcode']
                     user.save()
 
-    context = {}
-    try: 
-        if request.session['user']:
-            user = User.objects.filter(username=request.session['user'])
-            context['log'] = user
-    except:
-            context['log'] = ''                
-
-    return render(request, 'website/editaccount.html', context)
+    return redirect('http://localhost:8000/website/editaccount')
 
 
 def changePassword(request):
     users = User.objects.all()
+    
     if request.POST != None:
         for user in users:
-            if user.username == request.session['user']:
-                if user.password != request.POST['oldPassword']:
-                    messages.info(request, 'Invalid previous password')
-                    return render(request, 'website/editaccount.html')
-                if request.POST['newPassword'] != request.POST['confirm']:
-                    messages.info(request, 'Passwords do not match')
-                    return render(request, 'website/editaccount.html')
-                else:
-                    user.password = request.POST['newPassword']
-                    user.save()
+            try:
+                if user.username == request.session['user']:
+                    if user.password != request.POST['oldPassword']:
+                        messages.info(request, 'Invalid previous password')
+                        return render(request, 'website/editaccount.html')
+                    if request.POST['newPassword'] != request.POST['confirm']:
+                        messages.info(request, 'Passwords do not match')
+                        return render(request, 'website/editaccount.html')
+                    else:
+                        user.password = request.POST['newPassword']
+                        user.save()
+                        return redirect('http://localhost:8000/website/editaccount')
+            except KeyError:
+                return redirect('http://localhost:8000/website/editaccount')
     
-    context = {}
-    try: 
-        if request.session['user']:
-            user = User.objects.filter(username=request.session['user'])
-            context['log'] = user
-    except:
-            context['log'] = ''
-    return render(request, 'website/editaccount.html', context)
+    return redirect('http://localhost:8000/website/editaccount')
 
 
 def deleteAccount(request):
@@ -410,47 +426,44 @@ def deleteAccount(request):
                 response.delete_cookie('password')
                 user.delete()
 
-    return render(request, 'website/login.html')
+    return redirect('http://localhost:8000/website/login')
     
 def forgotpassword(request):
     return render(request, 'website/forgotpassword.html')
 
 def login(request):
-    users = User.objects.all()
-    vendors = Vendor.objects.all()
-    admins = Admin.objects.all()
-    clients = Client.objects.all()
 
-    for user in users:
-        if request.COOKIES.get('username') == user.username and request.COOKIES.get('password') == user.password:
-            request.session['cart'] = {}
-            request.session['user'] = request.COOKIES.get('username')
-            return render(request, 'website/welcome.html')
+    target = None
+
+    if request.COOKIES.get('username'):
+
+        if User.objects.filter(username=request.COOKIES.get('username')).exists():
+            target = User.objects.get(username=request.COOKIES.get('username'))
+            if (target.password == request.COOKIES.get('password')):
+                request.session['user'] = request.COOKIES.get('username')
+                redirect('http://localhost:8000/website/welcome')
+
+
+        if Vendor.objects.filter(username=request.COOKIES.get('username')).exists():
+            target = Vendor.objects.get(username=request.COOKIES.get('username'))
+            if (target.password == request.COOKIES.get('password')):
+                request.session['user'] = request.COOKIES.get('username')
+                redirect('http://localhost:8000/website/welcome')
+
+    
+        if Client.objects.filter(username=request.COOKIES.get('username')).exists():
+            target = Client.objects.get(username=request.COOKIES.get('username'))
+            if (target.password == request.COOKIES.get('password')):
+                request.session['user'] = request.COOKIES.get('username')
+                redirect('http://localhost:8000/website/welcome')
+
+
+        if Admin.objects.filter(username=request.COOKIES.get('username')).exists():
+            target = Admin.objects.get(username=request.COOKIES.get('username'))
+            if (target.password == request.COOKIES.get('password')):
+                request.session['user'] = request.COOKIES.get('username')
+                redirect('http://localhost:8000/website/welcome')
         
-
-   
-
-    for client in clients:
-        if request.COOKIES.get('username') == client.username and request.COOKIES.get('password') == client.password:
-            request.session['cart'] = {}
-            request.session['user'] = request.COOKIES.get('username')
-            return render(request, 'website/ClientView.html')
-        
-            
-
-    for vendor in vendors:
-        if request.COOKIES.get('username') == vendor.username and request.COOKIES.get('password') == vendor.password:
-            request.session['cart'] = {}
-            request.session['user'] = request.COOKIES.get('username')
-            return render(request, 'website/welcome.html')
-        
-            
-
-    for admin in admins:
-        if request.COOKIES.get('username') == admin.username and request.COOKIES.get('password') == admin.password:
-            request.session['cart'] = {}
-            request.session['user'] = request.COOKIES.get('username')
-            return render(request, 'website/adminmain.html')
         
         
     return render(request, 'website/login.html')
@@ -458,17 +471,6 @@ def login(request):
 
 
 def validateCreds(request):
-    
-    foundU = False
-    foundV = False
-    foundA = False
-    foundC = False
-    
-    users = User.objects.all()
-    vendors = Vendor.objects.all()
-    admins = Admin.objects.all()
-    clients = Client.objects.all()
-
 
     books = Book.objects.all()
     context = {'books' : books}
@@ -479,87 +481,55 @@ def validateCreds(request):
     except:
             context['log'] = ''  
 
+
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
-            redirect('http://127.0.0.1:8000/website/login')
+            return redirect('http://localhost:8000/website/login')
         if not request.POST['password']:
             messages.info(request, 'Password empty')
-            redirect('http://127.0.0.1:8000/website/login')
+            return redirect('http://localhost:8000/website/login')
         
 
-        for user in users:
-            if request.POST['username'] == user.username and request.POST['password'] == user.password:
-                foundU = True
+        if User.objects.filter(username=request.POST['username']).exists():
+            target = User.objects.get(username=request.POST['username'])
+            if (target.password == request.POST['password']):
+                request.session['user'] = request.POST['username']
+                return redirect('http://localhost:8000/website/welcome')
             else:
-                print('NO')
+                messages.info(request, 'Invalid Password')
+                return redirect('http://localhost:8000/website/login')
 
-        for vendor in vendors:
-            if request.POST['username'] == vendor.username and request.POST['password'] == vendor.password:
-                foundV = True
+        if Vendor.objects.filter(username=request.POST['username']).exists():
+            target = Vendor.objects.get(username=request.POST['username'])
+            if (target.password == request.POST['password']):
+                request.session['user'] = request.POST['username']
+                return redirect('http://localhost:8000/website/welcome')
             else:
-                print('NO')
+                messages.info(request, 'Invalid Password')
+                return redirect('http://localhost:8000/website/login')
 
-        for client in clients:
-            if request.POST['username'] == client.username and request.POST['password'] == client.password:
-                foundC = True
+        if Client.objects.filter(username=request.POST['username']).exists():
+            target = Client.objects.get(username=request.POST['username'])
+            if (target.password == request.POST['password']):
+                request.session['user'] = request.POST['username']
+                return redirect('http://localhost:8000/website/welcome')
             else:
-                print('NO')
+                messages.info(request, 'Invalid Password')
+                return redirect('http://localhost:8000/website/login')
+
+        if Admin.objects.filter(username=request.POST['username']).exists():
+            target = Admin.objects.get(username=request.POST['username'])
+            if (target.password == request.POST['password']):
+                request.session['user'] = request.POST['username']
+                return redirect('http://localhost:8000/website/welcome')
+            else:
+                messages.info(request, 'Invalid Password')
+                return redirect('http://localhost:8000/website/login')
 
 
-        for admin in admins:
-            if request.POST['username'] == admin.username and request.POST['password'] == admin.password:
-                foundA = True
-            else:
-                print('NO')
-        
-        if (foundU):
-            if (request.POST.get('box') == 'checked'):
-                response = render(request, 'website/welcome.html', context)
-                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
-                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4) 
-                request.session['user'] = request.POST['username']
-                return response
-            else:
-                request.session['user'] = request.POST['username']
-                return render(request, 'website/welcome.html', context)
-        
-        elif (foundV):
-            if (request.POST.get('box') == 'checked'):
-                response = render(request, 'website/vendorview.html')
-                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
-                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
 
-                request.session['user'] = request.POST['username']
-                return response
-            else:
-                request.session['user'] = request.POST['username']
-                return render(request, 'website/vendorview.html')
-        elif (foundA):
-            if (request.POST.get('box') == 'checked'):
-                response = render(request, 'website/adminmain.html')
-                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
-                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4)
-                request.session['user'] = request.POST['username']
-                return response
-            else:
-                request.session['user'] = request.POST['username']
-                return render(request, 'website/adminmain.html')
-        elif (foundC):
-            if (request.POST.get('box') == 'checked'):
-                response = render(request, 'website/ClientView.html')
-                response.set_cookie('username', request.POST['username'], max_age=60*60*10*4*7*4) # the cookie will stay for 46 days
-                response.set_cookie('password', request.POST['password'], max_age=60*60*10*4*7*4) 
-                request.session['user'] = request.POST['username']
-                return response
-            else:
-                request.session['user'] = request.POST['username']
-                return render(request, 'website/ClientView.html')
-        else:
-            messages.info(request, 'Invalid Login')
-            return render(request, 'website/login.html')
-
-    return redirect('http://127.0.0.1:8000/website/login')
+    return redirect('http://localhost:8000/website/login')
 
 
 def passwordRecovery(request):
@@ -676,9 +646,6 @@ def logout(request):
     return redirect('http://localhost:8000/website/login')
 
             
-
-
-
 
 
 #TODO integrate with login when it's fixed
