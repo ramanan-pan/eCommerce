@@ -167,9 +167,12 @@ def ordersum(request):
         if request.session['user']:
             user = User.objects.filter(username=request.session['user'])
             address = user[0].address
+            email = user[0].email
             context['address'] = address
+            context['email'] = email
     except:
         context['address'] = ''
+        context['email'] = ''
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
@@ -198,10 +201,11 @@ def reservesum(request):
     try: 
         if request.session['user']:
             user = User.objects.filter(username=request.session['user'])
-            address = user[0].address
-            context['address'] = address
+            #address = user[0].address
+            email = user[0].email
+            context['email'] = email
     except:
-        context['address'] = ''
+        context['email'] = ''
     if request.method == "POST" and request.POST.get('CODE'):
         discount = 0
         try:
