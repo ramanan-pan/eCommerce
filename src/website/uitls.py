@@ -1,9 +1,35 @@
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-import six
+from lib2to3.pgen2 import token
+import string
+import random
+from random import shuffle
 
-class TokenGenerator(PasswordResetTokenGenerator):
-        def _make_hash_value(self, user, timestamp):
-            return six.text_type(user.pk) + six.text_type(timestamp) #add a way to check if a user is verified
+class TokenGenerator():
+    
+    def __init__(self):
+        print('00')
+
+    def generateToken(self):
+        token = ''
+        letters = string.ascii_lowercase
+
+        token += ''.join(random.choice(letters) for i in range(7))
+
+        letters = string.ascii_uppercase
+
+        token += ''.join(random.choice(letters) for i in range(7))
+
+        letters = string.digits
+
+        token += ''.join(random.choice(letters) for i in range(7))
+        
+        token = list(token)
+        shuffle(token)
+        token = ''.join(token)
+        return token
 
 
-generate_token = TokenGenerator()
+
+
+
+
+
