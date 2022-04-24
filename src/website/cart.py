@@ -10,17 +10,25 @@ class Cart():
         if 'cart' not in request.session:
             cart = self.session['cart'] = {}
         self.cart = cart
-        self.bookinfo = []
 
     def add(self, book, qty):
         book_id = str(book.id)
-        self.bookinfo.append([book.id,qty])
         if book_id in self.cart:
             self.cart[book_id]['qty'] = qty
         else:
             self.cart[book_id] = {'price': str(book.price), 'qty': qty}
 
         self.save()
+
+    def addlist(self, booklist, qtylist):
+        for i in range(len(booklist)):
+            book_id = str(booklist[i].id)
+            #if book_id in self.cart:
+            #    self.cart[book_id]['qty'] = qtylist[i]
+            #else:
+            self.cart[book_id] = {'price': str(booklist[i].price), 'qty': qtylist[i]}
+            self.save()
+        self.save() 
 
     def __len__(self):
         return sum(item['qty'] for item in self.cart.values())
@@ -55,13 +63,14 @@ class Cart():
             self.cart[book_id]['qty'] = qty
         self.save()
 
-        for i in range(len(self.bookinfo)):
-            if self.bookinfo == book_id[i]:
-                self.bookinfo[i][1] = qty
-
 
     def save(self):
         self.session.modified = True
 
-    def getStore(self):
-        return self.bookinfo
+    def clear(self):
+        del self.session['cart']
+        self.session['cart'] = {}
+        self.save()
+
+    #def toJSON(self):
+    #    return json.dumps(self, default=)

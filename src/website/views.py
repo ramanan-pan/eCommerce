@@ -4,8 +4,10 @@ from pyexpat.errors import messages
 from tkinter.tix import Tree
 from turtle import update
 from urllib import response
+from xml.dom.domreg import registered
 from xml.etree.ElementTree import tostring
 from django.contrib import messages
+from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, JsonResponse
@@ -172,8 +174,10 @@ def conf(request):
             bot.orderConfirmation(em.email, email)
             sale.save()
             address = request.POST.get('ADDR')
+            cart.clear()
             return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
-    return render(request, 'website/orderconf.html', {'price' : price})
+        cart.clear()    
+    return render(request, 'website/orderconf.html', {'price' : price, 'discount': discount})
 
 def adset(request):
     return render(request, 'website/addex.html') 
@@ -283,9 +287,9 @@ def reserveconf(request):
                 rBook.reservation = res
                 rBook.save()
         
-        request.session['cart'] = {}
+        cart.clear()
         return render(request, 'website/reserveconf.html', {'price' : price, 'cart' : cart, 'reservation' : res, 'discount' : discount})
-        
+    cart.clear()
     return render(request, 'website/reserveconf.html', {'price' : price, 'cart': cart, 'discount': discount})
 
 def adminmain(request):
@@ -552,6 +556,22 @@ def validateCreds(request):
                 response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
                 response.set_cookie('password', request.POST['password'],max_age=60*60*60*24*7*4 )
                 request.session['user'] = request.POST['username']
+                # load cart
+                
+                
+                cart_user = User.objects.filter(username = request.POST['username'])[0]
+                cBooks =  CartBook.objects.filter(user = cart_user)
+                booklist = []
+                qtylist = []
+                for cBook in cBooks:
+                    book = get_object_or_404(Book, title = cBook.book)
+                    #cart.add(book=book, qty=cBook.qty) 
+                    booklist.append(book)
+                    qtylist.append(cBook.qty)   
+                cart = Cart(request)
+                cart.addlist(booklist, qtylist)
+                #request.session['cart'] = cart
+                
                 return response
             else:
                 messages.info(request, 'Invalid Password')
@@ -700,6 +720,18 @@ def cart_update(request):
         return response
 
 def logout(request):
+    # save cart
+    
+    cart = Cart(request)
+    #registeredUser = User.objects.filter(username = request.session['user'])[0]
+    for item in cart:
+        cBook = CartBook()
+        cBook.user = User.objects.filter(username = request.session['user'])[0]
+        cBook.book = (item['book'])
+        cBook.qty = item['qty']
+        cBook.save() 
+    
+    cart.clear()
     request.session['user'] = None
     response = redirect('http://localhost:8000/website/welcome')
     response.delete_cookie('username')
