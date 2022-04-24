@@ -106,11 +106,16 @@
             <h5 id="subtotal" class="font-weight-bold">$ {{cart.get_total_price}}</h5>
           </li>
         </ul>
-        <a href="{% url 'website:website-orderSummary' %}"
+        {% if log %}
+          <a href="{% url 'website:website-orderSummary' %}"
           class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
 
           <a href="{% url 'website:website-reserveSummary' %}"
           class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Reserve</strong></a>
+        {% else %}
+          <a href="{% url 'website:website-orderSummary' %}"
+          class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
+        {% endif %}
       </div>
     </div>
   </div>
