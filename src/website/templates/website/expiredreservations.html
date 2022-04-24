@@ -80,7 +80,7 @@
               </ul>
               <ul class="nav justify-content-end">
                 <li class="nav-item">
-                  <button onclick="document.location='reserve'" class="btn btn-outline-light mr-1" type="button">Pending Reservations</button>
+                  <button class="btn btn-outline-light mr-1" type="button"><a style="text-decoration:none;color:white" href="{% url 'website:website-reservations' %}" >Pending Reservations</a></button>
                  
                 </li>
                 <li class="nav-item">
@@ -95,74 +95,45 @@
 <div>
     
     <table id="customersd">
-        <tr>
-          <th>Order ID</th>
-               <th>Pickup Store</th>
-               <th>Name</th>
-               <th>Email</th>
-               <th>Total Price</th>
-               <th>Pickup by</th>
-               <th></th>
+      <tr>
+        <th>Order ID</th>
+             <th>Pickup Store</th>
+             <th>Name</th>
+             <th>Email</th>
+             <th>Total Price</th>
+             <th>Pickup by</th>
+             <th></th>
+             
+        
+      </tr>
+
+      {% for r in reservations %}
+      <tr>
+          <td>{{r.id}}</td>
+               <td>Athens Superstore</td>
+               <td>{{r.purchaser.username}}</td>
+               <td>{{r.purchaser.email}}</td>
+               <td>${{r.totalPrice}}</td>
+               <td>{{r.expiry}}</td>
+               <td>
+                <form action="{%url 'website:website-expired-reservations' %}" name="cancel" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-secondary">
+                 
+                   
+                   <input type="hidden" name="id" value="{{r.id}}">
+
+                 
+                Delete
+              
+              </button>
+            </form>
+            </td>
                
           
         </tr>
-        <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Delete</button></td>
-                 
-            
-          </tr>
 
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Delete</button></td>
-                 
-            
-          </tr>
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Delete</button></td>
-                 
-            
-          </tr>
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Delete</button></td>
-                 
-            
-          </tr>
-          <tr>
-            <td>991783</td>
-                 <td>Athens Superstore</td>
-                 <td>John Doe</td>
-                 <td>Johndoe@gmail.com</td>
-                 <td>$89.12</td>
-                 <td>04/23/2022</td>
-                 <td><button class="btn btn-outline-secondary">Delete</button></td>
-                 
-            
-          </tr>
-
+        {% endfor %}  
           
           
         
