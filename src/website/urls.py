@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from website.admin import vendorSite, clientSite
 from django.urls import path
 from . import views
 
@@ -22,11 +23,9 @@ app_name = "website"
 urlpatterns = [
 
     path('', views.home, name='website-home'),
-    #path('ordersummary/', views.ordersum, name='Order-summary'),
-    path('orderconfirmation', views.conf, name='Order-confirmation'),
-    path('ordersummary', views.ordersum, name="website-orderSummary"),
-    path('reservesummary', views.reservesum, name='website-reserveSummary'),
-    path('reserveconfirmation', views.reserveconf, name='website-reserve-confirmation'),
+    path('ordersummary/', views.ordersum, name='Order-summary'),
+    path('orderconfirmation/', views.conf, name='Order-confirmation'),
+    path('ordersummary/', views.ordersum, name="website-orderSummary"),
     path('create', views.create, name='website-create'),
     path('createsuccess', views.createsuccess, name='website-createsuccess'),
     path('editaccount', views.editaccount, name='website-editaccount'),
@@ -36,7 +35,7 @@ urlpatterns = [
     path('index', views.index, name='website-index'),
     path('clientview', views.cv, name='website-clientview'),
     path('recoversent', views.recoversent, name='website-recoversent'),
-    path('cart/', views.cart, name='website-cart'),
+    path('cart', views.cart, name='website-cart'),
     path('viewBook/', views.viewBook, name='website-viewBook'),
     path('manageusers/', views.mangusers, name = 'website-site1-manageusers'),
     path('viewBook/', views.viewBook, name='website-viewBook'),
@@ -64,7 +63,7 @@ urlpatterns = [
     path('vendorview', views.vendview, name='website-vendorview'),
     path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery'),
     path('logout', views.logout, name='website-logout'),
-    path('testimage', views.image, name='website-test-image'),
-    path('reserve', views.res, name='website-reservationsmanagement'), 
-    path('expiredpu', views.expiry, name='website-reservationsmanagement')
+    path('reserveSummary', views.reservesum, name='website-reserveSummary'),
+    path('reserveConfirm', views.reserveconf, name='website-reserve-confirmation')
+
 ]

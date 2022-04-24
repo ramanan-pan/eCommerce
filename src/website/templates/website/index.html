@@ -54,7 +54,7 @@
 
       <div class="col">
         <div class="card shadow-sm">
-          <img class="img-fluid" alt="Responsive image" src="{{ result.picture }}">
+          <img class="img-fluid" alt="{{ result.picture.url }}" src="{{ result.picture.url }}">
           <div class="card-body">
             <p class="card-text">
               <a class="text-dark text-decoration-none" href="{{ result.get_absolute_url }}">{{ result.title }}</a>
@@ -78,7 +78,7 @@
 
       <div class="col">
         <div class="card shadow-sm">
-          <img class="img-fluid" alt="Responsive image" src="{{ book.picture }}">
+          <img class="img-fluid" alt="{{book.picture.url}}" src="{{ book.picture.url }}">
           <div class="card-body">
             <p class="card-text">
               <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
@@ -101,7 +101,7 @@
 
       <div class="col">
         <div class="card shadow-sm">
-          <img class="img-fluid" alt="Responsive image" src="{{ book.picture }}">
+          <img class="img-fluid" alt="{{book.picture.url}}" src="{{ book.picture.url }}">
           <div class="card-body">
             <p class="card-text">
               <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
