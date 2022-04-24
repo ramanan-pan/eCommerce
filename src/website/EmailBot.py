@@ -21,22 +21,24 @@ class EmailBot:
         self.yag.send(to=email, subject=self.subject, contents=self.message)
 
 
-    def recoveryPass(self, email:str, fname:str, lname:str, password:str, link:str):
-        self.subject = 'Book Store Recovery Password'
-        self.message = [
-        'Hi, ' + fname + " " + lname ,
-
-        'Here is your password: '  + password,
-
-        'DO NOT RESPOND TO THIS EMAIL, ANY EMAILS SENT REGARDING THIS WILL BE IGNORED' ]
-
-        self.yag.send(to=email, subject=self.subject, contents=self.message)
-
-
-
     def orderConfirmation(self, email:str, text:list):
         self.subject = 'Order Confirmation'
         self.message = text
         self.message.append('DO NOT RESPOND TO THIS EMAIL, ANY EMAILS SENT REGARDING THIS WILL BE IGNORED')
+        self.yag.send(to=email, subject=self.subject, contents=self.message)
+
+    def recoveryKey(self, email:str, link:str, rkey:str, fname:str, lname:str):
+        self.subject = 'Book Store Password Recovery Key'
+        self.message = [
+        'Hi, ' + fname + " " + lname ,
+
+        'Here is your key: '  + rkey,
+
+        'Follow this link to reset your password:',
+
+        link,
+
+        'DO NOT RESPOND TO THIS EMAIL, ANY EMAILS SENT REGARDING THIS WILL BE IGNORED' ]
+
         self.yag.send(to=email, subject=self.subject, contents=self.message)
 

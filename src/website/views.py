@@ -15,6 +15,7 @@ import re
 from website.cart import Cart
 from .models import Book
 from yagmail import YagAddressError
+from .uitls import TokenGenerator
 
 
 # Create your views here.
@@ -488,6 +489,29 @@ def login(request):
     return render(request, 'website/login.html')
     
 
+def recoveryKey(request):
+    return render(request,'website/recoveryKey.html' )
+
+
+def recoverAccount(request):
+    if User.objects.filter(username=request.POST['recovery']).exists():
+            target = User.objects.get(username=request.POST['recovery'])
+            if (request.POST['confirm'] == request.POST['password']):
+                response = redirect('http://localhost:8000/website/login') 
+                target.password = request.POST['password']
+                target.rkey = 'empty'
+                target.save()
+                return response
+            else:
+                messages.info(request, 'The passwords do not match')
+                return redirect('http://localhost:8000/website/recoveryKey')
+    else:
+        messages.info(request, 'Incorrect Recovery Key')
+        return redirect('http://localhost:8000/website/recoveryKey')
+
+    return redirect('http://localhost:8000/website/recoveryKey')
+
+
 
 def validateCreds(request):
 
@@ -564,13 +588,18 @@ def validateCreds(request):
 
 def passwordRecovery(request):
      users = User.objects.all()
+     gen = TokenGenerator()
+
      bot = EmailBot()
      found = False
      if request.POST != None:
         for user in users:
             if request.POST['email'] == user.email:
                 found = True
-                bot.recoveryPass(user.email, user.fname, user.lname, user.password)
+                rkey = str(gen._make_hash_value(user,to_integer(datetime.date.today())))
+                user.rkey = rkey
+                user.save()
+                bot.recoveryKey(user.email, 'http://localhost:8000/website/recoveryKey', rkey, user.fname, user.lname)
                 messages.info(request, 'Email has been sent')
                 return render(request, 'website/forgotpassword.html')
         
@@ -580,6 +609,9 @@ def passwordRecovery(request):
 
 
      return render(request, 'website/forgotpassword.html')
+
+def to_integer(dt_time):
+    return 10000*dt_time.year + 100*dt_time.month + dt_time.day
 
 
 def recoversent(request):
