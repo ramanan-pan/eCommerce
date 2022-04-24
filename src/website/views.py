@@ -144,10 +144,9 @@ def conf(request):
             bookSale.save()
     if request.method == "POST":
         sale = Sale()
+        sale.address = request.POST.get('ADDR')
         if request.COOKIES.get('username'):
             sale.purchaser = request.COOKIES.get('username')
-        else:
-            sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
         sale.totalPrice = price + discount + 20
         sale.save()
         address = request.POST.get('ADDR')
@@ -269,6 +268,8 @@ def reserveconf(request):
     return render(request, 'website/reserveconf.html', {'price' : price, 'cart': cart, 'discount': discount})
 
 def adminmain(request):
+    for reservation in Reservation.objects.all():
+        reservation.complete()
     return render(request, 'website/adminmain.html')
 
 def vendorset(request):
@@ -372,10 +373,10 @@ def editaccount(request):
     context = {}
     try: 
         if request.session['user']:
-            user = User.objects.filter(username=request.session['user'])
+            user = User.objects.filter(username=request.session['user'])[0]
             context['log'] = user
     except:
-            context['log'] = ''  
+            render(request, 'website/login.html', context)  
     return render(request, 'website/editaccount.html', context)
 
 def changeAccount(request):

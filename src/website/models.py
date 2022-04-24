@@ -91,7 +91,7 @@ class Book(Model):
     title = CharField(max_length=255)
     genre = CharField(max_length=255)
     numSold = IntegerField(default=0)
-    picture = CharField(max_length=255, blank=True)
+    picture = ImageField(upload_to='images')
     slug = SlugField(max_length=255)
     description = TextField(blank=True)
     in_stock = BooleanField(default=True)
@@ -116,15 +116,51 @@ class Book(Model):
 
 class Sale(Model):
     orderID = AutoField(primary_key=True)
-    purchaser = CharField(max_length=255) #For now, saving CC number
-    #purchaser = ForeignKey(User, on_delete=CASCADE)
+    purchaser = ForeignKey(User, null=True, on_delete=SET_NULL) #Null if not logged in
     totalPrice = IntegerField()
+    address = CharField(max_length=255, null=True) #Null if in-store pickup
+    name = CharField(max_length=255) 
+    date = DateField(default=datetime.date.today())
+
+
 
 class BookSale(Model):
     bookID = ForeignKey(Book, related_name="bookID", on_delete=CASCADE)
     salePrice = IntegerField()
     saleDate = DateField(default=datetime.date.today())
 
+class Reservation(Model):
+    purchaser = ForeignKey(User, related_name="reservingUserID", on_delete=CASCADE)
+    order = ForeignKey(Sale, related_name="reservationSale", on_delete=CASCADE)
+    expiry = DateField(default=(datetime.date.today() + datetime.timedelta(days=5)))
+
+    def complete(self):
+        reservedBooks = ReservedBook.objects.filter(reservation = self)
+        books = []
+        sale = Sale()
+        totalprice = 0
+        for r in reservedBooks:
+            books.append(r.book)
+        for b in books:
+            bsale = BookSale()
+            totalprice += b.price
+            bsale.bookID = b
+            bsale.salePrice = b.price
+            bsale.save()
+        sale.purchaser = self.purchaser
+        sale.totalPrice = totalprice
+        sale.save()
+        self.delete()
+
+
+class ReservedBook(Model):
+    book = ForeignKey(Book, related_name="reservedBookID", on_delete=CASCADE)
+    reservation = ForeignKey(Reservation, related_name="reservationID", on_delete=CASCADE)
+
+class CartBook(Model):
+    book = ForeignKey(Book, related_name="cartBook", on_delete=CASCADE)
+    user = ForeignKey(User, related_name="cartUser", on_delete=CASCADE)
+    qty = IntegerField()
 # Vendor Proxy Models
 
 class VendorBook(Book):
