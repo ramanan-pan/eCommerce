@@ -65,6 +65,15 @@ class SoldBookAdmin(admin.ModelAdmin):
     list_display = ['id', 'bookID', 'salePrice']
     list_editable = list_display[1:]
 
+@admin.register(ReservedBook)
+class ReservedBookAdmin(admin.ModelAdmin):
+    list_display = ['id', 'book', 'reservation']
+    list_editable = list_display[1:]
+
+@admin.register(Reservation)
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ['id', 'purchaser', 'totalPrice', 'expiry']
+    list_ediable = list_display[1:]
 # VENDOR MODELS
 
 

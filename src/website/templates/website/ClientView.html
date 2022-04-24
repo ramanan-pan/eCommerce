@@ -28,8 +28,10 @@
         </ul>
         <ul class="nav justify-content-end">
           <li class="nav-item">
-            <button onclick="document.location='welcome'" class="btn btn-outline-light mr-1" type="button">Log Out</button>
-           
+            <form method="post" action="logout">
+              {% csrf_token %}
+              <input  type='submit' class="btn btn-outline-light mr-1" value="Log out">
+            </form>
           </li>
          
         </ul>
