@@ -139,6 +139,8 @@ def image(request):
 
 def conf(request):
     cart = Cart(request)
+    bot = EmailBot()
+    email = ['Here is your order for the date ' + str(datetime.date.today()) + "..."]
     #basket = [1,2] # Given the books stored as an array of IDs...
     #books = list(Book.objects.filter(id__in=(cart))) 
         #generate a list of the book objects and iterate through them.
@@ -149,6 +151,7 @@ def conf(request):
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
     for item in cart:
+        email.append(str(item['book']) + ': ' + str(item['price']) + ' Qty: ' +str(item['qty']) )
         for i in range(item['qty']): # not working, need to figure out how to get these values
             bookSale = BookSale()
             bookSale.bookID = (item['book'])
@@ -158,14 +161,17 @@ def conf(request):
     if request.method == "POST":
         sale = Sale()
         sale.address = request.POST.get('ADDR')
+        email.append('Shipping Address: ' + sale.address)
         if request.COOKIES.get('username'):
-            sale.purchaser = request.COOKIES.get('username')
-        sale.totalPrice = price + discount + 20
-        sale.save()
-        address = request.POST.get('ADDR')
-        
-        request.session['cart'] = {}
-        return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
+            sale.purchaser = User.objects.get(username=request.COOKIES.get('username'))
+            em = User.objects.get(username=request.COOKIES.get('username'))
+            email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
+            sale.totalPrice = price + discount + 20
+            email.append("You spent a total of " + str(sale.totalPrice))
+            bot.orderConfirmation(em.email, email)
+            sale.save()
+            address = request.POST.get('ADDR')
+            return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
     return render(request, 'website/orderconf.html', {'price' : price})
 
 def adset(request):
@@ -179,6 +185,7 @@ def venset(request):
 
 def ordersum(request):
     cart = Cart(request)
+    bot = EmailBot()
     #basket = [1,2]
     #books = list(Book.objects.filter(id__in=(basket)))
     price = cart.get_total_price()
