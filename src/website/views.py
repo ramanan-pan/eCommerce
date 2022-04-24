@@ -346,7 +346,7 @@ def addUser(request):
             messages.info(request, 'You must confirm Your password')
             pc = False
 
-        if u and e and p and c and fn and ln and pc and zip and addy:     
+        if not (u and e and p and c and fn and ln and pc and zip and addy):     
             return redirect('http://localhost:8000/website/create')
 
 
@@ -375,7 +375,7 @@ def addUser(request):
 
             user.save()
 
-            return redirect('http://localhost:8000/website/create')
+            return redirect('http://localhost:8000/website/login')
             
     else:
 
