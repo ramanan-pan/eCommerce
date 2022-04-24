@@ -76,10 +76,10 @@
       <div class="col-md-6">
         <div class="h-100 p-5 border text-white rounded  ml-3" style="margin-left: 5px;transform: translate(0%, -210%); ">
           <h1>Management Portal</h1>
-        <h4>User Managment Portal:</h4> <ul><li>Users: Here you can manage users/vendors (Create, View, Delete)</li>
+        <h4>Admin Managment Portal:</h4> <ul><li>Users: Here you can manage users/vendors (Create, View, Delete)</li>
         <li>Orders: Orders can be edited/deleted or simply viewed</li><li>Newsletters: Create and send newsletters</li></ul>
        
-        <button onclick="document.location='manageusers'" class="btn btn-outline-light" type="button">Manage</button>
+        <a href="{% url 'admin:index' %}" class="btn btn-outline-light" >Manage</a>
         </div>
       </div>
       <div class="col-md-6">

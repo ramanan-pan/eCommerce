@@ -14,20 +14,26 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
-<body>
+<body style="background-color:#34568B; background-size: cover;background-image: url('https://images.unsplash.com/photo-1545586860-95d2040c1680?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80'); ">
   <br>
   <form method="post" action="addUser">
     {% csrf_token %}
+  
+  {% for message in messages %}
+  <h3 style="color: red;">{{message}}</h3>
+  {% endfor %}
   <h3><b>Create Account</b></h3>
   <section class="py-5 my-5">
     <div class="container">
-      <div class="bg-white rounded-lg d-block d-sm-flex">
-        
+      <div class="bg-white p-5 rounded-lg d-block d-sm-flex">
+      
       
         <div class="row">
           
-          <div class="col-md-6">
-            
+          <div class="col-md-12">
+            <h4 style="text-align: center; margin-bottom: 10px;" >Create Account</h4>
+          </div>
+            <div class="col-md-6">
             <div class="form-group">
               <label>First Name</label>
               <input type="text" class="form-control" placeholder="First Name" name="firstName">
@@ -52,12 +58,15 @@
             </div>
           </div>
 
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label>Address Line</label>
               <input type="text" class="form-control" placeholder="Address Line 1" name="address">
             </div>
           </div>
+<<<<<<< HEAD
+          
+=======
           <div class="col-md-6">
             <div class="form-group">
               <div>
@@ -124,13 +133,14 @@
             <input type="text" class="form-control" placeholder="City" name="city">
           </div>
         </div>
+>>>>>>> f46740349081f772706fe36f36e4a0620da1e35e
           <div class="col-md-6">
             <div class="form-group">
               <label>Zip Code</label>
               <input type="text" class="form-control" placeholder="Zip Code" name="zipcode">
             </div>
           </div>
-          <div class="col-md-6"></div>
+        
 
           <div class="col-md-6">
             <div class="form-group">
@@ -151,7 +161,7 @@
               <input type="password" class="form-control" placeholder="" name="confirm">
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               <input type="submit" class="form-control btn-primary"  value="Create Account">
             </div>

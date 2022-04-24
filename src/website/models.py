@@ -131,24 +131,22 @@ class BookSale(Model):
 
 class Reservation(Model):
     purchaser = ForeignKey(User, related_name="reservingUserID", on_delete=CASCADE)
-    order = ForeignKey(Sale, related_name="reservationSale", on_delete=CASCADE)
     expiry = DateField(default=(datetime.date.today() + datetime.timedelta(days=5)))
+    totalPrice = IntegerField()
 
     def complete(self):
         reservedBooks = ReservedBook.objects.filter(reservation = self)
         books = []
         sale = Sale()
-        totalprice = 0
         for r in reservedBooks:
             books.append(r.book)
         for b in books:
             bsale = BookSale()
-            totalprice += b.price
             bsale.bookID = b
             bsale.salePrice = b.price
             bsale.save()
         sale.purchaser = self.purchaser
-        sale.totalPrice = totalprice
+        sale.totalPrice = self.totalPrice
         sale.save()
         self.delete()
 

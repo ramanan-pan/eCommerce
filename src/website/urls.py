@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from website.admin import vendorSite, clientSite
 from django.urls import path
 from . import views
 
@@ -62,6 +63,7 @@ urlpatterns = [
     path('vendorview', views.vendview, name='website-vendorview'),
     path('passwordRecovery', views.passwordRecovery, name='website-passwordRecovery'),
     path('logout', views.logout, name='website-logout'),
-    path('reserveSummary', views.reserveSummary, name='website-reserveSummary')
+    path('reserveSummary', views.reservesum, name='website-reserveSummary'),
+    path('reserveConfirm', views.reserveconf, name='website-reserve-confirmation')
 
 ]

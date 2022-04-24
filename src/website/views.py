@@ -211,9 +211,11 @@ def reservesum(request):
     #basket = [1,2]
     #books = list(Book.objects.filter(id__in=(basket)))
     price = cart.get_total_price()
+    
     #for b in books:
     #    price += b.price
     context = {'cart' : cart}
+    
     try: 
         if request.session['user']:
             user = User.objects.filter(username=request.session['user'])
@@ -251,27 +253,25 @@ def reserveconf(request):
     discount = 0
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
-    '''
-    for item in cart:
-        for i in range(item['qty']): # not working, need to figure out how to get these values
-            bookSale = BookSale()
-            bookSale.bookID = (item['book'])
-            bookSale.salePrice = (item['price'])
-            bookSale.saleDate = datetime.date.today()
-            bookSale.save()
+    
+    
     if request.method == "POST":
-        sale = Sale()
-        if request.COOKIES.get('username'):
-            sale.purchaser = request.COOKIES.get('username')
-        else:
-            sale.purchaser = request.POST.get('CARD') #TODO switch with user ID
-        sale.totalPrice = price + discount + 20
-        sale.save()
-        address = request.POST.get('ADDR')
+        res = Reservation()
+        res.totalPrice = price + discount
+        res.expiry = datetime.date.today() + datetime.timedelta(days=6)
+        res.purchaser = User.objects.filter(username = request.session['user'])[0]
+        res.save()
+
+        for item in cart:
+            for i in range(item['qty']): # not working, need to figure out how to get these values
+                rBook = ReservedBook()
+                rBook.book = (item['book'])
+                rBook.reservation = res
+                rBook.save()
         
         request.session['cart'] = {}
-        return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
-        '''
+        return render(request, 'website/reserveconf.html', {'price' : price, 'cart' : cart, 'reservation' : res, 'discount' : discount})
+        
     return render(request, 'website/reserveconf.html', {'price' : price, 'cart': cart, 'discount': discount})
 
 def adminmain(request):

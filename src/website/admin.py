@@ -4,6 +4,8 @@ from .models import *
 
 # ADMIN MODELS
 
+admin.site.site_url = '/website/adminview'
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['id', 'fname', 'lname', 'birthDate', 'email', 
@@ -70,7 +72,7 @@ class ReservedBookAdmin(admin.ModelAdmin):
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ['id', 'purchaser', 'order', 'expiry']
+    list_display = ['id', 'purchaser', 'totalPrice', 'expiry']
     list_ediable = list_display[1:]
 # VENDOR MODELS
 
@@ -78,9 +80,10 @@ class ReservationAdmin(admin.ModelAdmin):
 class VendorSite(admin.AdminSite):
     site_header = 'Vendor Area'
     site_title = 'Manage Inventory'
+    site_url = '/website/vendorview'
 
 
-vendor_site = VendorSite(name="VendorSitef")  
+vendorSite = VendorSite(name="vendorSite")  
 
 class VendorBookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'ISBN', 'genre', 'price', 
@@ -90,18 +93,22 @@ class VendorBookAdmin(admin.ModelAdmin):
     #list_filter = ['in_stock']
     #prepopulated_fields = {'slug': ('title',)}
     def get_queryset(self, request):
-        return Book.objects.filter(created_by = request.user)
+        vendor = Vendor.objects.filter(username=request.session['user'])[0]
+        #vendor
+        return Book.objects.filter(created_by = vendor)
 
-vendor_site.register(Book, VendorBookAdmin)
+vendorSite.register(Book, VendorBookAdmin)
 
 
 # CLIENT MODELS
 
 class ClientSite(admin.AdminSite):
     site_header = 'Client Area'
+    site_title = 'View Inventory'
+    site_url = '/website/clientview'
 
     
-client_site = ClientSite(name="ClientSitef")  
+clientSite = ClientSite(name="clientSite")  
 
 class ReadOnlyAdminMixin:
     def has_add_permission(self, request):
@@ -117,5 +124,5 @@ class ClientBookAdmin(ReadOnlyAdminMixin,admin.ModelAdmin):
     list_display = ['title', 'author', 'created_by' ,'ISBN', 'genre', 'price', 
                     'numSold', 'picture', 'description','slug','in_stock','stock','created','updated']
 
-client_site.register(Book, ClientBookAdmin)
+clientSite.register(Book, ClientBookAdmin)
 
