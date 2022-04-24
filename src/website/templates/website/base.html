@@ -46,9 +46,9 @@
                     Cart
                     </a>
                     {% if log %}
-                    <form method="post" action="logout">
+                    <form method="post" action="{% url 'website:website-logout' %}">
                       {% csrf_token %} 
-                    <input type="submit"  class="border rounded text-decoration-none bg-dark text-light mx-2 p-2" value="Logout">
+                    <input type="submit"   class="border rounded text-decoration-none bg-dark text-light mx-2 p-2" value="Logout">
                     </form>
                     <a href="{% url 'website:website-editaccount' %}" class="border rounded text-decoration-none text-light mx-2 p-2"> Profile </a>
                     {% else %}
