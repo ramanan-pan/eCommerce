@@ -114,7 +114,7 @@ def welcome(request):
 
 
 def cv(request):
-    return render(request, 'website/clientview.html')
+    return render(request, 'website/ClientView.html')
 
 def home(request):
     return render(request, 'website/home.html')
@@ -203,12 +203,21 @@ def conf(request):
     return render(request, 'website/orderconf.html', context)
 
 def adset(request):
+    if Admin.objects.filter(username=request.session['user']).exists():
+        user = Admin.objects.filter(username=request.session['user'])[0]
+        return render(request, 'website/addex.html', {'user' : user})
     return render(request, 'website/addex.html') 
 
 def cliset(request):
+    if Client.objects.filter(username=request.session['user']).exists():
+        user = Client.objects.filter(username=request.session['user'])[0]
+        return render(request, 'website/cliset.html', {'user' : user})
     return render(request, 'website/cliset.html') 
 
 def venset(request):
+    if Vendor.objects.filter(username=request.session['user']).exists():
+        user = Vendor.objects.filter(username=request.session['user'])[0]
+        return render(request, 'website/venset.html', {'user' : user})
     return render(request, 'website/venset.html') 
 
 def ordersum(request):
@@ -856,7 +865,7 @@ def editVendor(request):
         #    vendor.address = request.POST['phone']
         #    vendor.save()
 
-    return redirect('http://localhost:8000/website/venset')
+    return redirect('http://localhost:8000/website/venset', {'user', vendor})
 
 def editVendorPass(request):
     users = Vendor.objects.all()
@@ -897,7 +906,7 @@ def editClient(request):
         #    vendor.address = request.POST['phone']
         #    vendor.save()
 
-    return redirect('http://localhost:8000/website/cliset')
+    return redirect('http://localhost:8000/website/cliset', {'client' :  client})
 
 
 def editClientPass(request):

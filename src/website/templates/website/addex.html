@@ -57,19 +57,19 @@
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>First Name</label>
-								  	<input type="text" class="form-control" value="Vishruth" name="firstName">
+								  	<input type="text" class="form-control" required value="{{user.fname}}" name="firstname">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Last Name</label>
-								  	<input type="text" class="form-control" value="Singireddy" name="lastName">
+								  	<input type="text" class="form-control" required value="{{user.lname}}" name="lastname">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Email</label>
-								  	<input type="text" class="form-control" value="Client@gmail.com" name="email">
+								  	<input type="text" class="form-control" required value="{{user.email}}" name="email">
 								</div>
 								<input type="submit" class="form-control btn-primary"  value="Update">
 								<input type="submit" class="form-control btn-light"  value="Cancel">
