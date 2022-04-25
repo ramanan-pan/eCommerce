@@ -14,6 +14,9 @@
 		<div class="container">
             <div >
                 <h1 class="mb-5" style="display:inline; vertical-align: middle;">Client Settings</h1>
+				{% for message in messages %}
+				<h5 style="color: red;">Error: {{message}}</h5>
+			  {% endfor %} 
                 <button onclick="document.location='../clientview'" class="btn btn-outline-primary" type="button" style="margin-left: 10px;">Return to Hub</button>
             </div>
 			
@@ -85,7 +88,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Old password</label>
-								  	<input type="password" class="form-control">
+								  	<input type="password" class="form-control" name="oldPassword">
 								</div>
 							</div>
 						</div>
@@ -93,13 +96,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>New password</label>
-								  	<input type="password" class="form-control">
+								  	<input type="password" class="form-control" name="newPassword">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Confirm new password</label>
-								  	<input type="password" class="form-control">
+								  	<input type="password" class="form-control" name="confirm">
 								</div>
 								<input type="submit" class="form-control btn-primary"  value="Reset Password">
 								<input type="submit" class="form-control btn-light"  value="Cancel">
