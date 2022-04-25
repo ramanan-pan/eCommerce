@@ -33,7 +33,12 @@
           {% if log %}
           <a type="button" role="button" href="{% url 'website:website-cart' %}"
             class="border rounded text-decoration-none text-light mx-2 p-2">
+            
+            {% if conf %}
 
+            <div id="cart-qty" class="d-inline-flex"> 0 </div>
+            
+            {% else %}
             {% with total_qty=cart|length %}
             <div id="cart-qty" class="d-inline-flex">
               {% if total_qty > 0 %}
@@ -43,6 +48,7 @@
               {% endif %}
             </div>
             {% endwith %}
+            {% endif %}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3"
               viewBox="0 0 16 16">
               <path

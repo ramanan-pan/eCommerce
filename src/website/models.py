@@ -88,8 +88,8 @@ class Promotion(Model):
 class NewsLetter(Model):
     emailTitle = CharField(max_length=255)
     content = CharField(max_length=255)
-    scheduledTime = DateField()
-    attachment = CharField(max_length=255)
+    #scheduledTime = DateField()
+    #attachment = CharField(max_length=255)
     
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -153,12 +153,13 @@ class Sale(Model):
 
 class BookSale(Model):
     bookID = ForeignKey(Book, related_name="bookID", on_delete=CASCADE)
+    sale = ForeignKey(Sale, related_name="saleID", on_delete=CASCADE)
     salePrice = IntegerField()
     saleDate = DateField(default=datetime.date.today())
 
 class Reservation(Model):
     purchaser = ForeignKey(User, related_name="reservingUserID", on_delete=CASCADE)
-    expiry = DateField(default=(datetime.date.today() + datetime.timedelta(days=5)))
+    expiry = DateField(default=(datetime.date.today() + datetime.timedelta(days=4)))
     totalPrice = IntegerField()
 
     def complete(self):

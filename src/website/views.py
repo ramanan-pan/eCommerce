@@ -163,12 +163,6 @@ def conf(request):
         context['discount'] = discount
     for item in cart:
         email.append(str(item['book']) + ': ' + str(item['price']) + ' Qty: ' +str(item['qty']) )
-        for i in range(item['qty']): # not working, need to figure out how to get these values
-            bookSale = BookSale()
-            bookSale.bookID = (item['book'])
-            bookSale.salePrice = (item['price'])
-            bookSale.saleDate = datetime.date.today()
-            bookSale.save()
     if request.method == "POST":
         sale = Sale()
         context['sale'] = sale
@@ -177,7 +171,7 @@ def conf(request):
         if request.COOKIES.get('username'):
             context['log'] = request.COOKIES.get('username')
             sale.purchaser = User.objects.get(username=request.COOKIES.get('username'))
-             
+            sale.date = datetime.date.today()
             em = User.objects.get(username=request.COOKIES.get('username'))
             sale.name = em.fname + ' ' + em.lname 
             email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
@@ -189,16 +183,21 @@ def conf(request):
             context['sale'] = sale
             address = request.POST.get('ADDR')
             context['address'] = address
+            for item in cart:
+                for i in range(item['qty']): 
+                    bookSale = BookSale()
+                    bookSale.bookID = (item['book'])
+                    bookSale.salePrice = (item['price'])
+                    bookSale.sale = sale
+                    bookSale.saleDate = datetime.date.today()
+                    bookSale.save()
             cart.clear()
             cart_user = User.objects.get(username = request.COOKIES.get('username'))
             cBooks =  CartBook.objects.filter(user = cart_user)
             for cBook in cBooks:
                 cBook.delete()
-        else:
-
-
-
             context['cart'] = cart
+            context['conf'] = 'yes'
             return render(request, 'website/orderconf.html', context)
         cart.clear()   
         context['cart'] = cart 
@@ -317,7 +316,7 @@ def reserveconf(request):
     if request.method == "POST":
         res = Reservation()
         res.totalPrice = price + discount
-        res.expiry = datetime.date.today() + datetime.timedelta(days=6)
+        res.expiry = datetime.date.today() + datetime.timedelta(days=4)
         res.purchaser = User.objects.filter(username = request.session['user'])[0]
         res.save()
         context['reservation'] = res
@@ -340,8 +339,8 @@ def reserveconf(request):
         cBooks =  CartBook.objects.filter(user = cart_user)
         for cBook in cBooks:
             cBook.delete()
-        
         bot.reserveConfirmation(em.email, email)
+        context['conf'] = 'yes'
         return render(request, 'website/reserveconf.html', context)
     cart.clear()
     return render(request, 'website/reserveconf.html', context)

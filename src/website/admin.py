@@ -1,6 +1,7 @@
 from django.contrib import admin
 from requests import request
 from .models import *
+from django.contrib.admin.models import LogEntry
 
 # ADMIN MODELS
 
@@ -43,7 +44,7 @@ class PromoAdmin(admin.ModelAdmin):
 
 @admin.register(NewsLetter)
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ['id', 'emailTitle', 'content', 'scheduledTime', 'attachment']
+    list_display = ['id', 'emailTitle', 'content']
     list_editable = list_display[1:]
 
 @admin.register(Book)    
@@ -62,7 +63,7 @@ class SaleAdmin(admin.ModelAdmin):
 
 @admin.register(BookSale)    
 class SoldBookAdmin(admin.ModelAdmin):
-    list_display = ['id', 'bookID', 'salePrice']
+    list_display = ['id','sale', 'bookID', 'salePrice', 'saleDate']
     list_editable = list_display[1:]
 
 @admin.register(ReservedBook)
@@ -85,8 +86,10 @@ class CartBookAdmin(admin.ModelAdmin):
 
 class VendorSite(admin.AdminSite):
     site_header = 'Vendor Area'
-    site_title = 'Manage Inventory'
+    site_title = 'Admin'
     site_url = '/website/vendorview'
+    index_title = 'Manage Inventory'
+    LogEntry.objects.all().delete()
 
 
 vendorSite = VendorSite(name="vendorSite")  
@@ -110,8 +113,10 @@ vendorSite.register(Book, VendorBookAdmin)
 
 class ClientSite(admin.AdminSite):
     site_header = 'Client Area'
-    site_title = 'View Inventory'
+    site_title = 'Admin'
     site_url = '/website/clientview'
+    index_title = 'View Inventory'
+    LogEntry.objects.all().delete()
 
     
 clientSite = ClientSite(name="clientSite")  
