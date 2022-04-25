@@ -472,6 +472,7 @@ def changePassword(request):
 
 
 def deleteAccount(request):
+    cart = Cart(request)
     users = User.objects.all()
     if request.POST != None:
         for user in users:
@@ -479,6 +480,7 @@ def deleteAccount(request):
                 response = render(request, 'website/login.html')
                 response.delete_cookie('username')
                 response.delete_cookie('password')
+                cart.clear()
                 user.delete()
 
     return redirect('http://localhost:8000/website/login')
@@ -613,7 +615,7 @@ def validateCreds(request):
         if Client.objects.filter(username=request.POST['username']).exists():
             target = Client.objects.get(username=request.POST['username'])
             if (target.password == request.POST['password']):
-                response = redirect('http://localhost:8000/website/ClientView') 
+                response = redirect('http://localhost:8000/website/clientview') 
                 response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
                 response.set_cookie('password', request.POST['password'],max_age=60*60*60*24*7*4 )
                 request.session['user'] = request.POST['username']
@@ -703,18 +705,27 @@ def manadmin(request):
 def getBooksByVendor(vendorName):
     books = Book.objects.filter(created_by_id = Vendor.objects.filter(username = vendorName)[0].id)
     return books
-    
+ 
 def cart_add(request):
-    #print('cart_add is called')
-    cart = Cart(request)
-    if request.POST.get('action') == 'post':
-        book_id = int(request.POST.get('id'))
-        book_qty = int(request.POST.get('qty'))
-        book = get_object_or_404(Book, id = book_id)
-        cart.add(book=book, qty=book_qty)
-        cartqty = cart.__len__()
-        response = JsonResponse({'qty': cartqty})
+    response = redirect('http://localhost:8000/website/login')
+    try: 
+        #if request.session['user']:
+        if User.objects.filter(username=request.session['user']).exists():   
+            print('This is not working!')
+            cart = Cart(request)
+            if request.POST.get('action') == 'post':
+                book_id = int(request.POST.get('id'))
+                book_qty = int(request.POST.get('qty'))
+                book = get_object_or_404(Book, id = book_id)
+                cart.add(book=book, qty=book_qty)
+                cartqty = cart.__len__()
+                response = JsonResponse({'qty': cartqty})
+                return response
+    except:
+        response = redirect('http://localhost:8000/website/login')
         return response
+    return response
+            
 
 
 def cart_delete(request):
