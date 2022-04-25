@@ -6,7 +6,7 @@
 <html>
 
 <body data-new-gr-c-s-check-loaded="14.1052.0" data-gr-ext-installed="">
-  <!--new branch comment-->>
+  <!--new branch comment-->
   <div class="container">
 
     <div class="starter-template">
@@ -45,7 +45,7 @@
                   <th scope="row" class="border-0">
                     <div class="p-2">
                       <img alt="Responsive Image" width="70" class="img-fluid rounded shadow-sm"
-                        src="{{ book.picture }}">
+                        src="{{ book.picture.url }}">
                       <div class="ml-3 d-inline-block align-middle">
                         <h5 class="mb-0"> <a href="{{ book.get_absolute_url }}"
                             class="text-dark d-inline-block align-middle">{{book.title}}</a></h5><span
@@ -89,6 +89,7 @@
       </div>
     </div>
   </div>
+  {% if cart %}
   <div class="row py-5 p-4 bg-white rounded shadow-sm">
 
     <div class="col-md-12">
@@ -106,6 +107,7 @@
             <h5 id="subtotal" class="font-weight-bold">$ {{cart.get_total_price}}</h5>
           </li>
         </ul>
+        
         {% if log %}
           <a href="{% url 'website:website-orderSummary' %}"
           class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
@@ -116,9 +118,17 @@
           <a href="{% url 'website:website-orderSummary' %}"
           class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
         {% endif %}
+        
       </div>
     </div>
   </div>
+  {% else %}
+  <div class="col-md-12">
+    <div class="bg-light rounded-pill px-4 py-3  font-weight-bold text-align-center"><center> You haven't added any books to your cart!</center>  </div>
+    <a href="{% url 'website:website-index' %}"
+          class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>search our catalog</strong></a>
+  </div>
+  {% endif %}
 </body>
 
 </html>

@@ -2,6 +2,7 @@ from django.db.models import *
 from django.core.exceptions import ValidationError
 import datetime
 from django.urls import reverse
+from website.EmailBot import EmailBot
 # Create your models here.
 
 class Account(Model):
@@ -70,11 +71,33 @@ class Promotion(Model):
         self.serial_date()
         self.has_discount()
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            bot = EmailBot()
+            userlist = User.objects.filter(subscriptions = True)
+            emaillist= []
+            for user in userlist:
+                emaillist.append(user.email) 
+            bot.promotion(emaillist, self.startdate, self.enddate, self.code, self.name, self.description)      
+        super().save(*args, **kwargs)
+
 class NewsLetter(Model):
     emailTitle = CharField(max_length=255)
     content = CharField(max_length=255)
     scheduledTime = DateField()
     attachment = CharField(max_length=255)
+    
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            bot = EmailBot()
+            userlist = User.objects.filter(newsletters = True)
+            emaillist= []
+            for user in userlist:
+                emaillist.append(user.email) 
+            bot.newsletter(emaillist, self.content, self.emailTitle)      
+        super().save(*args, **kwargs)
+    
+
 
 
 class BookManager(Manager):

@@ -175,6 +175,11 @@ def conf(request):
             sale.save()
             address = request.POST.get('ADDR')
             cart.clear()
+            cart_user = User.objects.get(username = request.COOKIES.get('username'))
+            cBooks =  CartBook.objects.filter(user = cart_user)
+            for cBook in cBooks:
+                cBook.delete()
+            
             return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
         cart.clear()    
     return render(request, 'website/orderconf.html', {'price' : price, 'discount': discount})
@@ -262,6 +267,8 @@ def reservesum(request):
 
 def reserveconf(request):
     cart = Cart(request)
+    bot = EmailBot()
+    email = ['Here is your order for the date ' + str(datetime.date.today()) + "..."]
     #basket = [1,2] # Given the books stored as an array of IDs...
     #books = list(Book.objects.filter(id__in=(cart))) 
         #generate a list of the book objects and iterate through them.
@@ -279,16 +286,26 @@ def reserveconf(request):
         res.expiry = datetime.date.today() + datetime.timedelta(days=6)
         res.purchaser = User.objects.filter(username = request.session['user'])[0]
         res.save()
-
+        email.append('Pickup by: ' + str(res.expiry))
+        pick_up_date = res.expiry.strftime('%B %d, %Y')
+        em = User.objects.get(username=request.COOKIES.get('username'))
+        email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
+        email.append("Please pay in-store a total of " + str(res.totalPrice))
         for item in cart:
+            email.append(str(item['book']) + ': ' + str(item['price']) + ' Qty: ' +str(item['qty']) )
             for i in range(item['qty']): # not working, need to figure out how to get these values
                 rBook = ReservedBook()
                 rBook.book = (item['book'])
                 rBook.reservation = res
                 rBook.save()
-        
         cart.clear()
-        return render(request, 'website/reserveconf.html', {'price' : price, 'cart' : cart, 'reservation' : res, 'discount' : discount})
+        cart_user = User.objects.get(username = request.COOKIES.get('username'))
+        cBooks =  CartBook.objects.filter(user = cart_user)
+        for cBook in cBooks:
+            cBook.delete()
+        
+        bot.reserveConfirmation(em.email, email)
+        return render(request, 'website/reserveconf.html', {'price' : price, 'cart' : cart, 'reservation' : res, 'discount' : discount, 'pickup': pick_up_date})
     cart.clear()
     return render(request, 'website/reserveconf.html', {'price' : price, 'cart': cart, 'discount': discount})
 

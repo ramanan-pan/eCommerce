@@ -71,6 +71,3 @@ class Cart():
         del self.session['cart']
         self.session['cart'] = {}
         self.save()
-
-    #def toJSON(self):
-    #    return json.dumps(self, default=)
