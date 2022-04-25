@@ -144,6 +144,7 @@ def image(request):
 def conf(request):
     cart = Cart(request)
     bot = EmailBot()
+    gen = TokenGenerator()
     email = ['Here is your order for the date ' + str(datetime.date.today()) + "..."]
     #basket = [1,2] # Given the books stored as an array of IDs...
     #books = list(Book.objects.filter(id__in=(cart))) 
@@ -172,6 +173,7 @@ def conf(request):
             email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
             sale.totalPrice = price + discount + 20
             email.append("You spent a total of " + str(sale.totalPrice))
+            email.append("Order #: " + gen.generateOrdernum())
             bot.orderConfirmation(em.email, email)
             sale.save()
             address = request.POST.get('ADDR')
@@ -390,7 +392,7 @@ def addUser(request):
             user.fname = request.POST['firstName']
             user.lname = request.POST['lastName']
             user.username = request.POST['userName']
-            user.address = request.POST['address'] + ", " + request.POST['state'] + ", " + str(request.POST['zipcode'])
+            user.address = request.POST['address'] + ", " +  request.POST['city']+" " +request.POST['state'] + ", " + str(request.POST['zipcode'])
             user.email = request.POST['email']
             user.birthDate = request.POST['DOB']
             user.password = request.POST['password']
@@ -444,9 +446,6 @@ def changeAccount(request):
                     user.save()
                 if request.POST['address1']:
                     user.address = request.POST['address1']
-                    user.save()
-                if request.POST['zipcode']:
-                    user.zipcode = request.POST['zipcode']
                     user.save()
 
     return redirect('http://localhost:8000/website/editaccount')
@@ -603,7 +602,7 @@ def validateCreds(request):
             else:
                 messages.info(request, 'Invalid Password')
                 return redirect('http://localhost:8000/website/login')
-
+        
         if Vendor.objects.filter(username=request.POST['username']).exists():
             target = Vendor.objects.get(username=request.POST['username'])
             if (target.password == request.POST['password']):
@@ -639,8 +638,9 @@ def validateCreds(request):
             else:
                 messages.info(request, 'Invalid Password')
                 return redirect('http://localhost:8000/website/login')
-
-
+        
+            
+    messages.info(request, 'Invalid Credentials')
     return redirect('http://localhost:8000/website/login')
 
 

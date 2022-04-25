@@ -27,6 +27,12 @@ class TokenGenerator():
         token = ''.join(token)
         return token
 
+    def generateOrdernum(self):
+        token = ''
+        letters = string.digits
+        token += ''.join(random.choice(letters) for i in range(7))
+        return token
+
 
 
 
