@@ -172,6 +172,8 @@ class Reservation(Model):
             bsale.bookID = b
             bsale.salePrice = b.price
             bsale.save()
+        sale.date = datetime.date.today()
+        sale.name = self.purchaser.fname + ' ' + self.purchaser.lname
         sale.purchaser = self.purchaser
         sale.totalPrice = self.totalPrice
         sale.save()

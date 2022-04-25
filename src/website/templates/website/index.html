@@ -8,18 +8,18 @@
     <form action="{% url 'website:website-index' %}" method="GET" value="{{request.GET.q}}">
       {% csrf_token %}
       <input type="text" name="q" value="{{request.GET.q}}" placeholder="" />
-      <input type="submit" name="submit" value="Search" class="btn-outline-success" />
+      <input type="submit" name="submit" value="Search" class="btn-outline-success bg-dark text-light />
 
-      <input type="radio" class="btn-check" name="options" id="title" value="title" autocomplete="off">
+      <input type="radio" class="btn-check" name="options" id="title" value="title" autocomplete="off" >
       <label class="btn btn-secondary" for="title">Title</label>
 
-      <input type="radio" class="btn-check" name="options" id="author" value="author" autocomplete="off">
+      <input type="radio" class="btn-check" name="options" id="author" value="author" autocomplete="off" >
       <label class="btn btn-secondary" for="author">Author</label>
 
-      <input type="radio" class="btn-check" name="options" id="isbn" value="isbn" autocomplete="off">
+      <input type="radio" class="btn-check" name="options" id="isbn" value="isbn" autocomplete="off" >
       <label class="btn btn-secondary" for="isbn">ISBN</label>
 
-      <input type="radio" class="btn-check" name="options" id="subject" value="subject" autocomplete="off">
+      <input type="radio" class="btn-check" name="options" id="subject" value="subject" autocomplete="off" >
       <label class="btn btn-secondary" for="subject">Subject</label>
 
 
@@ -48,7 +48,7 @@
           <img style = "width: 100%; height: 30vh; object-fit: cover;" class="card-img-top" alt="{{ result.picture.url }}" src="{{ result.picture.url }}">
           <div class="card-body">
             <p class="card-text">
-              <a class="text-dark text-decoration-none" href="{{ result.get_absolute_url }}">{{ result.title }}</a>
+              <a class="text-light text-decoration-none" href="{{ result.get_absolute_url }}">{{ result.title }}</a>
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <small class="text-muted"> {{ result.author }}</small>
@@ -72,7 +72,7 @@
           <img style = "width: 100%; height: 30vh; object-fit: cover;" class="card-img-top" alt="{{book.picture.url}}" src="{{ book.picture.url }}">
           <div class="card-body">
             <p class="card-text">
-              <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+              <a class="text-light text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <small class="text-muted"> {{ book.author }}</small>
@@ -95,7 +95,7 @@
           <img style = "width: 100%; height: 30vh; object-fit: cover;" class="card-img-top" alt="{{book.picture.url}}" src="{{ book.picture.url }}">
           <div class="card-body">
             <p class="card-text">
-              <a class="text-dark text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+              <a class="text-light text-decoration-none" href="{{ book.get_absolute_url }}">{{ book.title }}</a>
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <small class="text-muted"> {{ book.author }}</small>

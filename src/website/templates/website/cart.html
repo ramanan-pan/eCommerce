@@ -95,7 +95,7 @@
     <div class="col-md-12">
       <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
       <div class="p-4">
-        <p class="font-italic mb-4">Select 'Checkout' to continue.</p>
+        
         <ul class="list-unstyled mb-4">
           <!--li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal </strong>
                 <div id = "subtotal"><strong>$ {{cart.get_total_price}} </strong></div>
@@ -109,14 +109,23 @@
         </ul>
         
         {% if log %}
+        <div class = "row px-10 py-3">
+          <p class="font-italic mb-4">Select 'CHECKOUT' to make an online order.</p>
           <a href="{% url 'website:website-orderSummary' %}"
           class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
+          
+        </div>
 
+        <div class = "row px-10 py-3">
+          <p class="font-italic mb-4">Select 'RESERVE' to make a reservation to pick-up in-store.</p>
           <a href="{% url 'website:website-reserveSummary' %}"
           class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Reserve</strong></a>
+        </div>
         {% else %}
+        <div class = "px-10 py-3">
           <a href="{% url 'website:website-orderSummary' %}"
           class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>Checkout</strong></a>
+          </div>
         {% endif %}
         
       </div>
@@ -125,8 +134,8 @@
   {% else %}
   <div class="col-md-12">
     <div class="bg-light rounded-pill px-4 py-3  font-weight-bold text-align-center"><center> You haven't added any books to your cart!</center>  </div>
-    <a href="{% url 'website:website-index' %}"
-          class="btn btn-dark rounded-pill py-2 btn-block text-uppercase"><strong>search our catalog</strong></a>
+    <div class="px-4 py-3"><center><a href="{% url 'website:website-index' %}"
+          class="btn btn-dark rounded-pill py-3  btn-block text-uppercase"><strong>search our catalog</strong></a></center></div>>
   </div>
   {% endif %}
 </body>

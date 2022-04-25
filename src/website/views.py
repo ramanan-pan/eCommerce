@@ -177,7 +177,9 @@ def conf(request):
         if request.COOKIES.get('username'):
             context['log'] = request.COOKIES.get('username')
             sale.purchaser = User.objects.get(username=request.COOKIES.get('username'))
+             
             em = User.objects.get(username=request.COOKIES.get('username'))
+            sale.name = em.fname + ' ' + em.lname 
             email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
             sale.totalPrice = price + discount + 20
             email.append("You spent a total of " + str(sale.totalPrice))
@@ -295,6 +297,7 @@ def reservesum(request):
 def reserveconf(request):
     context = {}
     cart = Cart(request)
+    context['cart'] = cart
     bot = EmailBot()
     email = ['Here is your order for the date ' + str(datetime.date.today()) + "..."]
     #basket = [1,2] # Given the books stored as an array of IDs...
@@ -557,7 +560,7 @@ def login(request):
     
 
 def recoveryKey(request):
-    return render(request,'website/recoveryKey.html' )
+    return render(request,'website/forgotpassword.html' )
 
 
 def recoverAccount(request):
@@ -834,7 +837,7 @@ def verify(request):
 def verifyUser(request):
     user = None
     if request.POST:
-        if User.objects.filter(vkey=request.POST['verify']).exists:
+        if User.objects.filter(vkey=request.POST['verify']).exists():
             user = User.objects.get(vkey=request.POST['verify'])
             user.verified = True
             user.vkey = 'null'
