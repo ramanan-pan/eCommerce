@@ -54,12 +54,12 @@
 <body style="background-color: #34568B;">
   <br>
   
-  <form  method="post" action="recoverAccount">
+  <form  method="post" action="verifyUser">
     {% csrf_token %} 
   <section class="py-5 my-5">
     <div class="container">
       <div class="bg-white shadow-lg rounded-lg " style="height: 400px;">
-        <div style="transform: translate(0%, 50%);;"><h2 style="text-align: center; vertical-align: middle;">Account Recovery</h2></div>
+        <div style="transform: translate(0%, 50%);;"><h2 style="text-align: center; vertical-align: middle;">Verify your Account</h2></div>
         
        
           <div style="text-align: center;">
@@ -70,12 +70,10 @@
               {% for message in messages %}
       					<h6 style="color: red;">{{message}}</h6>
     					{% endfor %}
-              <label>Enter your recovery key:</label>
-              <input type="text" class="form-control" placeholder="recovery key" name="recovery">
-              <label>Enter a new password:</label>
-              <input type="text" class="form-control" placeholder="password" name="password">
-              <label>Enter again:</label>
-              <input type="text" class="form-control" placeholder="confirm" name="confirm">
+              <label>Enter your Verification Code:</label>
+              <input type="text" class="form-control" placeholder="code" name="verify">
+              <input type="submit" class="form-control btn-primary"  value="Verify">
+            </form>
             </div>
           </div>
           
@@ -83,7 +81,6 @@
 
           <div class="col-md-12 justify-content-middle">
             <div class="form-group">
-              <input type="submit" class="form-control btn-primary"  value="Change Password">
             </div>
           </div>
         </div>
@@ -93,7 +90,6 @@
     </div>
     </div>
   </section>
-</form>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

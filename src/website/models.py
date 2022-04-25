@@ -14,6 +14,7 @@ class Account(Model):
     password = CharField(max_length=255)
     email = CharField(max_length=255)
     rkey = CharField(max_length=255, default="none") # used for recovery
+
     class UserType(TextChoices):
         USER = 'USER'
         CLIENT = 'CLIENT'
@@ -34,6 +35,9 @@ class User(Account):
     birthDate = DateField()
     phone = IntegerField(max_length=10, blank=True, null=True)
     address = CharField(max_length=255)
+    vkey = CharField(max_length=255, default="none")
+    verified = BooleanField(default=False)
+
 
 class Vendor(Account):
     None

@@ -9,7 +9,7 @@ admin.site.site_url = '/website/adminview'
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['id', 'fname', 'lname', 'birthDate', 'email', 
-                    'phone', 'address', 'username', 'password',
+                    'phone', 'address', 'username', 'password', 'rkey', 'vkey', 'verified',
                     'newsletters', 'subscriptions']
     list_editable = list_display[1:]
 

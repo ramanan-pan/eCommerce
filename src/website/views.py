@@ -11,6 +11,7 @@ from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, JsonResponse
+from requests import request
 from website.EmailBot import EmailBot
 from .models import *
 import re
@@ -336,7 +337,7 @@ def addUser(request):
     ln = True
     addy = True
     zip = True
-
+    gen = TokenGenerator()
 
     if request.method == 'POST' and request.POST != None:
         if not request.POST['email']: #checks for an empty user input 
@@ -389,14 +390,16 @@ def addUser(request):
             user.email = request.POST['email']
             user.birthDate = request.POST['DOB']
             user.password = request.POST['password']
+            vkey = gen.generateToken()
+            user.vkey = vkey
             try:
-                bot.confirmAccount(request.POST['firstName'],request.POST['lastName'],request.POST['email'] )
+                bot.confirmAccount(request.POST['firstName'],request.POST['lastName'],request.POST['email'],vkey)
             except Exception:
                 return redirect('http://localhost:8000/website/create')
 
             user.save()
 
-            return redirect('http://localhost:8000/website/login')
+            return redirect('http://localhost:8000/website/verify')
             
     else:
 
@@ -526,8 +529,8 @@ def recoveryKey(request):
 
 
 def recoverAccount(request):
-    if User.objects.filter(username=request.POST['recovery']).exists():
-            target = User.objects.get(username=request.POST['recovery'])
+    if User.objects.filter(rkey=request.POST['recovery']).exists():
+            target = User.objects.get(rkey=request.POST['recovery'])
             if (request.POST['confirm'] == request.POST['password']):
                 response = redirect('http://localhost:8000/website/login') 
                 target.password = request.POST['password']
@@ -541,7 +544,6 @@ def recoverAccount(request):
         messages.info(request, 'Incorrect Recovery Key')
         return redirect('http://localhost:8000/website/recoveryKey')
 
-    return redirect('http://localhost:8000/website/recoveryKey')
 
 
 
@@ -556,7 +558,6 @@ def validateCreds(request):
     except:
             context['log'] = ''  
 
-
     if request.POST != None:
         if not request.POST['username']:
             messages.info(request, 'Username empty')
@@ -568,6 +569,9 @@ def validateCreds(request):
 
         if User.objects.filter(username=request.POST['username']).exists():
             target = User.objects.get(username=request.POST['username'])
+            if target.verified == False:
+                messages.info(request, 'PLease verify your account')
+                return redirect('http://localhost:8000/website/login')
             if (target.password == request.POST['password']):
                 response = redirect('http://localhost:8000/website/welcome') 
                 response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
@@ -644,10 +648,10 @@ def passwordRecovery(request):
         for user in users:
             if request.POST['email'] == user.email:
                 found = True
-                rkey = str(gen._make_hash_value(user,to_integer(datetime.date.today())))
+                rkey = gen.generateToken()
                 user.rkey = rkey
                 user.save()
-                bot.recoveryKey(user.email, 'http://localhost:8000/website/recoveryKey', rkey, user.fname, user.lname)
+                bot.recoveryKey(user.email, rkey, user.fname, user.lname)
                 messages.info(request, 'Email has been sent')
                 return render(request, 'website/forgotpassword.html')
         
@@ -779,3 +783,23 @@ def sumPrice(books):
     for b in books:
         price += b.price
     return price
+
+
+def verify(request):
+    return render(request, 'website/verify.html')
+
+
+def verifyUser(request):
+    user = None
+    if request.POST:
+        if User.objects.filter(vkey=request.POST['verify']).exists:
+            user = User.objects.get(vkey=request.POST['verify'])
+            user.verified = True
+            user.vkey = 'null'
+            user.save()
+        else:
+            messages.info(request, 'Recovery key given is invalid')
+            return redirect('http://localhost:8000/website/verify')
+            
+
+    return redirect('http://localhost:8000/website/login')
