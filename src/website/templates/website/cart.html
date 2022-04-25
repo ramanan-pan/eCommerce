@@ -174,7 +174,7 @@
         document.getElementById("cart-qty").innerHTML = json.qty
         document.getElementById("subtotal").innerHTML = '$ ' + json.subtotal
       },
-      error: function (xhr, errmsg, err) { }
+      error: function (xhr, errmsg, err) { location.href("localhost:8000/website/login") }
     });
   })
 
