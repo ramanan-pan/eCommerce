@@ -512,7 +512,7 @@ def login(request):
             target = Client.objects.get(username=request.COOKIES.get('username'))
             if (target.password == request.COOKIES.get('password')):
                 request.session['user'] = request.COOKIES.get('username')
-                return redirect('http://localhost:8000/website/Clientview')
+                return redirect('http://localhost:8000/website/clientview')
 
 
         if Admin.objects.filter(username=request.COOKIES.get('username')).exists():
@@ -814,3 +814,11 @@ def verifyUser(request):
             
 
     return redirect('http://localhost:8000/website/login')
+
+def salesReport(request):
+    sales = BookSale.objects.prefetch_related('book').values('bookID__title')
+    sales = sales.annotate(total=Sum('salePrice'), count=Count('bookID'))
+    print(sales)
+    tsold = sales.aggregate(bookssold=Sum('count'))
+    trevenue = sales.aggregate(totalrevenue=Sum('total'))
+    return render(request, 'website/sales.html', {'sales' : sales, 'tsold' : tsold, 'trevenue' : trevenue})

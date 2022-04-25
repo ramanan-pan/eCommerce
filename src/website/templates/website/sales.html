@@ -61,38 +61,36 @@
     }
     </style>
 <body style ="background-color: #34568B">
-    <nav class="navbar navbar-expand navbar-dark bg-dark"  aria-label="Second navbar example">
-        <div class="container-fluid">
-          
-          
-
-    
+    <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+        <div class="container-fluid ">
+         <!----<img src="https://www.w3schools.com/images/img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
+         -->
+         <div class="collapse navbar-collapse" id="navbarsExample02">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item justify-content-end">
+              <button onclick="document.location='clientview'" class="btn btn-outline-light" type="button">Client Hub</button>
+            </li>
+          </ul>
           <div class="collapse navbar-collapse" id="navbarsExample02">
             <ul class="navbar-nav me-auto">
-              <li class="nav-item justify-content-end">
-                      </li>
+              <li class="nav-item ">
+               
+           
+              </li>
             </ul>
-            <div class="collapse navbar-collapse" id="navbarsExample02">
-              <ul class="navbar-nav me-auto">
-                <li class="nav-item ">
-                 
+            <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <form method="post" action="logout">
+                  {% csrf_token %}
+                  <input  type='submit' class="btn btn-outline-light mr-1" value="Log out">
+                </form>
+              </li>
              
-                </li>
-              </ul>
-              <ul class="nav justify-content-end">
-                <li class="nav-item">
-                  <button class="btn btn-outline-light mr-1" type="button"><a style="text-decoration:none;color:white" href="{% url 'website:website-expired-reservations' %}" >Expired Reservations</a></button>
-                 
-                </li>
-                <li class="nav-item">
-                  <button onclick="document.location='adminview'" class="btn btn-outline-light" type="button">Return to Hub</button>
-                </li>
-              </ul>
-          </div>
+            </ul>
+        </div>
     
-          
-          </div>
-          
+        
+        </div>
         </div>
     </nav>
   
@@ -101,43 +99,28 @@
     
     <table id="customersd">
         <tr>
-          <th>Order ID</th>
-               <th>Pickup Store</th>
-               <th>Name</th>
-               <th>Email</th>
-               <th>Total Price</th>
-               <th>Pickup by</th>
-               <th></th>
-               
-          
+          <th>Book</th>
+               <th>Price</th>
+               <th>Number Sold</th>
+               <th>Total</th>
         </tr>
 
-        {% for r in reservations %}
+        {% for s in sales %}
         <tr>
-            <td>{{r.id}}</td>
-                 <td>Athens Superstore</td>
-                 <td>{{r.purchaser.username}}</td>
-                 <td>{{r.purchaser.email}}</td>
-                 <td>${{r.totalPrice}}</td>
-                 <td>{{r.expiry}}</td>
-                 <td>
-                  <form action="{%url 'website:website-reservations' %}" name="complete" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-secondary">
-                   
-                     
-                     <input type="hidden" name="id" value="{{r.id}}">
-  
-                   
-                  Mark as Complete
-                
-                </button>
-              </form>
-              </td>
+            <td>{{s.bookID__title}}</td>
+                 <td>${% widthratio  s.total s.count 1 %}</td>
+                 <td>{{s.count}}</td>
+                 <td>${{s.total}}</td>
             
           </tr>
 
           {% endfor %}          
+          <tr>
+              <td></td>
+              <td><strong>Totals:</strong></td>
+              <td><strong>{{tsold.bookssold}}</strong></td>
+                <td><strong>${{trevenue.totalrevenue}}</strong></td>
+          </tr>
           
         
             <!-- <input type="text" id="myInput" onkeyup="myeFunction()" placeholder="Search for names..">
