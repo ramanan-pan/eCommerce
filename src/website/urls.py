@@ -70,6 +70,9 @@ urlpatterns = [
     path('reservations', views.res, name='website-reservations'),
     path('expiredreservations', views.expiry, name='website-expired-reservations'),
     path('verify', views.verify, name='website-verify'),
-    path('verifyUser', views.verifyUser, name='website-expired-verifyUser')
-
+    path('verifyUser', views.verifyUser, name='website-expired-verifyUser'),
+    path('editVendor', views.editVendor, name='website-editVendor'),
+    path('editVendorpass', views.editVendorPass, name='website-editVendorPass'),
+    path('editClient', views.editClient, name='website-editClient'),
+    path('editClientPass', views.editClientPass, name='website-editClientPass')
 ]

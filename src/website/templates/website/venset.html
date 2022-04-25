@@ -46,6 +46,8 @@
 				<div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
 					<div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
 						<h3 class="mb-4">Account Settings</h3>
+						<form method="post" action="{% url 'website:website-editVendor' %}">
+							{% csrf_token %}
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -64,21 +66,18 @@
 								  	<label>Email</label>
 								  	<input type="text" class="form-control" value="vtvendor@gmail.com">
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-								  	<label>Phone number</label>
-								  	<input type="text" class="form-control" value="770-770-7707">
-								</div>
+								<input type="submit" class="form-control btn-primary"  value="Update">
+								<input type="submit" class="form-control btn-light"  value="Cancel">
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-primary">Update</button>
-							<button class="btn btn-light">Cancel</button>
 						</div>
 					</div>
+					</form>
 					<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
 						<h3 class="mb-4">Password Settings</h3>
+						<form method="post" action="{% url 'website:website-editVendorPass' %}"></form>
+						{% csrf_token %}
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -99,14 +98,14 @@
 								  	<label>Confirm new password</label>
 								  	<input type="password" class="form-control">
 								</div>
+								<input type="submit" class="form-control btn-primary"  value="Reset Password">
+								<input type="submit" class="form-control btn-light"  value="Cancel">
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-primary">Update</button>
-							<button class="btn btn-light">Cancel</button>
 						</div>
 					</div>
-					
+				</form>
 				</div>
 			</div>
 		</div>

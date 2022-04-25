@@ -48,40 +48,40 @@
 				<div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
 					<div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
 						<h3 class="mb-4">Account Settings</h3>
+						<form  method="post" action="{% url 'website:website-editClient' %}">
+							{% csrf_token %}
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>First Name</label>
-								  	<input type="text" class="form-control" value="Vishruth">
+								  	<input type="text" class="form-control" value="Vishruth" name="firstName">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Last Name</label>
-								  	<input type="text" class="form-control" value="Singireddy">
+								  	<input type="text" class="form-control" value="Singireddy" name="lastName">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Email</label>
-								  	<input type="text" class="form-control" value="Client@gmail.com">
+								  	<input type="text" class="form-control" value="Client@gmail.com" name="email">
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-								  	<label>Phone number</label>
-								  	<input type="text" class="form-control" value="770-770-7707">
-								</div>
+								<input type="submit" class="form-control btn-primary"  value="Update">
+								<input type="submit" class="form-control btn-light"  value="Cancel">
 							</div>
 						</div>
+						
+					</form>
 						<div>
-							<button class="btn btn-primary">Update</button>
-							<button class="btn btn-light">Cancel</button>
 						</div>
 					</div>
 					<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
 						<h3 class="mb-4">Password Settings</h3>
 						<div class="row">
+						<form method="post" action="{% url 'website:website-editClientPass' %}">
+							{% csrf_token %}
 							<div class="col-md-6">
 								<div class="form-group">
 								  	<label>Old password</label>
@@ -101,14 +101,15 @@
 								  	<label>Confirm new password</label>
 								  	<input type="password" class="form-control">
 								</div>
+								<input type="submit" class="form-control btn-primary"  value="Reset Password">
+								<input type="submit" class="form-control btn-light"  value="Cancel">
 							</div>
 						</div>
 						<div>
-							<button class="btn btn-primary">Update</button>
-							<button class="btn btn-light">Cancel</button>
+						</form>
 						</div>
 					</div>
-					
+				</form>
 				</div>
 			</div>
 		</div>
