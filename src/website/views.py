@@ -114,7 +114,7 @@ def welcome(request):
 
 
 def cv(request):
-    return render(request, 'website/ClientView.html')
+    return render(request, 'website/clientview.html')
 
 def home(request):
     return render(request, 'website/home.html')
@@ -180,7 +180,11 @@ def conf(request):
             cBooks =  CartBook.objects.filter(user = cart_user)
             for cBook in cBooks:
                 cBook.delete()
-            
+        else:
+
+
+
+
             return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
         cart.clear()    
     return render(request, 'website/orderconf.html', {'price' : price, 'discount': discount})
@@ -708,20 +712,20 @@ def getBooksByVendor(vendorName):
  
 def cart_add(request):
     response = redirect('http://localhost:8000/website/login')
-    try: 
+    
         #if request.session['user']:
-        if User.objects.filter(username=request.session['user']).exists():   
-            print('This is not working!')
-            cart = Cart(request)
-            if request.POST.get('action') == 'post':
-                book_id = int(request.POST.get('id'))
-                book_qty = int(request.POST.get('qty'))
-                book = get_object_or_404(Book, id = book_id)
-                cart.add(book=book, qty=book_qty)
-                cartqty = cart.__len__()
-                response = JsonResponse({'qty': cartqty})
-                return response
-    except:
+    if User.objects.filter(username=request.session['user']).exists():   
+        print('This is not working!')
+        cart = Cart(request)
+        if request.POST.get('action') == 'post':
+            book_id = int(request.POST.get('id'))
+            book_qty = int(request.POST.get('qty'))
+            book = get_object_or_404(Book, id = book_id)
+            cart.add(book=book, qty=book_qty)
+            cartqty = cart.__len__()
+            response = JsonResponse({'qty': cartqty})
+            return response
+    else:
         response = redirect('http://localhost:8000/website/login')
         return response
     return response
@@ -815,6 +819,90 @@ def verifyUser(request):
 
     return redirect('http://localhost:8000/website/login')
 
+
+
+def editVendor(request):
+
+    if Vendor.objects.filter(username=request.session['user']).exists():
+        vendor = Vendor.objects.get(username=request.session['user'])
+        if request.POST['firstName']:
+            vendor.fname = request.POST['firstName']
+            vendor.save()
+        if request.POST['lastName']:
+            vendor.lname = request.POST['lastName']
+            vendor.save()
+        if request.POST['email']:
+            vendor.email = request.POST['email']
+            vendor.save()
+        #if request.POST['phone']:
+        #    vendor.address = request.POST['phone']
+        #    vendor.save()
+
+    return redirect('http://localhost:8000/website/venset')
+
+def editVendorPass(request):
+    users = Vendor.objects.all()
+    
+    if request.POST != None:
+        for user in users:
+            try:
+                if user.username == request.session['user']:
+                    if user.password != request.POST['oldPassword']:
+                        messages.info(request, 'Invalid previous password')
+                        return redirect('http://localhost:8000/website/venset')
+                    if request.POST['newPassword'] != request.POST['confirm']:
+                        messages.info(request, 'Passwords do not match')
+                        return redirect('http://localhost:8000/website/venset')
+                    else:
+                        user.password = request.POST['newPassword']
+                        user.save()
+                        return redirect('http://localhost:8000/website/venset')
+            except KeyError:
+                return redirect('http://localhost:8000/website/venset')
+    
+    return redirect('http://localhost:8000/website/venset')
+
+
+def editClient(request):
+    if Client.objects.filter(username=request.session['user']).exists():
+        client = Client.objects.get(username=request.session['user'])
+        if request.POST['firstName']:
+            client.fname = request.POST['firstName']
+            client.save()
+        if request.POST['lastName']:
+            client.lname = request.POST['lastName']
+            client.save()
+        if request.POST['email']:
+            client.email = request.POST['email']
+            client.save()
+        #if request.POST['phone']:
+        #    vendor.address = request.POST['phone']
+        #    vendor.save()
+
+    return redirect('http://localhost:8000/website/cliset')
+
+
+def editClientPass(request):
+    users = Client.objects.all()
+    
+    if request.POST != None:
+        for user in users:
+            try:
+                if user.username == request.session['user']:
+                    if user.password != request.POST['oldPassword']:
+                        messages.info(request, 'Invalid previous password')
+                        return redirect('http://localhost:8000/website/cliset')
+                    if request.POST['newPassword'] != request.POST['confirm']:
+                        messages.info(request, 'Passwords do not match')
+                        return redirect('http://localhost:8000/website/cliset')
+                    else:
+                        user.password = request.POST['newPassword']
+                        user.save()
+                        return redirect('http://localhost:8000/website/cliset')
+            except KeyError:
+                return redirect('http://localhost:8000/website/cliset')
+    
+    return redirect('http://localhost:8000/website/cliset')
 def salesReport(request):
     sales = BookSale.objects.prefetch_related('book').values('bookID__title')
     sales = sales.annotate(total=Sum('salePrice'), count=Count('bookID'))
