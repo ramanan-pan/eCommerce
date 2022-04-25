@@ -921,6 +921,8 @@ def editClientPass(request):
                 return redirect('http://localhost:8000/website/cliset')
     
     return redirect('http://localhost:8000/website/cliset')
+
+
 def salesReport(request):
     sales = BookSale.objects.prefetch_related('book').values('bookID__title')
     sales = sales.annotate(total=Sum('salePrice'), count=Count('bookID'))
@@ -928,3 +930,45 @@ def salesReport(request):
     tsold = sales.aggregate(bookssold=Sum('count'))
     trevenue = sales.aggregate(totalrevenue=Sum('total'))
     return render(request, 'website/sales.html', {'sales' : sales, 'tsold' : tsold, 'trevenue' : trevenue})
+
+
+def editAdmin(request):
+    if Admin.objects.filter(username=request.session['user']).exists():
+        admin = Admin.objects.get(username=request.session['user'])
+        if request.POST['firstName']:
+            admin.fname = request.POST['firstName']
+            admin.save()
+        if request.POST['lastName']:
+            admin.lname = request.POST['lastName']
+            admin.save()
+        if request.POST['email']:
+            admin.email = request.POST['email']
+            admin.save()
+        #if request.POST['phone']:
+        #    vendor.address = request.POST['phone']
+        #    vendor.save()
+
+    return redirect('http://localhost:8000/website/adset')
+
+
+def editAdminPass(request):
+    users = Admin.objects.all()
+    
+    if request.POST != None:
+        for user in users:
+            try:
+                if user.username == request.session['user']:
+                    if user.password != request.POST['oldPassword']:
+                        messages.info(request, 'Invalid previous password')
+                        return redirect('http://localhost:8000/website/adset')
+                    if request.POST['newPassword'] != request.POST['confirm']:
+                        messages.info(request, 'Passwords do not match')
+                        return redirect('http://localhost:8000/website/adset')
+                    else:
+                        user.password = request.POST['newPassword']
+                        user.save()
+                        return redirect('http://localhost:8000/website/adset')
+            except KeyError:
+                return redirect('http://localhost:8000/website/adset')
+    
+    return redirect('http://localhost:8000/website/adset')

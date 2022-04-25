@@ -75,6 +75,7 @@ urlpatterns = [
     path('editVendorpass', views.editVendorPass, name='website-editVendorPass'),
     path('editClient', views.editClient, name='website-editClient'),
     path('editClientPass', views.editClientPass, name='website-editClientPass'),
-    path('sales', views.salesReport, name='website-sales-report')
-
+    path('sales', views.salesReport, name='website-sales-report'),
+    path('editAdmin', views.editAdmin, name='website-editAdmin'),
+    path('editAdminPass', views.editAdminPass, name='website-editAdminPass')
 ]
