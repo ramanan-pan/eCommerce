@@ -6,6 +6,9 @@ from django.contrib.admin.models import LogEntry
 # ADMIN MODELS
 
 admin.site.site_url = '/website/adminview'
+admin.site.site_header = 'Admin Area'
+admin.site.site_title = 'Admin'
+admin.site.index_title = 'Manage Users, Inventory, Sales, Reservations, etc.'
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -76,10 +79,10 @@ class ReservationAdmin(admin.ModelAdmin):
     list_display = ['id', 'purchaser', 'totalPrice', 'expiry']
     list_editable = list_display[1:]
 
-@admin.register(CartBook)
-class CartBookAdmin(admin.ModelAdmin):
-    list_display = ['id','book','user','qty']
-    list_editable = list_display[1:]
+#@admin.register(CartBook)
+#class CartBookAdmin(admin.ModelAdmin):
+#    list_display = ['id','book','user','qty']
+#    list_editable = list_display[1:]
     
 # VENDOR MODELS
 

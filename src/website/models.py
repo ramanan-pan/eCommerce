@@ -166,18 +166,20 @@ class Reservation(Model):
         reservedBooks = ReservedBook.objects.filter(reservation = self)
         books = []
         sale = Sale()
-        for r in reservedBooks:
-            books.append(r.book)
-        for b in books:
-            bsale = BookSale()
-            bsale.bookID = b
-            bsale.salePrice = b.price
-            bsale.save()
         sale.date = datetime.date.today()
         sale.name = self.purchaser.fname + ' ' + self.purchaser.lname
         sale.purchaser = self.purchaser
         sale.totalPrice = self.totalPrice
         sale.save()
+        for r in reservedBooks:
+            books.append(r.book)
+        for b in books:
+            bsale = BookSale()
+            bsale.sale = sale
+            bsale.bookID = b
+            bsale.salePrice = b.price
+            bsale.save()
+        
         self.delete()
 
         
