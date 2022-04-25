@@ -510,7 +510,7 @@ def login(request):
             target = Client.objects.get(username=request.COOKIES.get('username'))
             if (target.password == request.COOKIES.get('password')):
                 request.session['user'] = request.COOKIES.get('username')
-                return redirect('http://localhost:8000/website/Clientview')
+                return redirect('http://localhost:8000/website/clientview')
 
 
         if Admin.objects.filter(username=request.COOKIES.get('username')).exists():
@@ -613,7 +613,7 @@ def validateCreds(request):
         if Client.objects.filter(username=request.POST['username']).exists():
             target = Client.objects.get(username=request.POST['username'])
             if (target.password == request.POST['password']):
-                response = redirect('http://localhost:8000/website/ClientView') 
+                response = redirect('http://localhost:8000/website/clientview') 
                 response.set_cookie('username', request.POST['username'],max_age=60*60*60*24*7*4 )
                 response.set_cookie('password', request.POST['password'],max_age=60*60*60*24*7*4 )
                 request.session['user'] = request.POST['username']
@@ -803,3 +803,11 @@ def verifyUser(request):
             
 
     return redirect('http://localhost:8000/website/login')
+
+def salesReport(request):
+    sales = BookSale.objects.prefetch_related('book').values('bookID__title')
+    sales = sales.annotate(total=Sum('salePrice'), count=Count('bookID'))
+    print(sales)
+    tsold = sales.aggregate(bookssold=Sum('count'))
+    trevenue = sales.aggregate(totalrevenue=Sum('total'))
+    return render(request, 'website/sales.html', {'sales' : sales, 'tsold' : tsold, 'trevenue' : trevenue})

@@ -120,8 +120,6 @@ class Migration(migrations.Migration):
                 ('birthDate', models.DateField()),
                 ('phone', models.IntegerField(blank=True, max_length=10, null=True)),
                 ('address', models.CharField(max_length=255)),
-                ('vkey', models.CharField(default='none', max_length=255)),
-                ('verified', models.BooleanField(default=False)),
             ],
             options={
                 'abstract': False,
@@ -173,7 +171,6 @@ class Migration(migrations.Migration):
             name='CartBook',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('qty', models.IntegerField()),
                 ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cartBook', to='website.book')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cartUser', to='website.user')),
             ],
