@@ -51,9 +51,16 @@
                     </select> 
                 </div>
                 <div class="col-md-5 py-3"> 
+                    {% if not log %}
+                    <button type="button" class="btn btn-dark py-2 btn-block btn-full-width text-uppercase" value="{{book.id}}"
+                    onclick="document.location='../login'">
+                        <strong>Login To Add to Cart</strong>
+                    </button>
+                    {% else %}
                  <button type="button" class="btn btn-dark py-2 btn-block btn-full-width text-uppercase" id="add-button" value ="{{book.id}}">
                   <strong>Add to Cart</strong>
                  </button>
+                 {% endif %}
                 </div>
                </div><!-- end row -->
                

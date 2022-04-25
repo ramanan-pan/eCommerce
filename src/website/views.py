@@ -708,20 +708,20 @@ def getBooksByVendor(vendorName):
  
 def cart_add(request):
     response = redirect('http://localhost:8000/website/login')
-    try: 
+    
         #if request.session['user']:
-        if User.objects.filter(username=request.session['user']).exists():   
-            print('This is not working!')
-            cart = Cart(request)
-            if request.POST.get('action') == 'post':
-                book_id = int(request.POST.get('id'))
-                book_qty = int(request.POST.get('qty'))
-                book = get_object_or_404(Book, id = book_id)
-                cart.add(book=book, qty=book_qty)
-                cartqty = cart.__len__()
-                response = JsonResponse({'qty': cartqty})
-                return response
-    except:
+    if User.objects.filter(username=request.session['user']).exists():   
+        print('This is not working!')
+        cart = Cart(request)
+        if request.POST.get('action') == 'post':
+            book_id = int(request.POST.get('id'))
+            book_qty = int(request.POST.get('qty'))
+            book = get_object_or_404(Book, id = book_id)
+            cart.add(book=book, qty=book_qty)
+            cartqty = cart.__len__()
+            response = JsonResponse({'qty': cartqty})
+            return response
+    else:
         response = redirect('http://localhost:8000/website/login')
         return response
     return response
