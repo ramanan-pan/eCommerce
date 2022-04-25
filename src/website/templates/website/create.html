@@ -19,9 +19,7 @@
   <form method="post" action="addUser">
     {% csrf_token %}
   
-  {% for message in messages %}
-  <h3 style="color: red;">{{message}}</h3>
-  {% endfor %}
+
   
   <section class="py-5 my-5">
     <div class="container">
@@ -31,37 +29,40 @@
         <div class="row">
           
           <div class="col-md-12">
+            {% for message in messages %}
+            <h3 style="color: red;">{{message}}</h3>
+            {% endfor %}
             <h4 style="text-align: center; margin-bottom: 10px;" >Create Account</h4>
           </div>
             <div class="col-md-6">
             <div class="form-group">
               <label>First Name</label>
-              <input type="text" class="form-control" placeholder="First Name" name="firstName">
+              <input type="text" class="form-control" required placeholder="First Name" name="firstName">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label>Last Name</label>
-              <input type="text" class="form-control" placeholder="Last Name" name="lastName">
+              <input type="text" class="form-control" required placeholder="Last Name" name="lastName">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label>Date of Birth</label>
-              <input type="date" class="form-control" placeholder="" name="DOB">
+              <input type="date" class="form-control" required placeholder="" name="DOB">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label>Email</label>
-              <input type="text" class="form-control" placeholder="Email" name="email">
+              <input type="text" class="form-control" required placeholder="Email" name="email">
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-group">
               <label>Address Line</label>
-              <input type="text" class="form-control" placeholder="Address Line 1" name="address">
+              <input type="text" class="form-control" required placeholder="Address Line 1" name="address">
             </div>
           </div>
           <div class="col-md-6">
@@ -128,13 +129,13 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>City</label>
-            <input type="text" class="form-control" placeholder="City" name="city">
+            <input type="text" required class="form-control" placeholder="City" name="city">
           </div>
         </div>
           <div class="col-md-6">
             <div class="form-group">
               <label >Zip Code</label>
-              <input type="text" class="form-control" placeholder="Zip Code" name="zipcode">
+              <input type="text" required class="form-control" placeholder="Zip Code" name="zipcode">
             </div>
           </div>
         
@@ -142,20 +143,20 @@
           <div class="col-md-6">
             <div class="form-group">
               <label>Username</label>
-              <input type="text" class="form-control" placeholder="Username" name="userName">
+              <input type="text" required class="form-control" placeholder="Username" name="userName">
             </div>
           </div>
           <div class="col-md-6"></div>
             <div class="col-md-6">
             <div class="form-group">
               <label>Password</label>
-              <input type="password" class="form-control" placeholder="" name="password">
+              <input type="password" required class="form-control" placeholder="" name="password">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label>Confirm Password</label>
-              <input type="password" class="form-control" placeholder="" name="confirm">
+              <input type="password" required class="form-control" placeholder="" name="confirm">
             </div>
           </div>
           <div class="col-md-12">
@@ -164,9 +165,6 @@
             </div>
           </div>
         </div>
-        {% for message in messages %}
-        <h3 style="color: red;">{{message}}</h3>
-        {% endfor %}
 
       </div>
     </div>

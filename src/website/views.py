@@ -476,6 +476,7 @@ def changePassword(request):
 
 
 def deleteAccount(request):
+    cart = Cart(request)
     users = User.objects.all()
     if request.POST != None:
         for user in users:
@@ -483,6 +484,7 @@ def deleteAccount(request):
                 response = render(request, 'website/login.html')
                 response.delete_cookie('username')
                 response.delete_cookie('password')
+                cart.clear()
                 user.delete()
 
     return redirect('http://localhost:8000/website/login')
@@ -707,18 +709,27 @@ def manadmin(request):
 def getBooksByVendor(vendorName):
     books = Book.objects.filter(created_by_id = Vendor.objects.filter(username = vendorName)[0].id)
     return books
-    
+ 
 def cart_add(request):
-    #print('cart_add is called')
-    cart = Cart(request)
-    if request.POST.get('action') == 'post':
-        book_id = int(request.POST.get('id'))
-        book_qty = int(request.POST.get('qty'))
-        book = get_object_or_404(Book, id = book_id)
-        cart.add(book=book, qty=book_qty)
-        cartqty = cart.__len__()
-        response = JsonResponse({'qty': cartqty})
+    response = redirect('http://localhost:8000/website/login')
+    try: 
+        #if request.session['user']:
+        if User.objects.filter(username=request.session['user']).exists():   
+            print('This is not working!')
+            cart = Cart(request)
+            if request.POST.get('action') == 'post':
+                book_id = int(request.POST.get('id'))
+                book_qty = int(request.POST.get('qty'))
+                book = get_object_or_404(Book, id = book_id)
+                cart.add(book=book, qty=book_qty)
+                cartqty = cart.__len__()
+                response = JsonResponse({'qty': cartqty})
+                return response
+    except:
+        response = redirect('http://localhost:8000/website/login')
         return response
+    return response
+            
 
 
 def cart_delete(request):
@@ -892,3 +903,10 @@ def editClientPass(request):
                 return redirect('http://localhost:8000/website/cliset')
     
     return redirect('http://localhost:8000/website/cliset')
+def salesReport(request):
+    sales = BookSale.objects.prefetch_related('book').values('bookID__title')
+    sales = sales.annotate(total=Sum('salePrice'), count=Count('bookID'))
+    print(sales)
+    tsold = sales.aggregate(bookssold=Sum('count'))
+    trevenue = sales.aggregate(totalrevenue=Sum('total'))
+    return render(request, 'website/sales.html', {'sales' : sales, 'tsold' : tsold, 'trevenue' : trevenue})

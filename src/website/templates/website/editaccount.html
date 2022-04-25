@@ -22,9 +22,6 @@
 							<!--img src="img/user2.jpg" alt="Image" class="shadow"-->
 						</div>
 					</div>
-						{% for message in messages %}
-      					<h5 style="color: red;">Error: {{message}}</h5>
-    					{% endfor %} 
 					<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 						<a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
 							<i class="fa fa-home text-center mr-1"></i> 
@@ -49,6 +46,9 @@
 					</div>
 				</div>
 				<div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+					{% for message in messages %}
+					<h5 style="color: red;">Error: {{message}}</h5>
+				  {% endfor %} 
 					<div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
 						<form method="post" action="changeAccount">
 							{% csrf_token %}
