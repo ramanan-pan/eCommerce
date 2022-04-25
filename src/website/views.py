@@ -142,18 +142,24 @@ def image(request):
     return render(request, 'website/manageusers/turnpike-blur.jpeg')
 
 def conf(request):
+    context = {}
     cart = Cart(request)
+    context['cart'] = cart
     bot = EmailBot()
     email = ['Here is your order for the date ' + str(datetime.date.today()) + "..."]
     #basket = [1,2] # Given the books stored as an array of IDs...
     #books = list(Book.objects.filter(id__in=(cart))) 
         #generate a list of the book objects and iterate through them.
     price = cart.get_total_price()
+    context['price'] = price
     #for b in books:
     #    price += b.price
     discount = 0
+    context['discount'] = discount
+    
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
+        context['discount'] = discount
     for item in cart:
         email.append(str(item['book']) + ': ' + str(item['price']) + ' Qty: ' +str(item['qty']) )
         for i in range(item['qty']): # not working, need to figure out how to get these values
@@ -164,9 +170,11 @@ def conf(request):
             bookSale.save()
     if request.method == "POST":
         sale = Sale()
+        context['sale'] = sale
         sale.address = request.POST.get('ADDR')
         email.append('Shipping Address: ' + sale.address)
         if request.COOKIES.get('username'):
+            context['log'] = request.COOKIES.get('username')
             sale.purchaser = User.objects.get(username=request.COOKIES.get('username'))
             em = User.objects.get(username=request.COOKIES.get('username'))
             email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
@@ -174,7 +182,9 @@ def conf(request):
             email.append("You spent a total of " + str(sale.totalPrice))
             bot.orderConfirmation(em.email, email)
             sale.save()
+            context['sale'] = sale
             address = request.POST.get('ADDR')
+            context['address'] = address
             cart.clear()
             cart_user = User.objects.get(username = request.COOKIES.get('username'))
             cBooks =  CartBook.objects.filter(user = cart_user)
@@ -184,10 +194,11 @@ def conf(request):
 
 
 
-
-            return render(request, 'website/orderconf.html', {'price' : price, 'cart' : cart, 'sale' : sale, 'discount' : discount, "addr" : address})
-        cart.clear()    
-    return render(request, 'website/orderconf.html', {'price' : price, 'discount': discount})
+            context['cart'] = cart
+            return render(request, 'website/orderconf.html', context)
+        cart.clear()   
+        context['cart'] = cart 
+    return render(request, 'website/orderconf.html', context)
 
 def adset(request):
     return render(request, 'website/addex.html') 
@@ -271,6 +282,7 @@ def reservesum(request):
 
 
 def reserveconf(request):
+    context = {}
     cart = Cart(request)
     bot = EmailBot()
     email = ['Here is your order for the date ' + str(datetime.date.today()) + "..."]
@@ -278,11 +290,14 @@ def reserveconf(request):
     #books = list(Book.objects.filter(id__in=(cart))) 
         #generate a list of the book objects and iterate through them.
     price = cart.get_total_price()
+    context['price'] = price
     #for b in books:
     #    price += b.price
     discount = 0
+    context['discount'] = discount
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
+        context['discount'] = discount
     
     
     if request.method == "POST":
@@ -291,28 +306,31 @@ def reserveconf(request):
         res.expiry = datetime.date.today() + datetime.timedelta(days=6)
         res.purchaser = User.objects.filter(username = request.session['user'])[0]
         res.save()
+        context['reservation'] = res
         email.append('Pickup by: ' + str(res.expiry))
         pick_up_date = res.expiry.strftime('%B %d, %Y')
+        context['pickup'] = pick_up_date
         em = User.objects.get(username=request.COOKIES.get('username'))
         email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
         email.append("Please pay in-store a total of " + str(res.totalPrice))
         for item in cart:
             email.append(str(item['book']) + ': ' + str(item['price']) + ' Qty: ' +str(item['qty']) )
-            for i in range(item['qty']): # not working, need to figure out how to get these values
+            for i in range(item['qty']):
                 rBook = ReservedBook()
                 rBook.book = (item['book'])
                 rBook.reservation = res
                 rBook.save()
         cart.clear()
         cart_user = User.objects.get(username = request.COOKIES.get('username'))
+        context['log'] = cart_user.username
         cBooks =  CartBook.objects.filter(user = cart_user)
         for cBook in cBooks:
             cBook.delete()
         
         bot.reserveConfirmation(em.email, email)
-        return render(request, 'website/reserveconf.html', {'price' : price, 'cart' : cart, 'reservation' : res, 'discount' : discount, 'pickup': pick_up_date})
+        return render(request, 'website/reserveconf.html', context)
     cart.clear()
-    return render(request, 'website/reserveconf.html', {'price' : price, 'cart': cart, 'discount': discount})
+    return render(request, 'website/reserveconf.html', context)
 
 def adminmain(request):
     return render(request, 'website/adminmain.html')
