@@ -160,7 +160,7 @@
       success: function (json) {
         $('.book-item[data-index="' + bkid + '"]').remove();
         document.getElementById("subtotal").innerHTML = '$ ' + json.subtotal;
-        document.getElementById("cart-qty").innerHTML = json.qty
+        document.getElementById("cart-qty").innerHTML = json.qty;
       },
       error: function (xhr, errmsg, err) { }
     });
@@ -180,8 +180,8 @@
         action: 'post'
       },
       success: function (json) {
-        document.getElementById("cart-qty").innerHTML = json.qty
-        document.getElementById("subtotal").innerHTML = '$ ' + json.subtotal
+        document.getElementById("cart-qty").innerHTML = json.qty;
+        document.getElementById("subtotal").innerHTML = '$ ' + json.subtotal;
       },
       error: function (xhr, errmsg, err) { location.href("localhost:8000/website/login") }
     });
@@ -190,6 +190,6 @@
 </script>
 
 </html>
-{% endblock javascript%}
+{% endblock javascript %}
 
 {% endblock %}

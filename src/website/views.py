@@ -167,7 +167,7 @@ def conf(request):
         sale = Sale()
         context['sale'] = sale
         sale.address = request.POST.get('ADDR')
-        email.append('Shipping Address: ' + sale.address)
+        emailAdd = request.POST.get('EMAIL')
         if request.COOKIES.get('username'):
             context['log'] = request.COOKIES.get('username')
             sale.purchaser = User.objects.get(username=request.COOKIES.get('username'))
@@ -178,7 +178,8 @@ def conf(request):
             sale.totalPrice = price + discount + 20
             email.append("You spent a total of " + str(sale.totalPrice))
             email.append("Order #: " + gen.generateOrdernum())
-            bot.orderConfirmation(em.email, email)
+            email.append("Delivery Address: " + sale.address)
+            bot.orderConfirmation(emailAdd, email)
             sale.save()
             context['sale'] = sale
             address = request.POST.get('ADDR')
@@ -288,7 +289,10 @@ def reservesum(request):
             context['discount'] = discount
             context['price'] = price
             return render(request, 'website/reserveSummary.html', context)
-    #TODO get the list of books from the user session.
+    minDate = datetime.date.today()
+    maxDate = datetime.date.today() + datetime.timedelta(days=4)
+    context['min'] = datetime.datetime.strftime(minDate, '%Y-%m-%d')
+    context['max'] = datetime.datetime.strftime(maxDate, '%Y-%m-%d')
     context['price'] = price
     return render(request, 'website/reserveSummary.html', context)
 
@@ -308,21 +312,25 @@ def reserveconf(request):
     #    price += b.price
     discount = 0
     context['discount'] = discount
+    holdDate = datetime.date.today() + datetime.timedelta(days=4)
     if request.POST.get('DISCOUNT'):
         discount = int(request.POST.get('DISCOUNT'))
         context['discount'] = discount
-    
-    
+        
     if request.method == "POST":
         res = Reservation()
         res.totalPrice = price + discount
-        res.expiry = datetime.date.today() + datetime.timedelta(days=4)
+        if request.POST.get('DATE'):
+            holdDate = datetime.datetime.strptime(request.POST.get('DATE'), '%Y-%m-%d')
+        else:
+            holdDate = datetime.date.today() + datetime.timedelta(days=4)
+        res.expiry = holdDate
         res.purchaser = User.objects.filter(username = request.session['user'])[0]
         res.save()
         context['reservation'] = res
-        email.append('Pickup by: ' + str(res.expiry))
         pick_up_date = res.expiry.strftime('%B %d, %Y')
         context['pickup'] = pick_up_date
+        email.append('Pickup by: ' + pick_up_date)
         em = User.objects.get(username=request.COOKIES.get('username'))
         email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
         email.append("Please pay in-store a total of " + str(res.totalPrice))
@@ -339,7 +347,8 @@ def reserveconf(request):
         cBooks =  CartBook.objects.filter(user = cart_user)
         for cBook in cBooks:
             cBook.delete()
-        bot.reserveConfirmation(em.email, email)
+        emailAdd = request.POST.get('EMAIL')
+        bot.reserveConfirmation(emailAdd, email)
         context['conf'] = 'yes'
         return render(request, 'website/reserveconf.html', context)
     cart.clear()
