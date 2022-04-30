@@ -18,11 +18,22 @@ from django.urls import path, include
 from website.admin import vendorSite, clientSite
 from django.conf import settings
 from django.conf.urls.static import static
-
-
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
 from website import views
 
+
+aUser = User.objects.all().first()    
+aUser.set_unusable_password()
+
+admin.site.has_permission = lambda r: setattr(r, 'user', aUser) or True
+vendorSite.has_permission = lambda r: setattr(r, 'user', aUser) or True
+clientSite.has_permission = lambda r: setattr(r, 'user', aUser) or True
+
 urlpatterns = [
+    path('admin/logout/', lambda request: redirect('../../website/login', permanent=False)),
+    path('clientSite/logout/', lambda request: redirect('../../website/login', permanent=False)),
+    path('vendorSite/logout/', lambda request: redirect('../../website/login', permanent=False)),
     path('admin/', admin.site.urls),
     path('website/', include('website.urls', namespace = 'website')),
     path('vendorSite/', vendorSite.urls),

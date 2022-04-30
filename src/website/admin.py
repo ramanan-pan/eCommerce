@@ -3,12 +3,15 @@ from requests import request
 from .models import *
 from django.contrib.admin.models import LogEntry
 
+
 # ADMIN MODELS
 
 admin.site.site_url = '/website/adminview'
 admin.site.site_header = 'Admin Area'
 admin.site.site_title = 'Admin'
 admin.site.index_title = 'Manage Users, Inventory, Sales, Reservations, etc.'
+
+
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -92,6 +95,7 @@ class VendorSite(admin.AdminSite):
     site_title = 'Admin'
     site_url = '/website/vendorview'
     index_title = 'Manage Inventory'
+    
     LogEntry.objects.all().delete()
 
 
@@ -119,6 +123,7 @@ class ClientSite(admin.AdminSite):
     site_title = 'Admin'
     site_url = '/website/clientview'
     index_title = 'View Inventory'
+    
     LogEntry.objects.all().delete()
 
     

@@ -172,6 +172,8 @@ def conf(request):
             context['log'] = request.COOKIES.get('username')
             sale.purchaser = User.objects.get(username=request.COOKIES.get('username'))
             sale.date = datetime.date.today()
+            deliveryDate = datetime.date.today() + datetime.timedelta(days=7)
+            context['deliveryDate'] = deliveryDate.strftime('%B %d, %Y')
             em = User.objects.get(username=request.COOKIES.get('username'))
             sale.name = em.fname + ' ' + em.lname 
             email.insert(0, 'Hello ' + em.fname + ' ' + em.lname + ', ')
