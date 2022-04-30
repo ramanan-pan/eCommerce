@@ -755,7 +755,7 @@ def cart_add(request):
     
         #if request.session['user']:
     if User.objects.filter(username=request.session['user']).exists():   
-        print('This is not working!')
+        
         cart = Cart(request)
         if request.POST.get('action') == 'post':
             book_id = int(request.POST.get('id'))
